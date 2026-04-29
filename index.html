@@ -1,307 +1,232 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RenoLink — Trouvez un artisan fiable sans perdre de temps</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RenoLink — L'élite du BTP en Lorraine (54, 57, 88)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- SYSTÈME DE DESIGN RÉNOLINK --- */
+        :root {
+            --gold: #C8922A; --gold-dark: #A67920; --dark: #0C0C0C; 
+            --bg: #F5F2ED; --white: #FFFFFF; --text: #1A1A1A; 
+            --muted: #8A8178; --border: #E8E2D9; --radius: 14px;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 80px;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 1000; border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 900; color: var(--dark); text-decoration: none; }
+        .logo span { color: var(--gold); }
+        .nav-cta { 
+            background: var(--dark); color: white; padding: 12px 24px; 
+            border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.9rem;
+        }
 
-:root{
-  --gold:#C8922A;
-  --dark:#0C0C0C;
-  --light:#F9F6F1;
-  --muted:#7A7570;
-  --radius:14px;
-}
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
+            url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover; background-position: center; color: white; padding: 0 20px;
+        }
+        .hero-content h1 { font-family: 'Fraunces', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin-bottom: 20px; }
+        .hero-content p { font-size: 1.25rem; max-width: 700px; margin: 0 auto 40px; opacity: 0.9; }
+        .btn-start { 
+            background: var(--gold); color: white; padding: 20px 45px; 
+            border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(200, 146, 42, 0.4); transition: 0.3s;
+        }
+        .btn-start:hover { transform: translateY(-5px); background: var(--gold-dark); }
 
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--light);
-  color:var(--dark);
-}
+        /* --- SECTION LORRAINE (ARGUMENTS) --- */
+        .local-info { padding: 100px 5%; background: var(--bg); text-align: center; }
+        .section-tag { color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+        .local-info h2 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 50px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: white; padding: 40px; border-radius: var(--radius); border: 1px solid var(--border); text-align: left; }
+        .card i { font-size: 2.5rem; color: var(--gold); margin-bottom: 20px; display: block; }
 
-/* NAV */
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-  border-bottom:1px solid #eee;
-}
+        /* --- TUNNEL DE DEVIS (LE FORMULAIRE) --- */
+        #devis-section { padding: 100px 5%; max-width: 900px; margin: 0 auto; }
+        .form-container { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.logo{
-  font-family:'Fraunces',serif;
-  font-weight:900;
-  font-size:1.4rem;
-}
+        .progress-bar { height: 6px; background: var(--border); border-radius: 10px; margin-bottom: 40px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gold); width: 20%; transition: 0.4s; }
 
-.logo span{color:var(--gold);}
+        .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .option-card { 
+            border: 2px solid var(--border); padding: 25px; border-radius: 15px; cursor: pointer; text-align: center; transition: 0.2s;
+        }
+        .option-card:hover { border-color: var(--gold); background: #FFFBF5; }
+        .option-card.selected { border-color: var(--gold); background: #FFFBF5; box-shadow: 0 0 0 4px rgba(200,146,42,0.1); }
+        
+        input, textarea, select {
+            width: 100%; padding: 15px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 1rem; margin-top: 10px; outline: none;
+        }
+        input:focus { border-color: var(--gold); }
 
-.nav-cta button{
-  padding:10px 20px;
-  border:none;
-  background:var(--gold);
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
-}
+        .btn-group { display: flex; gap: 15px; margin-top: 30px; }
+        .btn-next { flex: 2; background: var(--dark); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .btn-prev { flex: 1; background: white; border: 1px solid var(--border); padding: 18px; border-radius: 12px; cursor: pointer; }
 
-/* HERO */
-.hero{
-  display:grid;
-  grid-template-columns:1fr 420px;
-  padding:80px 40px;
-  gap:40px;
-}
-
-.hero h1{
-  font-family:'Fraunces';
-  font-size:3rem;
-  margin-bottom:20px;
-}
-
-.hero h1 em{color:var(--gold);}
-
-.hero p{
-  color:var(--muted);
-  margin-bottom:30px;
-  max-width:500px;
-}
-
-.checks div{
-  margin-bottom:10px;
-  font-size:0.9rem;
-}
-
-.cta button{
-  padding:14px 30px;
-  margin-right:10px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-.primary{background:var(--dark);color:white;}
-.secondary{border:1px solid var(--gold);color:var(--gold);background:none;}
-
-/* CARD */
-.card{
-  background:#111;
-  color:white;
-  padding:30px;
-  border-radius:16px;
-}
-
-.card input{
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border-radius:6px;
-  border:none;
-}
-
-.card button{
-  width:100%;
-  margin-top:15px;
-  padding:12px;
-  background:var(--gold);
-  border:none;
-  color:white;
-  border-radius:8px;
-}
-
-/* SECTION */
-.section{
-  padding:80px 40px;
-}
-
-.steps{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
-}
-
-.step{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  border:1px solid #eee;
-}
-
-/* TRUST */
-.trust{
-  background:#111;
-  color:white;
-}
-
-.trust-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-
-.trust-card{
-  background:#1a1a1a;
-  padding:20px;
-  border-radius:12px;
-}
-
-/* FOOTER */
-footer{
-  background:#000;
-  color:#999;
-  padding:40px;
-  text-align:center;
-}
-</style>
+        /* --- FOOTER --- */
+        footer { background: var(--dark); color: white; padding: 60px 5%; text-align: center; }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .type-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
 
 <nav>
-  <div class="logo">Bati<span>Link</span></div>
-  <div class="nav-cta">
-    <button>Recevoir mes artisans</button>
-  </div>
+    <a href="#" class="logo">Reno<span>Link</span></a>
+    <a href="#devis-section" class="nav-cta">Estimation gratuite</a>
 </nav>
 
 <section class="hero">
-  <div>
-    <h1>
-      Trouvez un artisan fiable<br>
-      et disponible pour vos travaux,<br>
-      <em>sans perdre des semaines.</em>
-    </h1>
-
-    <p>
-      Nous sélectionnons pour vous 1 à 3 artisans réellement disponibles et adaptés à votre projet.
-      Moins de contacts inutiles, plus de résultats.
-    </p>
-
-    <div class="checks">
-      <div>✓ 1 à 3 artisans maximum — pas 10 appels inutiles</div>
-      <div>✓ Projets filtrés et réellement pris au sérieux</div>
-      <div>✓ Artisans disponibles et réactifs</div>
+    <div class="hero-content">
+        <span class="section-tag" style="color: var(--gold);">Expertise Lorraine Uniquement</span>
+        <h1>L'excellence du BTP à votre porte.</h1>
+        <p>Propriétaires à Nancy, Metz ou Épinal : réalisez vos travaux avec les meilleurs artisans audités du Sillon Lorrain.</p>
+        <a href="#devis-section" class="btn-start">Lancer mon projet</a>
     </div>
-
-    <div class="cta">
-      <button class="primary">Recevoir mes artisans →</button>
-      <button class="secondary">Je suis artisan</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>Décrivez votre projet en 2 minutes</h3>
-    <p style="font-size:0.8rem;color:#aaa;">
-      Nous analysons votre demande pour vous proposer les artisans les plus adaptés
-    </p>
-
-    <input placeholder="Type de travaux">
-    <input placeholder="Ville / code postal">
-
-    <button>Suivant →</button>
-
-    <p style="font-size:0.7rem;margin-top:10px;color:#777;">
-      Gratuit · Sans engagement · Sélection sous 48h
-    </p>
-  </div>
 </section>
 
-<section class="section">
-  <h2>Comment ça marche</h2>
-
-  <div class="steps">
-    <div class="step">
-      <strong>1. Décrivez votre projet</strong>
-      <p>En quelques minutes</p>
+<section class="local-info">
+    <span class="section-tag">Pourquoi RenoLink ?</span>
+    <h2>La confiance d'un réseau local</h2>
+    <div class="grid-3">
+        <div class="card">
+            <i>📍</i>
+            <h3>Ancrage Régional</h3>
+            <p>Nous ne sommes pas une plateforme nationale. Nous connaissons chaque artisan et chaque rue de Nancy à Thionville.</p>
+        </div>
+        <div class="card">
+            <i>🛡️</i>
+            <h3>Qualité Auditée</h3>
+            <p>Décennales, Kbis et références chantiers sont vérifiés par nos experts avant toute mise en relation.</p>
+        </div>
+        <div class="card">
+            <i>🤝</i>
+            <h3>Zéro Risque</h3>
+            <p>Le service est gratuit pour les particuliers. Les artisans sont commissionnés uniquement sur les projets réussis.</p>
+        </div>
     </div>
-
-    <div class="step">
-      <strong>2. Analyse & sélection</strong>
-      <p>Nous filtrons les artisans adaptés</p>
-    </div>
-
-    <div class="step">
-      <strong>3. Mise en relation ciblée</strong>
-      <p>1 à 3 artisans vous contactent</p>
-    </div>
-
-    <div class="step">
-      <strong>4. Vous choisissez</strong>
-      <p>Libre, sans engagement</p>
-    </div>
-  </div>
 </section>
 
-<section class="section trust">
-  <h2>Pourquoi Batilink</h2>
-
-  <div class="trust-grid">
-    <div class="trust-card">
-      <strong>Pas une marketplace classique</strong>
-      <p>Votre projet n'est pas envoyé à des dizaines d’artisans</p>
+<section id="devis-section">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <span class="section-tag">Votre Devis en 2 min</span>
+        <h2 style="font-family: 'Fraunces', serif; font-size: 2.2rem;">Décrivez votre projet</h2>
     </div>
 
-    <div class="trust-card">
-      <strong>Artisans vérifiés</strong>
-      <p>Assurances et sérieux contrôlés</p>
+    <div class="form-container">
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+        <form id="mainForm">
+            <div class="step active" id="step1">
+                <h3>Quel type de travaux ?</h3>
+                <div class="type-grid">
+                    <div class="option-card" onclick="selectType(this, 'Rénovation Totale')"><b>🏠 Rénovation Totale</b></div>
+                    <div class="option-card" onclick="selectType(this, 'Énergie & PAC')"><b>🍃 Énergie & PAC</b></div>
+                    <div class="option-card" onclick="selectType(this, 'Salle de Bain')"><b>🛁 Salle de Bain</b></div>
+                    <div class="option-card" onclick="selectType(this, 'Extension')"><b>🧱 Extension / Gros Œuvre</b></div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn-next" onclick="nextStep(1)">Continuer</button>
+                </div>
+            </div>
+
+            <div class="step" id="step2">
+                <h3>Où se situe le projet ?</h3>
+                <p style="color: var(--muted);">Nous intervenons uniquement en Meurthe-et-Moselle, Moselle et Vosges.</p>
+                <input type="text" id="ville" placeholder="Ex: Nancy, Metz, Toul...">
+                <select id="statut" style="margin-top: 20px;">
+                    <option value="">Votre statut...</option>
+                    <option>Propriétaire occupant</option>
+                    <option>Propriétaire bailleur</option>
+                    <option>En cours d'acquisition</option>
+                </select>
+                <div class="btn-group">
+                    <button type="button" class="btn-prev" onclick="prevStep(2)">Retour</button>
+                    <button type="button" class="btn-next" onclick="nextStep(2)">Continuer</button>
+                </div>
+            </div>
+
+            <div class="step" id="step3">
+                <h3>Vos coordonnées</h3>
+                <p style="color: var(--muted);">Un conseiller RenoLink Lorraine vous rappellera pour valider l'étude.</p>
+                <input type="text" id="nom" placeholder="Nom complet">
+                <input type="tel" id="tel" placeholder="Téléphone">
+                <input type="email" id="email" placeholder="Email">
+                <div class="btn-group">
+                    <button type="button" class="btn-prev" onclick="prevStep(3)">Retour</button>
+                    <button type="button" class="btn-next" style="background: var(--gold);" onclick="finish()">Envoyer ma demande</button>
+                </div>
+            </div>
+
+            <div class="step" id="step4" style="text-align: center;">
+                <h2 style="font-size: 3rem;">✅</h2>
+                <h3>Demande reçue !</h3>
+                <p>Un expert local analyse votre dossier. Vous serez contacté d'ici 24h.</p>
+            </div>
+        </form>
     </div>
-
-    <div class="trust-card">
-      <strong>100% gratuit</strong>
-      <p>Aucun frais côté client</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Espace artisans</h2>
-
-  <div class="steps">
-    <div class="step">
-      <strong>Rejoignez un réseau sélectionné</strong>
-    </div>
-
-    <div class="step">
-      <strong>Recevez des projets qualifiés</strong>
-      <p>Demandes filtrées et sérieuses</p>
-    </div>
-
-    <div class="step">
-      <strong>Gagnez du temps commercial</strong>
-      <p>Moins de prospection</p>
-    </div>
-
-    <div class="step">
-      <strong>Payez uniquement si vous signez</strong>
-      <p>Commission sur résultat</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="text-align:center;">
-  <h2>
-    Trouvez un artisan sérieux<br>
-    <em style="color:var(--gold);">sans perdre de temps</em>
-  </h2>
-
-  <p style="margin-top:20px;">
-    Décrivez votre projet en quelques minutes.
-    Nous sélectionnons les bons artisans pour vous.
-  </p>
-
-  <button class="primary" style="margin-top:20px;">
-    Recevoir mes artisans →
-  </button>
 </section>
 
 <footer>
-  © 2026 Batilink — Mise en relation intelligente entre particuliers et artisans du Grand Est
+    <div class="logo" style="color: white; margin-bottom: 20px;">Reno<span>Link</span></div>
+    <p>Le Sillon Lorrain : Nancy • Metz • Épinal • Thionville</p>
+    <p style="margin-top: 20px; opacity: 0.5; font-size: 0.8rem;">&copy; 2026 RenoLink. Tous droits réservés.</p>
 </footer>
+
+<script>
+    let currentData = { type: "" };
+
+    function selectType(el, val) {
+        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        currentData.type = val;
+    }
+
+    function nextStep(step) {
+        if(step === 1 && !currentData.type) { alert("Choisissez un type de projet"); return; }
+        
+        document.getElementById('step' + step).classList.remove('active');
+        document.getElementById('step' + (step + 1)).classList.add('active');
+        document.getElementById('progress').style.width = (step + 1) * 33 + "%";
+    }
+
+    function prevStep(step) {
+        document.getElementById('step' + step).classList.remove('active');
+        document.getElementById('step' + (step - 1)).classList.add('active');
+        document.getElementById('progress').style.width = (step - 1) * 33 + "%";
+    }
+
+    function finish() {
+        const nom = document.getElementById('nom').value;
+        const tel = document.getElementById('tel').value;
+        if(!nom || !tel) { alert("Veuillez remplir vos coordonnées"); return; }
+        
+        nextStep(3);
+        console.log("Formulaire envoyé !", currentData, nom, tel);
+    }
+</script>
 
 </body>
 </html>
