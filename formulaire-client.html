@@ -603,6 +603,12 @@ nav{
     <div class="step-eyebrow">Étape 1 sur 6</div>
     <h1 class="step-title">Quel type de travaux<br>souhaitez-vous réaliser ?</h1>
     <p class="step-sub">Sélectionnez une ou plusieurs catégories correspondant à votre projet.</p>
+
+    <div style="display:flex;align-items:center;gap:10px;background:#FFFBF5;border:1px solid rgba(200,146,42,0.3);border-radius:10px;padding:10px 16px;margin-bottom:16px;">
+      <span style="font-size:1.1rem;">👆</span>
+      <span style="font-size:0.8rem;color:var(--gold);font-weight:600;">Vous pouvez sélectionner plusieurs types de travaux</span>
+      <div id="selectedCount" style="margin-left:auto;background:var(--gold);color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:100px;display:none;">0 sélectionné(s)</div>
+    </div>
   </div>
 
   <div class="form-card">
@@ -770,15 +776,19 @@ nav{
 
   <div class="form-card">
     <div class="form-card-title">💶 Budget estimatif global</div>
+    <div style="display:flex;align-items:center;gap:8px;background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:10px 14px;margin-bottom:16px;">
+      <span>⚠️</span>
+      <span style="font-size:0.78rem;color:#92400E;font-weight:500;">Nous n'acceptons pas les projets avec un budget inférieur à <strong>1 500 €</strong>. En dessous de ce seuil, nous ne pouvons pas garantir la qualité de notre service.</span>
+    </div>
     <div class="budget-display">
       <div class="budget-value" id="budgetDisplay">10 000 €</div>
       <div class="budget-label">Budget total estimé (matériaux + main d'œuvre)</div>
     </div>
-    <input type="range" class="budget-slider" id="budgetSlider" min="500" max="100000" step="500" value="10000" oninput="updateBudget(this.value)">
-    <div class="budget-range"><span>500 €</span><span>100 000 €+</span></div>
+    <input type="range" class="budget-slider" id="budgetSlider" min="1500" max="100000" step="500" value="10000" oninput="updateBudget(this.value)">
+    <div class="budget-range"><span>1 500 € min.</span><span>100 000 €+</span></div>
 
     <div class="budget-options">
-      <div class="budget-opt" onclick="setBudget(2000,this)">< 2 000 €</div>
+      <div class="budget-opt" onclick="setBudget(1500,this)">1 500 – 2 000 €</div>
       <div class="budget-opt" onclick="setBudget(7500,this)">2 000 – 10 000 €</div>
       <div class="budget-opt selected" onclick="setBudget(20000,this)">10 000 – 30 000 €</div>
       <div class="budget-opt" onclick="setBudget(50000,this)">> 30 000 €</div>
@@ -1209,6 +1219,13 @@ function validateStep(n) {
   }
 
   if (n === 3) {
+    // Validate minimum budget 1500€
+    if (budgetValue < 1500) {
+      document.getElementById('budgetError').classList.add('show');
+      valid = false;
+    } else {
+      document.getElementById('budgetError').classList.remove('show');
+    }
     if (!document.getElementById('delai').value) {
       document.getElementById('delaiError').classList.add('show');
       valid = false;
@@ -1297,8 +1314,13 @@ function toggleType(el, label) {
     selectedTypes.splice(idx, 1);
     el.classList.remove('selected');
   }
+  const badge = document.getElementById('selectedCount');
   if (selectedTypes.length > 0) {
+    badge.style.display = 'block';
+    badge.textContent = selectedTypes.length + ' sélectionné(s)';
     document.getElementById('typeError').classList.remove('show');
+  } else {
+    badge.style.display = 'none';
   }
 }
 
@@ -1314,8 +1336,11 @@ function selectSurface(el, val) {
 function updateBudget(val) {
   budgetValue = parseInt(val);
   const formatted = parseInt(val).toLocaleString('fr-FR');
-  document.getElementById('budgetDisplay').textContent = formatted + ' €';
+  const display = document.getElementById('budgetDisplay');
+  display.textContent = formatted + ' €';
+  display.style.color = budgetValue < 1500 ? 'var(--error)' : 'var(--gold)';
   document.querySelectorAll('.budget-opt').forEach(e => e.classList.remove('selected'));
+  if (budgetValue >= 1500) document.getElementById('budgetError') && document.getElementById('budgetError').classList.remove('show');
 }
 
 function setBudget(val, el) {
