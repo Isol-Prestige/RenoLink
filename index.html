@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Batilink — Trouvez un artisan fiable sans perdre de temps</title>
+<title>RenoLink — Trouvez un artisan fiable sans perdre de temps</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -15,6 +15,7 @@
   --dark:#0C0C0C;
   --light:#F9F6F1;
   --muted:#7A7570;
+  --radius:14px;
 }
 
 body{
@@ -87,7 +88,7 @@ nav{
 .primary{background:var(--dark);color:white;}
 .secondary{border:1px solid var(--gold);color:var(--gold);background:none;}
 
-/* FORM CARD */
+/* CARD */
 .card{
   background:#111;
   color:white;
@@ -164,13 +165,17 @@ footer{
 <nav>
   <div class="logo">Bati<span>Link</span></div>
   <div class="nav-cta">
-    <button>Décrire mon projet</button>
+    <button>Recevoir mes artisans</button>
   </div>
 </nav>
 
 <section class="hero">
   <div>
-    <h1>Trouvez un artisan fiable<br>et disponible<br><em>sans perdre des semaines.</em></h1>
+    <h1>
+      Trouvez un artisan fiable<br>
+      et disponible pour vos travaux,<br>
+      <em>sans perdre des semaines.</em>
+    </h1>
 
     <p>
       Nous sélectionnons pour vous 1 à 3 artisans réellement disponibles et adaptés à votre projet.
@@ -178,9 +183,9 @@ footer{
     </p>
 
     <div class="checks">
-      <div>✓ 1 à 3 artisans maximum</div>
-      <div>✓ Projets filtrés et sérieux</div>
-      <div>✓ Artisans disponibles</div>
+      <div>✓ 1 à 3 artisans maximum — pas 10 appels inutiles</div>
+      <div>✓ Projets filtrés et réellement pris au sérieux</div>
+      <div>✓ Artisans disponibles et réactifs</div>
     </div>
 
     <div class="cta">
@@ -190,15 +195,19 @@ footer{
   </div>
 
   <div class="card">
-    <h3>Décrivez votre projet</h3>
+    <h3>Décrivez votre projet en 2 minutes</h3>
     <p style="font-size:0.8rem;color:#aaa;">
-      Nous analysons votre demande pour vous proposer les bons artisans
+      Nous analysons votre demande pour vous proposer les artisans les plus adaptés
     </p>
 
     <input placeholder="Type de travaux">
     <input placeholder="Ville / code postal">
 
     <button>Suivant →</button>
+
+    <p style="font-size:0.7rem;margin-top:10px;color:#777;">
+      Gratuit · Sans engagement · Sélection sous 48h
+    </p>
   </div>
 </section>
 
@@ -217,7 +226,7 @@ footer{
     </div>
 
     <div class="step">
-      <strong>3. Mise en relation</strong>
+      <strong>3. Mise en relation ciblée</strong>
       <p>1 à 3 artisans vous contactent</p>
     </div>
 
@@ -234,7 +243,7 @@ footer{
   <div class="trust-grid">
     <div class="trust-card">
       <strong>Pas une marketplace classique</strong>
-      <p>Votre projet n'est pas envoyé à 10 artisans</p>
+      <p>Votre projet n'est pas envoyé à des dizaines d’artisans</p>
     </div>
 
     <div class="trust-card">
@@ -249,8 +258,49 @@ footer{
   </div>
 </section>
 
+<section class="section">
+  <h2>Espace artisans</h2>
+
+  <div class="steps">
+    <div class="step">
+      <strong>Rejoignez un réseau sélectionné</strong>
+    </div>
+
+    <div class="step">
+      <strong>Recevez des projets qualifiés</strong>
+      <p>Demandes filtrées et sérieuses</p>
+    </div>
+
+    <div class="step">
+      <strong>Gagnez du temps commercial</strong>
+      <p>Moins de prospection</p>
+    </div>
+
+    <div class="step">
+      <strong>Payez uniquement si vous signez</strong>
+      <p>Commission sur résultat</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="text-align:center;">
+  <h2>
+    Trouvez un artisan sérieux<br>
+    <em style="color:var(--gold);">sans perdre de temps</em>
+  </h2>
+
+  <p style="margin-top:20px;">
+    Décrivez votre projet en quelques minutes.
+    Nous sélectionnons les bons artisans pour vous.
+  </p>
+
+  <button class="primary" style="margin-top:20px;">
+    Recevoir mes artisans →
+  </button>
+</section>
+
 <footer>
-  © 2026 Batilink — Mise en relation travaux Nancy / Metz
+  © 2026 Batilink — Mise en relation intelligente entre particuliers et artisans du Grand Est
 </footer>
 
 </body>
