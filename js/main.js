@@ -49,11 +49,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initReveal();
 });
-document.addEventListener('DOMContentLoaded', () => {
-  try {
-    initNavbar();
-    initReveal();
-  } catch(e) {
-    console.error("Init error:", e);
-  }
-});
