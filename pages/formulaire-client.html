@@ -1218,21 +1218,28 @@ function validateStep(n) {
     }
   }
 
-  if (n === 3) {
-    // Validate minimum budget 1500€
-    if (budgetValue < 1500) {
-      document.getElementById('budgetError').classList.add('show');
-      valid = false;
-    } else {
-      document.getElementById('budgetError').classList.remove('show');
-    }
-    if (!document.getElementById('delai').value) {
-      document.getElementById('delaiError').classList.add('show');
-      valid = false;
-    } else {
-      document.getElementById('delaiError').classList.remove('show');
-    }
+ if (n === 3) {
+  // Budget
+  const budgetErr = document.getElementById('budgetError');
+
+  if (state.budgetValue < 1500) {
+    budgetErr?.classList.add('show');
+    valid = false;
+  } else {
+    budgetErr?.classList.remove('show');
   }
+
+  // Délai
+  const delai = document.getElementById('delai');
+  const delaiErr = document.getElementById('delaiError');
+
+  if (!delai || !delai.value) {
+    delaiErr?.classList.add('show');
+    valid = false;
+  } else {
+    delaiErr?.classList.remove('show');
+  }
+}
 
   if (n === 4) {
     if (photos.length === 0) {
