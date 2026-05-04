@@ -47,5 +47,22 @@ function selectHcType(el) {
 // ── Init global ──
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
-  initReveal();
+  initReveal();function initNavigation() {
+  document.querySelectorAll('[data-link]').forEach(el => {
+    el.addEventListener('click', () => {
+      const url = el.dataset.link;
+      if (url) window.location.href = url;
+    });
+  });
+
+  document.querySelectorAll('[data-scroll]').forEach(el => {
+    el.addEventListener('click', () => {
+      const target = document.querySelector(el.dataset.scroll);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+}
+   
 });
