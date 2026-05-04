@@ -307,3 +307,10 @@ function nextEtape(n) {
 
   const valid = validateEtape(n);
   console.log("VALID =", valid);
+
+  if (!valid) {
+    return;
+  }
+
+  // suite logique ici
+}
