@@ -11,8 +11,8 @@
 }
 
 .inscription-main {
-  padding: 48px 56px 80px 48px;
-  max-width: 720px;
+  padding: 56px 64px;
+  margin: 0 auto;
 }
 
 .inscription-sidebar {
@@ -104,12 +104,23 @@
 }
 
 /* ── FORM CARD ── */
+
+.form-input, .form-select, .form-textarea {
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+}
+
+.form-input:focus {
+  background: white;
+}
+
 .form-card {
   background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  margin-bottom: 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.04);
 }
 
 .form-card-title {
@@ -125,27 +136,35 @@
 }
 
 /* ── MÉTIER GRID ── */
+
 .metier-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
 }
-
 .metier-btn {
   border: 1.5px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 8px;
+  border-radius: 12px;
+  padding: 16px 10px;
   text-align: center;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.2s ease;
   background: white;
 }
-.metier-btn:hover  { border-color: var(--gold); background: #FFFBF5; }
+.metier-btn:hover {
+  border-color: var(--gold);
+  background: #FFFBF5;
+  transform: translateY(-2px);
+}
+
 .metier-btn.selected {
   border-color: var(--gold);
   background: #FFFBF5;
-  box-shadow: 0 0 0 3px rgba(184,130,10,0.1);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
 }
+
+
 .metier-btn .mi { font-size: 1.5rem; margin-bottom: 6px; display: block; }
 .metier-btn .ml { font-size: 0.75rem; font-weight: 600; color: var(--text); }
 .metier-btn .ms { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
