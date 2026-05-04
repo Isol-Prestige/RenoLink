@@ -3,53 +3,33 @@
    Logique inscription artisan multi-étapes
    ═══════════════════════════════════════ */
 
-// ── État ──
-const inscState = {
-  currentStep:   1,
-  totalSteps:    4,
-  metiers:       [],
-  certifications:[],
-  zones:         [],
-  documents:     {},
-};
-
-// ════════════════════════════════════════
-// NAVIGATION
-// ════════════════════════════════════════
-
 function nextEtape(n) {
-  if (!validateEtape(n)) return;
+  const valid = validateEtape(n);
+
+  if (!valid) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const rs = document.querySelector('.form-input:invalid, .error');
+    if (rs) rs.focus();
+
+    return;
+  }
 
   // Marquer progression
   const prog = document.getElementById('prog' + n);
-  if (prog) { prog.classList.remove('active'); prog.classList.add('done'); }
+  if (prog) {
+    prog.classList.remove('active');
+    prog.classList.add('done');
+  }
 
   if (n < inscState.totalSteps) {
     inscState.currentStep = n + 1;
     showEtape(n, n + 1);
     updateSidebar(n + 1);
   }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-function prevEtape(n) {
-  const prog = document.getElementById('prog' + n);
-  if (prog) { prog.classList.remove('active'); prog.classList.remove('done'); }
-
-  inscState.currentStep = n - 1;
-  const prevProg = document.getElementById('prog' + (n - 1));
-  if (prevProg) { prevProg.classList.remove('done'); prevProg.classList.add('active'); }
-
-  showEtape(n, n - 1);
-  updateSidebar(n - 1);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function showEtape(from, to) {
-  document.getElementById('etape' + from).classList.remove('active');
-  document.getElementById('etape' + to).classList.add('active');
-}
-
 // ════════════════════════════════════════
 // SIDEBAR
 // ════════════════════════════════════════
