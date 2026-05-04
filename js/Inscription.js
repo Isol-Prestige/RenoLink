@@ -302,3 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const prog1 = document.getElementById('prog1');
   if (prog1) prog1.classList.add('active');
 });
+function nextEtape(n) {
+  console.log("CLICK NEXT", n);
+
+  const valid = validateEtape(n);
+  console.log("VALID =", valid);
