@@ -1,7 +1,32 @@
 /* ═══════════════════════════════════════
    RENOLINK — Styles Page d'Accueil
    ═══════════════════════════════════════ */
+/* Smooth scrolling global */
+html {
+  scroll-behavior: smooth;
+}
 
+/* Meilleure lisibilité */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hover plus moderne */
+button, .hc-btn {
+  will-change: transform;
+}
+
+/* Effet glassmorphism plus propre */
+.hero-card {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Animation plus fluide */
+* {
+  transition: all 0.2s ease;
+}
 /* ── HERO ── */
 .hero {
   min-height: 100vh;
