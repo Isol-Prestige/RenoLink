@@ -13,18 +13,25 @@
 </head>
 <body>
 
-<!-- ── NAVBAR ── -->
-<nav class="navbar" id="navbar">
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar" role="navigation">
   <a class="nav-logo" href="index.html">Reno<span>Link</span></a>
+
   <div class="nav-center">
     <a href="#comment">Comment ça marche</a>
     <a href="#artisans">Nos artisans</a>
     <a href="#garanties">Garanties</a>
     <a href="#temoignages">Avis clients</a>
   </div>
+
   <div class="nav-right">
-    <button class="btn btn-outline" onclick="window.location.href='pages/inscription-artisan.html'">Espace artisan</button>
-    <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet</button>
+    <button class="btn btn-outline" data-link="pages/inscription-artisan.html">
+      Espace artisan
+    </button>
+
+    <button class="btn btn-primary btn-lg" data-link="pages/formulaire-client.html">
+      Déposer mon projet
+    </button>
   </div>
 </nav>
 
@@ -51,9 +58,14 @@
       <div class="check"><div class="check-icon">✓</div>Réponse garantie sous 48h ouvrées</div>
     </div>
     <div class="hero-btns">
-      <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Décrire mon projet →</button>
-      <button class="btn btn-ghost-gold btn-lg" onclick="document.getElementById('comment').scrollIntoView({behavior:'smooth'})">Comment ça marche</button>
-    </div>
+  <button class="btn btn-primary btn-lg" data-link="pages/formulaire-client.html">
+    Décrire mon projet →
+  </button>
+
+  <button class="btn btn-ghost-gold btn-lg" data-scroll="#comment">
+    Comment ça marche
+  </button>
+</div>
     <div class="hero-social">
       <div class="avatars">
         <div class="av">ML</div>
