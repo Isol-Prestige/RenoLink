@@ -7,6 +7,7 @@
 function initNavbar() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
+
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 20);
   });
@@ -28,47 +29,26 @@ function initReveal() {
   reveals.forEach(el => observer.observe(el));
 }
 
-// ── Parcours tabs (accueil) ──
-function switchTab(tab, el) {
-  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const client  = document.getElementById('tab-client');
-  const artisan = document.getElementById('tab-artisan');
-  if (client)  client.style.display  = tab === 'client'  ? 'block' : 'none';
-  if (artisan) artisan.style.display = tab === 'artisan' ? 'block' : 'none';
+// ── Navigation (data-link & scroll) ──
+function initNavigation() {
+  document.querySelectorAll('[data-link]').forEach(el => {
+    el.addEventListener('click', () => {
+      const url = el.dataset.link;
+      if (url) window.location.href = url;
+    });
+  });
+
+  document.querySelectorAll('[data-scroll]').forEach(el => {
+    el.addEventListener('click', () => {
+      const target = document.querySelector(el.dataset.scroll);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
 }
 
-// ── Hero type selector (accueil) ──
-function selectHcType(el) {
-  document.querySelectorAll('.hc-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ── Init global ──
-document.addEventListener('DOMContentLoaded', () => {
-  initNavbar();
-  initReveal();
-  initNavigation(); // ← ICI
-
-  function initNavigation() {
-    document.querySelectorAll('[data-link]').forEach(el => {
-      el.addEventListener('click', () => {
-        const url = el.dataset.link;
-        if (url) window.location.href = url;
-      });
-    });
-
-    document.querySelectorAll('[data-scroll]').forEach(el => {
-      el.addEventListener('click', () => {
-        const target = document.querySelector(el.dataset.scroll);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  }
-});
-//-- Menu burger--//
+// ── Menu burger ──
 function initBurger() {
   const burger = document.getElementById('navBurger');
   const menu = document.getElementById('navMenu');
@@ -78,10 +58,37 @@ function initBurger() {
   burger.addEventListener('click', () => {
     menu.classList.toggle('open');
   });
+
+  // fermer si clic extérieur (bonus UX)
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !burger.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
 }
+
+// ── Parcours tabs ──
+function switchTab(tab, el) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+
+  const client  = document.getElementById('tab-client');
+  const artisan = document.getElementById('tab-artisan');
+
+  if (client)  client.style.display  = tab === 'client'  ? 'block' : 'none';
+  if (artisan) artisan.style.display = tab === 'artisan' ? 'block' : 'none';
+}
+
+// ── Hero selector ──
+function selectHcType(el) {
+  document.querySelectorAll('.hc-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── INIT GLOBAL UNIQUE ──
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initReveal();
   initNavigation();
-  initBurger(); // obligatoire
+  initBurger();
 });
