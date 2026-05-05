@@ -1,6 +1,17 @@
 /* ═══════════════════════════════════════
    RENOLINK — Styles Page d'Accueil
    ═══════════════════════════════════════ */
+/* Desktop */
+.nav-menu {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nav-burger {
+  display: none;
+}
+
 /* Smooth scrolling global */
 html {
   scroll-behavior: smooth;
@@ -749,4 +760,46 @@ footer {
   .trust-grid, .testi-grid { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr; }
   .hc-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .nav-burger {
+    display: block;
+    font-size: 1.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 68px;
+    right: 16px;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+
+    flex-direction: column;
+    gap: 10px;
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+    transition: all 0.25s ease;
+  }
+
+  .nav-menu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav-menu .btn {
+    width: 100%;
+  }
 }
