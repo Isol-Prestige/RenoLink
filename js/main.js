@@ -47,22 +47,24 @@ function selectHcType(el) {
 // ── Init global ──
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
-  initReveal();function initNavigation() {
-  document.querySelectorAll('[data-link]').forEach(el => {
-    el.addEventListener('click', () => {
-      const url = el.dataset.link;
-      if (url) window.location.href = url;
-    });
-  });
+  initReveal();
+  initNavigation(); // ← ICI
 
-  document.querySelectorAll('[data-scroll]').forEach(el => {
-    el.addEventListener('click', () => {
-      const target = document.querySelector(el.dataset.scroll);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
+  function initNavigation() {
+    document.querySelectorAll('[data-link]').forEach(el => {
+      el.addEventListener('click', () => {
+        const url = el.dataset.link;
+        if (url) window.location.href = url;
+      });
     });
-  });
-}
-   
+
+    document.querySelectorAll('[data-scroll]').forEach(el => {
+      el.addEventListener('click', () => {
+        const target = document.querySelector(el.dataset.scroll);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  }
 });
