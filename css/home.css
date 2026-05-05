@@ -771,6 +771,7 @@ footer {
     background: none;
     border: none;
     cursor: pointer;
+    z-index: 1001; /* important */
   }
 
   .nav-menu {
@@ -786,20 +787,20 @@ footer {
     flex-direction: column;
     gap: 10px;
 
-    opacity: 0;
-    transform: translateY(-10px);
-    pointer-events: none;
-
-    transition: all 0.25s ease;
+    display: none; /* ✅ vrai hide */
+    z-index: 1000;
   }
 
   .nav-menu.open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+    display: flex; /* ✅ apparaît seulement ici */
   }
 
   .nav-menu .btn {
     width: 100%;
+  }
+
+  /* 🔴 TRÈS IMPORTANT */
+  .nav-center {
+    display: none; /* cache menu desktop */
   }
 }
