@@ -68,3 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+//-- Menu burger--//
+function initBurger() {
+  const burger = document.getElementById('navBurger');
+  const menu = document.getElementById('navMenu');
+
+  if (!burger || !menu) return;
+
+  burger.addEventListener('click', () => {
+    menu.classList.toggle('open');
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
+  initReveal();
+  initNavigation();
+  initBurger(); // obligatoire
+});
