@@ -29,7 +29,8 @@ function initReveal() {
   reveals.forEach(el => observer.observe(el));
 }
 
-// ── Navigation (data-link & scroll) ──
+
+// ── Navigation ──
 function initNavigation() {
   document.querySelectorAll('[data-link]').forEach(el => {
     el.addEventListener('click', () => {
@@ -47,7 +48,12 @@ function initNavigation() {
     });
   });
 }
-
+document.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
+  initReveal();
+  initNavigation(); // ✅ maintenant ça marche
+  initBurger();
+});
 // ── Menu burger ──
 function initBurger() {
   const burger = document.getElementById('navBurger');
