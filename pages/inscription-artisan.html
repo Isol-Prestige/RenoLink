@@ -594,34 +594,7 @@
 <script src="../js/main.js"></script>
 <script src="../js/inscription.js"></script>
 
-<!-- Mise à jour du récap à l'étape 4 -->
-<script>
-// Enrichir la fonction nextEtape pour mettre à jour le récap
-const origNextEtape = nextEtape;
-function nextEtape(n) {
-  origNextEtape(n);
-  if (n === 3) {
-    // Mettre à jour le récap étape 4
-    const rs = document.getElementById('raisonSociale');
-    if (rs) {
-      const recapEnt = document.getElementById('recap-entreprise');
-      if (recapEnt) recapEnt.textContent = rs.value || '—';
-    }
-    const recapMet = document.getElementById('recap-metiers');
-    if (recapMet) recapMet.textContent = inscState.metiers.length > 0 ? inscState.metiers.join(', ') : '—';
-
-    const recapCert = document.getElementById('recap-certifs');
-    if (recapCert) recapCert.textContent = inscState.certifications.length > 0 ? inscState.certifications.join(', ') : 'Aucune';
-
-    const recapZones = document.getElementById('recap-zones');
-    if (recapZones) recapZones.textContent = inscState.zones.length > 0 ? inscState.zones.join(', ') : '—';
-
-    const docs = Object.keys(inscState.documents).length;
-    const recapDocs = document.getElementById('recap-docs');
-    if (recapDocs) recapDocs.textContent = docs + ' document(s) fourni(s)';
-  }
-}
-</script>
+<!-- Le récap est maintenant géré directement dans inscription.js -->
 
 </body>
 </html>
