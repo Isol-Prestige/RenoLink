@@ -594,6 +594,33 @@
 <script src="../js/main.js"></script>
 <script src="../js/inscription.js"></script>
 
+python3 << 'EOF'
+# Corriger les IDs dupliqués dans inscription-artisan.html
+with open('/home/claude/renolink/pages/inscription-artisan.html', 'r') as f:
+    content = f.read()
+
+# Fix IDs dupliqués sidebar
+content = content.replace(
+    '<div class="sidebar-step" id="sidebar-step-1">\n        <div class="sidebar-step-num active" id="sidebar-step-1">1</div>',
+    '<div class="sidebar-step">\n        <div class="sidebar-step-num active" id="sidebar-step-1">1</div>'
+)
+
+# Ajouter security.js
+if 'security.js' not in content:
+    content = content.replace(
+        '<script src="../js/main.js"></script>',
+        '<script src="../js/security.js"></script>\n<script src="../js/main.js"></script>'
+    )
+
+with open('/home/claude/renolink/pages/inscription-artisan.html', 'w') as f:
+    f.write(content)
+print("Done inscription")
+EOF
+Sortie
+
+Done inscription
+
+
 <!-- Le récap est maintenant géré directement dans inscription.js -->
 
 </body>
