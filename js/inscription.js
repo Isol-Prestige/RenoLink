@@ -3,24 +3,26 @@
    Logique inscription artisan multi-étapes
    ═══════════════════════════════════════ */
 
+// ── État ──
+const inscState = {
+  currentStep:   1,
+  totalSteps:    4,
+  metiers:       [],
+  certifications:[],
+  zones:         [],
+  documents:     {},
+};
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+
 function nextEtape(n) {
-  const valid = validateEtape(n);
-
-  if (!valid) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    const rs = document.querySelector('.form-input:invalid, .error');
-    if (rs) rs.focus();
-
-    return;
-  }
+  if (!validateEtape(n)) return;
 
   // Marquer progression
   const prog = document.getElementById('prog' + n);
-  if (prog) {
-    prog.classList.remove('active');
-    prog.classList.add('done');
-  }
+  if (prog) { prog.classList.remove('active'); prog.classList.add('done'); }
 
   if (n < inscState.totalSteps) {
     inscState.currentStep = n + 1;
@@ -28,8 +30,49 @@ function nextEtape(n) {
     updateSidebar(n + 1);
   }
 
+  // Mettre à jour le récap à l'étape 4
+  if (n === 3) updateRecap();
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+function updateRecap() {
+  const rs = document.getElementById('raisonSociale');
+  const recapEnt = document.getElementById('recap-entreprise');
+  if (recapEnt && rs) recapEnt.textContent = rs.value || '—';
+
+  const recapMet = document.getElementById('recap-metiers');
+  if (recapMet) recapMet.textContent = inscState.metiers.length > 0 ? inscState.metiers.join(', ') : '—';
+
+  const recapCert = document.getElementById('recap-certifs');
+  if (recapCert) recapCert.textContent = inscState.certifications.length > 0 ? inscState.certifications.join(', ') : 'Aucune';
+
+  const recapZones = document.getElementById('recap-zones');
+  if (recapZones) recapZones.textContent = inscState.zones.length > 0 ? inscState.zones.join(', ') : '—';
+
+  const docs = Object.keys(inscState.documents).length;
+  const recapDocs = document.getElementById('recap-docs');
+  if (recapDocs) recapDocs.textContent = docs + ' document(s) fourni(s)';
+}
+
+function prevEtape(n) {
+  const prog = document.getElementById('prog' + n);
+  if (prog) { prog.classList.remove('active'); prog.classList.remove('done'); }
+
+  inscState.currentStep = n - 1;
+  const prevProg = document.getElementById('prog' + (n - 1));
+  if (prevProg) { prevProg.classList.remove('done'); prevProg.classList.add('active'); }
+
+  showEtape(n, n - 1);
+  updateSidebar(n - 1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showEtape(from, to) {
+  document.getElementById('etape' + from).classList.remove('active');
+  document.getElementById('etape' + to).classList.add('active');
+}
+
 // ════════════════════════════════════════
 // SIDEBAR
 // ════════════════════════════════════════
@@ -302,15 +345,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const prog1 = document.getElementById('prog1');
   if (prog1) prog1.classList.add('active');
 });
-function nextEtape(n) {
-  console.log("CLICK NEXT", n);
-
-  const valid = validateEtape(n);
-  console.log("VALID =", valid);
-
-  if (!valid) {
-    return;
-  }
-
-  // suite logique ici
-}
