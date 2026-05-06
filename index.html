@@ -25,6 +25,259 @@
   </div>
 
   <div class="nav-right">
+bash
+
+python3 << 'EOF'
+with open('/home/claude/renolink/index.html', 'r') as f:
+    content = f.read()
+
+# 1. Ajouter le bouton burger dans la navbar
+old_nav = """  <div class="nav-right">
+    <button class="btn btn-outline" onclick="window.location.href='pages/inscription-artisan.html'">Je suis artisan</button>
+    <button class="btn btn-outline" onclick="window.location.href='pages/connexion.html'" style="display:flex;align-items:center;gap:6px;">🔑 Connexion</button>
+    <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet</button>
+  </div>"""
+
+new_nav = """  <div class="nav-right">
+    <button class="btn btn-outline" onclick="window.location.href='pages/inscription-artisan.html'">Je suis artisan</button>
+    <button class="btn btn-outline" onclick="window.location.href='pages/connexion.html'" style="display:flex;align-items:center;gap:6px;">🔑 Connexion</button>
+    <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet</button>
+  </div>
+  <!-- Burger mobile -->
+  <button class="burger-btn" id="burgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span class="burger-line"></span>
+    <span class="burger-line"></span>
+    <span class="burger-line"></span>
+  </button>"""
+
+content = content.replace(old_nav, new_nav)
+
+# 2. Ajouter le menu mobile après la navbar
+old_after_nav = '<!-- ── HERO ── -->'
+new_mobile_menu = """<!-- ── MENU MOBILE ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <a class="mobile-nav-link" href="#comment" onclick="toggleMobileMenu()">Comment ça marche</a>
+    <a class="mobile-nav-link" href="#artisans" onclick="toggleMobileMenu()">Nos artisans</a>
+    <a class="mobile-nav-link" href="#garanties" onclick="toggleMobileMenu()">Garanties</a>
+    <a class="mobile-nav-link" href="#temoignages" onclick="toggleMobileMenu()">Avis clients</a>
+    <div class="mobile-menu-divider"></div>
+    <a class="mobile-nav-link" href="pages/connexion.html">🔑 Connexion</a>
+    <a class="mobile-nav-link" href="pages/inscription-artisan.html">🔨 Je suis artisan</a>
+    <button class="mobile-cta" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet →</button>
+  </div>
+</div>
+
+<!-- ── HERO ── -->"""
+
+content = content.replace('<!-- ── HERO ── -->', new_mobile_menu)
+
+# 3. Ajouter CSS burger + menu mobile avant </style> ou dans le head
+burger_css = """
+/* ── BURGER & MENU MOBILE ── */
+.burger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  padding: 8px;
+  transition: var(--transition);
+}
+.burger-btn:hover { border-color: var(--gold); }
+
+.burger-line {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.burger-btn.open .burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger-btn.open .burger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burger-btn.open .burger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 68px;
+  left: 0; right: 0;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  z-index: 150;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.mobile-menu.open {
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu-inner {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 12px 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid #F5F2ED;
+  transition: color 0.2s;
+}
+.mobile-nav-link:hover { color: var(--gold); }
+.mobile-nav-link:last-of-type { border-bottom: none; }
+
+.mobile-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.mobile-cta {
+  margin-top: 12px;
+  width: 100%;
+  padding: 14px;
+  background: var(--dark);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Overlay quand menu ouvert */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: 68px;
+  background: rgba(0,0,0,0.3);
+  z-index: 140;
+}
+.mobile-overlay.open { display: block; }
+
+@media (max-width: 960px) {
+  .burger-btn { display: flex; }
+  .nav-center { display: none; }
+  .nav-right { display: none; }
+}"""
+
+# Injecter dans le head
+content = content.replace('</style>', burger_css + '\n</style>')
+
+# 4. Ajouter script toggleMobileMenu avant </body>
+burger_script = """
+<script>
+function toggleMobileMenu() {
+  const btn     = document.getElementById('burgerBtn');
+  const menu    = document.getElementById('mobileMenu');
+  const overlay = document.getElementById('mobileOverlay');
+
+  const isOpen = menu.classList.contains('open');
+
+  if (isOpen) {
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  } else {
+    btn.classList.add('open');
+    menu.classList.add('open');
+    if (overlay) overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+// Fermer en cliquant sur overlay
+document.addEventListener('DOMContentLoaded', () => {
+  // Créer overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'mobile-overlay';
+  overlay.id = 'mobileOverlay';
+  overlay.onclick = toggleMobileMenu;
+  document.body.appendChild(overlay);
+
+  // Fermer menu quand on scrolle
+  window.addEventListener('scroll', () => {
+    const menu = document.getElementById('mobileMenu');
+    if (menu && menu.classList.contains('open')) {
+      toggleMobileMenu();
+    }
+  }, { passive: true });
+});
+</script>"""
+
+content = content.replace('</body>', burger_script + '\n</body>')
+
+with open('/home/claude/renolink/index.html', 'w') as f:
+    f.write(content)
+print("Done")
+EOF
+Sortie
+
+Done
+Terminé
+Vous avez dit : La suite
+La suite
+
+14:09
+Claude a répondu : On continue avec les fonctionnalités admin — validation, publication, envoi manuel artisan, PDF et commission 8% tracée.
+On continue avec les fonctionnalités admin — validation, publication, envoi manuel artisan, PDF et commission 8% tracée.
+
+
+Fix duplicate IDs in inscription
+Fix duplicate IDs in inscription
+
+Fix duplicate IDs in inscription
+bash
+
+python3 << 'EOF'
+# Corriger les IDs dupliqués dans inscription-artisan.html
+with open('/home/claude/renolink/pages/inscription-artisan.html', 'r') as f:
+    content = f.read()
+
+# Fix IDs dupliqués sidebar
+content = content.replace(
+    '<div class="sidebar-step" id="sidebar-step-1">\n        <div class="sidebar-step-num active" id="sidebar-step-1">1</div>',
+    '<div class="sidebar-step">\n        <div class="sidebar-step-num active" id="sidebar-step-1">1</div>'
+)
+
+# Ajouter security.js
+if 'security.js' not in content:
+    content = content.replace(
+        '<script src="../js/main.js"></script>',
+        '<script src="../js/security.js"></script>\n<script src="../js/main.js"></script>'
+    )
+
+with open('/home/claude/renolink/pages/inscription-artisan.html', 'w') as f:
+    f.write(content)
+print("Done inscription")
+EOF
+Sortie
+
+Done inscription
 
   <!-- Burger (mobile only) -->
   <button class="nav-burger" id="navBurger">
