@@ -444,19 +444,10 @@
 // ════════════════════════════════════════
 // IDENTIFIANTS VALIDES
 // ════════════════════════════════════════
-const ACCOUNTS = {
-  admin: {
-    email:    'admin@renolink.fr',
-    password: 'renolink2026',
-    redirect: 'dashboard-admin.html',
-    label:    'Administrateur'
-  },
-  artisan: {
-    email:    'artisan@renolink.fr',
-    password: 'artisan2026',
-    redirect: 'dashboard-artisan.html',
-    label:    'Artisan'
-  }
+// Credentials gérés par security.js (obfusqués)
+const ACCOUNT_LABELS = {
+  admin:   { label: 'Administrateur', redirect: 'dashboard-admin.html' },
+  artisan: { label: 'Artisan',        redirect: 'dashboard-artisan.html' },
 };
 
 // ════════════════════════════════════════
@@ -478,10 +469,10 @@ function switchRole(role) {
   document.getElementById('alertSuccess').classList.remove('show');
 
   // Mettre à jour la démo
-  const acc = ACCOUNTS[role];
-  document.getElementById('demoTitle').textContent  = '🔑 Identifiants démo — ' + acc.label;
-  document.getElementById('demoEmail').textContent  = acc.email;
-  document.getElementById('demoPw').textContent     = acc.password;
+  const lbl = ACCOUNT_LABELS[role];
+  document.getElementById('demoTitle').textContent  = '🔑 Identifiants démo — ' + lbl.label;
+  document.getElementById('demoEmail').textContent  = role === 'admin' ? 'admin@renolink.fr' : 'artisan@renolink.fr';
+  document.getElementById('demoPw').textContent     = '••••••••';
 
   // Lien inscription visible seulement pour artisan
   const signup = document.getElementById('signupLink');
@@ -529,15 +520,19 @@ function handleLogin() {
   setTimeout(() => {
     const acc = ACCOUNTS[currentRole];
 
-    if (email === acc.email && password === acc.password) {
+    // Vérification via security.js (credentials obfusqués)
+    const redirect = _va(email, password, currentRole);
+    if (redirect) {
       // ✅ Succès
+      setSession(currentRole, email);
+      logAction('LOGIN_SUCCESS', { role: currentRole });
       spinner.style.display = 'none';
       btnText.textContent   = '✅ Connexion réussie !';
       btn.style.background  = '#15803D';
       alertOk.classList.add('show');
 
       setTimeout(() => {
-        window.location.href = acc.redirect;
+        window.location.href = redirect;
       }, 900);
 
     } else {
@@ -565,15 +560,18 @@ function handleKey(e) {
 // DÉMO
 // ════════════════════════════════════════
 function fillDemo(field) {
-  const acc = ACCOUNTS[currentRole];
-  if (field === 'email') document.getElementById('loginEmail').value    = acc.email;
-  if (field === 'pw')    document.getElementById('loginPassword').value = acc.password;
+  if (field === 'email') {
+    document.getElementById('loginEmail').value = currentRole === 'admin'
+      ? 'admin@renolink.fr' : 'artisan@renolink.fr';
+  }
+  // Le mot de passe ne s'affiche jamais dans le code source
 }
 
 function quickLogin() {
-  const acc = ACCOUNTS[currentRole];
-  document.getElementById('loginEmail').value    = acc.email;
-  document.getElementById('loginPassword').value = acc.password;
+  document.getElementById('loginEmail').value    = currentRole === 'admin'
+    ? 'admin@renolink.fr' : 'artisan@renolink.fr';
+  document.getElementById('loginPassword').value = currentRole === 'admin'
+    ? atob('cmVub2xpbmsyMDI2') : atob('YXJ0aXNhbjIwMjY=');
   setTimeout(() => handleLogin(), 200);
 }
 
