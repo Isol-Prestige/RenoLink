@@ -162,8 +162,3 @@ function formatCommission(montant) {
   const c = calcCommission(montant);
   return `${c.toLocaleString('fr-FR')} € (8% de ${montant.toLocaleString('fr-FR')} €)`;
 }
-
-
-Done
-
-Sécuriser connexion.html
