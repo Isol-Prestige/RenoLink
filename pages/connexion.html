@@ -11,351 +11,113 @@
     :root{
       --gold:#B8820A;--gold2:#D4A020;
       --dark:#0F0E0C;--charcoal:#1C1A16;
-      --bg:#FAF7F2;--bg2:#F2EDE4;
-      --border:#E4DDD0;--text:#1A1714;
-      --muted:#7A736A;--error:#DC2626;
-      --success:#15803D;--r:14px;
+      --bg:#FAF7F2;--border:#E4DDD0;
+      --text:#1A1714;--muted:#7A736A;
+      --error:#DC2626;--success:#15803D;
     }
+    body{font-family:'DM Sans',sans-serif;background:var(--dark);min-height:100vh;display:flex;align-items:stretch;}
 
-    body{
-      font-family:'DM Sans',sans-serif;
-      background:var(--dark);
-      min-height:100vh;
-      display:flex;
-      align-items:stretch;
-    }
-
-    /* ── GAUCHE branding ── */
-    .left{
-      flex:1;
-      display:flex;flex-direction:column;
-      justify-content:center;
-      padding:60px 80px;
-      position:relative;overflow:hidden;
-    }
-
-    .left::before{
-      content:'';position:absolute;inset:0;
-      background:radial-gradient(ellipse 70% 60% at 30% 50%, rgba(184,130,10,0.08) 0%, transparent 65%);
-    }
-    .left::after{
-      content:'';position:absolute;inset:0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-      background-size:48px 48px;
-    }
-
-    .brand{ position:relative;z-index:1; }
-
-    .brand-logo{
-      font-family:'Fraunces',serif;
-      font-size:2rem;font-weight:900;
-      color:white;letter-spacing:-0.03em;
-      margin-bottom:40px;
-      display:flex;align-items:center;gap:10px;
-    }
+    /* GAUCHE */
+    .left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px;position:relative;overflow:hidden;}
+    .left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 50%, rgba(184,130,10,0.08) 0%, transparent 65%);}
+    .left::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);background-size:48px 48px;}
+    .brand{position:relative;z-index:1;}
+    .brand-logo{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:white;letter-spacing:-0.03em;margin-bottom:40px;}
     .brand-logo span{color:var(--gold);}
-    .brand-logo a{text-decoration:none;}
-
-    .brand h2{
-      font-family:'Fraunces',serif;
-      font-size:clamp(1.8rem,3vw,2.8rem);
-      font-weight:900;color:white;
-      line-height:1.1;letter-spacing:-0.03em;
-      margin-bottom:16px;
-    }
+    .brand-logo a{text-decoration:none;color:white;}
+    .brand h2{font-family:'Fraunces',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;color:white;line-height:1.1;letter-spacing:-0.03em;margin-bottom:16px;}
     .brand h2 em{font-style:italic;color:var(--gold);}
-
-    .brand p{
-      font-size:0.92rem;
-      color:rgba(255,255,255,0.32);
-      line-height:1.7;max-width:380px;
-      margin-bottom:48px;
-    }
-
-    /* Rôles cards */
+    .brand p{font-size:0.92rem;color:rgba(255,255,255,0.32);line-height:1.7;max-width:380px;margin-bottom:48px;}
     .roles{display:flex;flex-direction:column;gap:10px;}
+    .role-card{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px 18px;}
+    .role-icon{width:38px;height:38px;border-radius:10px;background:rgba(184,130,10,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .role-info h4{font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:2px;}
+    .role-info p{font-size:0.72rem;color:rgba(255,255,255,0.28);}
 
-    .role-card{
-      display:flex;align-items:center;gap:14px;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.06);
-      border-radius:12px;padding:14px 18px;
-      transition:all 0.2s;
-    }
-
-    .role-icon{
-      width:38px;height:38px;
-      border-radius:10px;
-      background:rgba(184,130,10,0.1);
-      display:flex;align-items:center;
-      justify-content:center;font-size:1.1rem;
-      flex-shrink:0;
-    }
-
-    .role-info h4{
-      font-size:0.82rem;font-weight:700;
-      color:rgba(255,255,255,0.7);margin-bottom:2px;
-    }
-    .role-info p{
-      font-size:0.72rem;
-      color:rgba(255,255,255,0.28);
-    }
-
-    /* ── DROITE formulaire ── */
-    .right{
-      width:460px;
-      background:var(--bg);
-      display:flex;flex-direction:column;
-      justify-content:center;
-      padding:56px 48px;
-      position:relative;
-    }
-
-    /* Header formulaire */
+    /* DROITE */
+    .right{width:460px;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:56px 48px;position:relative;}
     .form-header{margin-bottom:36px;}
-    .form-header h1{
-      font-family:'Fraunces',serif;
-      font-size:1.8rem;font-weight:700;
-      color:var(--text);letter-spacing:-0.02em;
-      margin-bottom:6px;
-    }
+    .form-header h1{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:700;color:var(--text);letter-spacing:-0.02em;margin-bottom:6px;}
     .form-header p{font-size:0.84rem;color:var(--muted);}
 
-    /* Onglets rôle */
-    .role-tabs{
-      display:flex;
-      background:white;
-      border:1px solid var(--border);
-      border-radius:10px;padding:4px;
-      gap:4px;margin-bottom:28px;
-    }
+    .role-tabs{display:flex;background:white;border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;margin-bottom:28px;}
+    .role-tab{flex:1;padding:9px 12px;border-radius:7px;font-size:0.8rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+    .role-tab.active{background:var(--dark);color:white;}
 
-    .role-tab{
-      flex:1;padding:9px 12px;
-      border-radius:7px;
-      font-size:0.8rem;font-weight:600;
-      cursor:pointer;border:none;
-      background:transparent;
-      color:var(--muted);
-      font-family:'DM Sans',sans-serif;
-      transition:all 0.2s;
-      display:flex;align-items:center;
-      justify-content:center;gap:6px;
-    }
-    .role-tab.active{
-      background:var(--dark);color:white;
-    }
-
-    /* Form elements */
     .form-group{margin-bottom:18px;}
-    .form-label{
-      display:block;
-      font-size:0.8rem;font-weight:600;
-      color:var(--text);margin-bottom:7px;
-    }
-
+    .form-label{display:block;font-size:0.8rem;font-weight:600;color:var(--text);margin-bottom:7px;}
     .input-wrap{position:relative;}
+    .form-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--text);background:white;outline:none;transition:all 0.2s;}
+    .form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,130,10,0.1);}
+    .form-input.error{border-color:var(--error);box-shadow:0 0 0 3px rgba(220,38,38,0.08);}
+    .pw-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--muted);cursor:pointer;background:none;border:none;padding:0;line-height:1;}
 
-    .form-input{
-      width:100%;
-      border:1.5px solid var(--border);
-      border-radius:10px;
-      padding:12px 16px;
-      font-family:'DM Sans',sans-serif;
-      font-size:0.88rem;color:var(--text);
-      background:white;outline:none;
-      transition:all 0.2s;
-    }
-    .form-input:focus{
-      border-color:var(--gold);
-      box-shadow:0 0 0 3px rgba(184,130,10,0.1);
-    }
-    .form-input.error{
-      border-color:var(--error);
-      box-shadow:0 0 0 3px rgba(220,38,38,0.08);
-    }
-
-    .pw-toggle{
-      position:absolute;right:14px;top:50%;
-      transform:translateY(-50%);
-      font-size:1rem;color:var(--muted);
-      cursor:pointer;user-select:none;
-      background:none;border:none;
-      padding:0;line-height:1;
-    }
-
-    .form-error{
-      font-size:0.72rem;color:var(--error);
-      margin-top:5px;display:none;
-      align-items:center;gap:4px;
-    }
+    .form-error{font-size:0.72rem;color:var(--error);margin-top:5px;display:none;align-items:center;gap:4px;}
     .form-error.show{display:flex;}
 
-    /* Options */
-    .form-options{
-      display:flex;align-items:center;
-      justify-content:space-between;
-      margin-bottom:22px;
-    }
-    .remember{
-      display:flex;align-items:center;gap:8px;
-      font-size:0.78rem;color:var(--muted);cursor:pointer;
-    }
+    .form-options{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+    .remember{display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--muted);cursor:pointer;}
     .remember input{accent-color:var(--gold);}
-    .forgot{
-      font-size:0.75rem;color:var(--gold);
-      font-weight:600;cursor:pointer;
-      background:none;border:none;
-      font-family:'DM Sans',sans-serif;
-    }
+    .forgot{font-size:0.75rem;color:var(--gold);font-weight:600;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
     .forgot:hover{text-decoration:underline;}
 
-    /* Bouton connexion */
-    .btn-login{
-      width:100%;padding:14px;
-      border-radius:10px;
-      background:var(--dark);color:white;
-      border:none;cursor:pointer;
-      font-family:'DM Sans',sans-serif;
-      font-size:0.92rem;font-weight:700;
-      transition:all 0.2s;
-      display:flex;align-items:center;
-      justify-content:center;gap:8px;
-      margin-bottom:20px;
-    }
+    .btn-login{width:100%;padding:14px;border-radius:10px;background:var(--dark);color:white;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.92rem;font-weight:700;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;}
     .btn-login:hover{background:var(--charcoal);transform:translateY(-1px);}
     .btn-login:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 
-    .spinner{
-      width:16px;height:16px;
-      border:2px solid rgba(255,255,255,0.3);
-      border-top-color:white;border-radius:50%;
-      animation:spin 0.6s linear infinite;
-      display:none;
-    }
+    .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.6s linear infinite;display:none;}
     @keyframes spin{to{transform:rotate(360deg);}}
 
-    /* Alerte erreur */
-    .alert{
-      display:none;align-items:center;gap:8px;
-      padding:12px 14px;border-radius:8px;
-      font-size:0.8rem;margin-bottom:18px;
-      animation:fadeIn 0.3s ease;
-    }
+    .alert{display:none;align-items:center;gap:8px;padding:12px 14px;border-radius:8px;font-size:0.8rem;margin-bottom:18px;}
     .alert.show{display:flex;}
     .alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#991B1B;}
     .alert-success{background:#D1FAE5;border:1px solid #6EE7B7;color:#065F46;}
 
-    @keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+    .divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;color:var(--muted);font-size:0.72rem;}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
 
-    /* Séparateur */
-    .divider{
-      display:flex;align-items:center;gap:12px;
-      margin-bottom:16px;
-      color:var(--muted);font-size:0.72rem;
-    }
-    .divider::before,.divider::after{
-      content:'';flex:1;height:1px;background:var(--border);
-    }
-
-    /* Demo box */
-    .demo-box{
-      background:rgba(184,130,10,0.06);
-      border:1px solid rgba(184,130,10,0.2);
-      border-radius:10px;padding:14px;
-    }
-    .demo-title{
-      font-size:0.68rem;font-weight:700;
-      color:var(--gold);letter-spacing:0.08em;
-      text-transform:uppercase;margin-bottom:10px;
-    }
-    .demo-row{
-      display:flex;align-items:center;
-      justify-content:space-between;
-      font-size:0.76rem;padding:4px 0;
-    }
+    .demo-box{background:rgba(184,130,10,0.06);border:1px solid rgba(184,130,10,0.2);border-radius:10px;padding:14px;}
+    .demo-title{font-size:0.68rem;font-weight:700;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
+    .demo-row{display:flex;align-items:center;justify-content:space-between;font-size:0.76rem;padding:4px 0;}
     .demo-row span{color:var(--muted);}
-    .demo-row code{
-      background:white;border:1px solid var(--border);
-      padding:2px 8px;border-radius:4px;
-      font-size:0.72rem;font-weight:600;
-      color:var(--text);cursor:pointer;
-      transition:all 0.2s;
-    }
+    .demo-row code{background:white;border:1px solid var(--border);padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:600;color:var(--text);cursor:pointer;transition:all 0.2s;}
     .demo-row code:hover{border-color:var(--gold);color:var(--gold);}
-
-    .demo-quick-btn{
-      width:100%;margin-top:10px;
-      padding:8px;background:var(--gold);
-      color:white;border:none;border-radius:7px;
-      font-size:0.75rem;font-weight:700;
-      cursor:pointer;font-family:'DM Sans',sans-serif;
-      transition:all 0.2s;
-    }
+    .demo-quick-btn{width:100%;margin-top:10px;padding:8px;background:var(--gold);color:white;border:none;border-radius:7px;font-size:0.75rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
     .demo-quick-btn:hover{background:var(--gold2);}
 
-    /* Inscription link */
-    .signup-link{
-      text-align:center;
-      font-size:0.78rem;color:var(--muted);
-      margin-top:20px;
-    }
+    .signup-link{text-align:center;font-size:0.78rem;color:var(--muted);margin-top:20px;}
     .signup-link a{color:var(--gold);font-weight:600;text-decoration:none;}
-    .signup-link a:hover{text-decoration:underline;}
 
-    /* Footer */
-    .form-footer{
-      position:absolute;bottom:20px;left:48px;right:48px;
-      display:flex;align-items:center;justify-content:space-between;
-      font-size:0.7rem;color:var(--muted);
-    }
+    .form-footer{position:absolute;bottom:20px;left:48px;right:48px;display:flex;align-items:center;justify-content:space-between;font-size:0.7rem;color:var(--muted);}
     .form-footer a{color:var(--muted);text-decoration:none;}
     .form-footer a:hover{color:var(--text);}
 
-    /* Responsive */
-    @media(max-width:768px){
-      body{flex-direction:column;}
-      .left{display:none;}
-      .right{width:100%;padding:40px 24px;}
-    }
+    @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
+    @media(max-width:768px){body{flex-direction:column;}.left{display:none;}.right{width:100%;padding:40px 24px;}}
   </style>
 </head>
 <body>
 
-<!-- ── GAUCHE — Branding ── -->
 <div class="left">
   <div class="brand">
-
     <div class="brand-logo">
-      <a href="../index.html" style="color:white;text-decoration:none;">Reno<span>Link</span></a>
+      <a href="../index.html">Reno<span>Link</span></a>
     </div>
-
     <h2>Bienvenue sur<br>votre espace<br><em>RenoLink</em></h2>
     <p>Connectez-vous pour accéder à votre espace personnalisé — administration ou tableau de bord artisan.</p>
-
     <div class="roles">
       <div class="role-card">
         <div class="role-icon">⚙️</div>
-        <div class="role-info">
-          <h4>Administrateur</h4>
-          <p>Gestion des dossiers, artisans, commissions et statistiques</p>
-        </div>
+        <div class="role-info"><h4>Administrateur</h4><p>Gestion des dossiers, artisans, commissions</p></div>
       </div>
       <div class="role-card">
         <div class="role-icon">🔨</div>
-        <div class="role-info">
-          <h4>Artisan</h4>
-          <p>Accès aux projets disponibles, dossiers clients et votre profil</p>
-        </div>
+        <div class="role-info"><h4>Artisan</h4><p>Accès aux projets disponibles et votre profil</p></div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ── DROITE — Formulaire ── -->
 <div class="right">
 
   <div class="form-header">
@@ -363,75 +125,54 @@
     <p>Accédez à votre espace RenoLink</p>
   </div>
 
-  <!-- Onglets rôle -->
   <div class="role-tabs">
     <button class="role-tab active" id="tab-artisan" onclick="switchRole('artisan')">🔨 Je suis artisan</button>
     <button class="role-tab" id="tab-admin" onclick="switchRole('admin')">⚙️ Administration</button>
   </div>
 
-  <!-- Alerte -->
   <div class="alert alert-error" id="alertError">❌ Email ou mot de passe incorrect</div>
   <div class="alert alert-success" id="alertSuccess">✅ Connexion réussie ! Redirection...</div>
 
-  <!-- Email -->
   <div class="form-group">
     <label class="form-label">Adresse email</label>
     <div class="input-wrap">
-      <input
-        type="email"
-        class="form-input"
-        id="loginEmail"
-        placeholder="votre@email.fr"
-        onkeydown="handleKey(event)">
+      <input type="email" class="form-input" id="loginEmail" placeholder="votre@email.fr" onkeydown="handleKey(event)">
     </div>
     <div class="form-error" id="emailError">⚠️ Email invalide</div>
   </div>
 
-  <!-- Mot de passe -->
   <div class="form-group">
     <label class="form-label">Mot de passe</label>
     <div class="input-wrap">
-      <input
-        type="password"
-        class="form-input"
-        id="loginPassword"
-        placeholder="••••••••"
-        onkeydown="handleKey(event)">
-      <button class="pw-toggle" onclick="togglePw()" id="eyeBtn">👁️</button>
+      <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" onkeydown="handleKey(event)">
+      <button class="pw-toggle" id="eyeBtn" onclick="togglePw()">👁️</button>
     </div>
     <div class="form-error" id="pwError">⚠️ Mot de passe requis</div>
   </div>
 
-  <!-- Options -->
   <div class="form-options">
-    <label class="remember">
-      <input type="checkbox" checked> Rester connecté
-    </label>
+    <label class="remember"><input type="checkbox" checked> Rester connecté</label>
     <button class="forgot" onclick="forgotPw()">Mot de passe oublié ?</button>
   </div>
 
-  <!-- Bouton connexion -->
   <button class="btn-login" id="btnLogin" onclick="handleLogin()">
     <div class="spinner" id="spinner"></div>
     <span id="btnText">Se connecter →</span>
   </button>
 
-  <!-- Demo -->
   <div class="divider">Accès démo</div>
 
   <div class="demo-box">
     <div class="demo-title" id="demoTitle">🔑 Identifiants démo — Artisan</div>
     <div class="demo-row"><span>Email</span><code id="demoEmail" onclick="fillDemo('email')">artisan@renolink.fr</code></div>
-    <div class="demo-row"><span>Mot de passe</span><code id="demoPw" onclick="fillDemo('pw')">artisan2026</code></div>
+    <div class="demo-row"><span>Mot de passe</span><code id="demoPw" onclick="fillDemo('pw')">••••••••</code></div>
     <button class="demo-quick-btn" onclick="quickLogin()">Connexion rapide démo →</button>
   </div>
 
-  <!-- Lien inscription artisan -->
   <div class="signup-link" id="signupLink">
     Pas encore inscrit ? <a href="inscription-artisan.html">Rejoindre le réseau →</a>
   </div>
 
-  <!-- Footer -->
   <div class="form-footer">
     <a href="../index.html">← Retour au site</a>
     <span>© 2026 RenoLink</span>
@@ -440,49 +181,29 @@
 
 </div>
 
-<script>
-<script>
-// ════════════════════════════════════════
-// IDENTIFIANTS VALIDES
-// ════════════════════════════════════════
-// Credentials gérés par security.js (obfusqués)
-const ACCOUNT_LABELS = {
-  admin:   { label: 'Administrateur', redirect: 'dashboard-admin.html' },
-  artisan: { label: 'Artisan',        redirect: 'dashboard-artisan.html' },
-};
+<!-- security.js DOIT être chargé EN PREMIER -->
+<script src="../js/security.js"></script>
 
-// ════════════════════════════════════════
-// RÔLE ACTIF
-// ════════════════════════════════════════
+<script>
+// ══ RÔLE ACTIF ══
 let currentRole = 'artisan';
 
 function switchRole(role) {
   currentRole = role;
-
-  // Onglets
   document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + role).classList.add('active');
-
-  // Vider les champs
   document.getElementById('loginEmail').value    = '';
   document.getElementById('loginPassword').value = '';
   document.getElementById('alertError').classList.remove('show');
   document.getElementById('alertSuccess').classList.remove('show');
 
-  // Mettre à jour la démo
-  const lbl = ACCOUNT_LABELS[role];
-  document.getElementById('demoTitle').textContent  = '🔑 Identifiants démo — ' + lbl.label;
-  document.getElementById('demoEmail').textContent  = role === 'admin' ? 'admin@renolink.fr' : 'artisan@renolink.fr';
-  document.getElementById('demoPw').textContent     = '••••••••';
-
-  // Lien inscription visible seulement pour artisan
-  const signup = document.getElementById('signupLink');
-  signup.style.display = role === 'artisan' ? 'block' : 'none';
+  const labels = { admin: 'Administrateur', artisan: 'Artisan' };
+  document.getElementById('demoTitle').textContent = '🔑 Identifiants démo — ' + labels[role];
+  document.getElementById('demoEmail').textContent = role === 'admin' ? 'admin@renolink.fr' : 'artisan@renolink.fr';
+  document.getElementById('signupLink').style.display = role === 'artisan' ? 'block' : 'none';
 }
 
-// ════════════════════════════════════════
-// CONNEXION
-// ════════════════════════════════════════
+// ══ CONNEXION ══
 function handleLogin() {
   const email    = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
@@ -494,7 +215,7 @@ function handleLogin() {
   const spinner  = document.getElementById('spinner');
   const btnText  = document.getElementById('btnText');
 
-  // Reset
+  // Reset erreurs
   [emailErr, pwErr, alertErr, alertOk].forEach(el => el.classList.remove('show'));
   document.getElementById('loginEmail').classList.remove('error');
   document.getElementById('loginPassword').classList.remove('error');
@@ -513,31 +234,27 @@ function handleLogin() {
   }
   if (!valid) return;
 
-  // Chargement
+  // Loading
   btn.disabled = true;
   spinner.style.display = 'block';
   btnText.textContent   = 'Connexion en cours...';
 
   setTimeout(() => {
-    const acc = ACCOUNTS[currentRole];
-
-    // Vérification via security.js (credentials obfusqués)
+    // _va() vient de security.js
     const redirect = _va(email, password, currentRole);
+
     if (redirect) {
-      // ✅ Succès
-      setSession(currentRole, email);
-      logAction('LOGIN_SUCCESS', { role: currentRole });
+      // Succès
+      if (typeof setSession === 'function')  setSession(currentRole, email);
+      if (typeof logAction  === 'function')  logAction('LOGIN', { role: currentRole });
       spinner.style.display = 'none';
       btnText.textContent   = '✅ Connexion réussie !';
       btn.style.background  = '#15803D';
       alertOk.classList.add('show');
-
-      setTimeout(() => {
-        window.location.href = redirect;
-      }, 900);
+      setTimeout(() => { window.location.href = redirect; }, 900);
 
     } else {
-      // ❌ Erreur
+      // Erreur
       spinner.style.display = 'none';
       btnText.textContent   = 'Se connecter →';
       btn.disabled          = false;
@@ -545,80 +262,49 @@ function handleLogin() {
       alertErr.classList.add('show');
       document.getElementById('loginPassword').value = '';
       document.getElementById('loginPassword').classList.add('error');
-
-      // Animation shake
-      btn.style.animation = 'shake 0.4s ease';
+      btn.style.animation   = 'shake 0.4s ease';
       setTimeout(() => btn.style.animation = '', 400);
     }
-  }, 1100);
+  }, 1000);
 }
 
 function handleKey(e) {
   if (e.key === 'Enter') handleLogin();
 }
 
-// ════════════════════════════════════════
-// DÉMO
-// ════════════════════════════════════════
+// ══ DÉMO ══
 function fillDemo(field) {
   if (field === 'email') {
     document.getElementById('loginEmail').value = currentRole === 'admin'
       ? 'admin@renolink.fr' : 'artisan@renolink.fr';
   }
-  // Le mot de passe ne s'affiche jamais dans le code source
 }
 
 function quickLogin() {
   document.getElementById('loginEmail').value    = currentRole === 'admin'
     ? 'admin@renolink.fr' : 'artisan@renolink.fr';
+  // Mots de passe encodés en Base64 — pas visibles en clair
   document.getElementById('loginPassword').value = currentRole === 'admin'
     ? atob('cmVub2xpbmsyMDI2') : atob('YXJ0aXNhbjIwMjY=');
   setTimeout(() => handleLogin(), 200);
 }
 
-// ════════════════════════════════════════
-// UTILITAIRES
-// ════════════════════════════════════════
+// ══ UTILITAIRES ══
 function togglePw() {
   const input = document.getElementById('loginPassword');
   const btn   = document.getElementById('eyeBtn');
   if (input.type === 'password') {
-    input.type = 'text';
+    input.type      = 'text';
     btn.textContent = '🙈';
   } else {
-    input.type = 'password';
+    input.type      = 'password';
     btn.textContent = '👁️';
   }
-  
+}
 
 function forgotPw() {
   alert('Pour réinitialiser votre mot de passe, contactez :\nsupport@renolink.fr');
 }
-
-// ── Animation shake ──
-const s = document.createElement('style');
-s.textContent = `
-  @keyframes shake {
-    0%,100%{transform:translateX(0);}
-    20%{transform:translateX(-6px);}
-    40%{transform:translateX(6px);}
-    60%{transform:translateX(-4px);}
-    80%{transform:translateX(4px);}
-  }
-`;
-document.head.appendChild(s);
-# Bug 1 — supprimer la référence à ACCOUNTS qui n'existe plus
-content = content.replace(
-    "    const acc = ACCOUNTS[currentRole];\n\n    // Vérification via security.js (credentials obfusqués)\n    const redirect = _va(email, password, currentRole);",
-    "    // Vérification via security.js\n    const redirect = _va(email, password, currentRole);"
-)
-
-# Bug 2 — ajouter security.js avant le script inline
-content = content.replace(
-    '<script>\n// ════════════════════════════════════════\n// IDENTIFIANTS VALIDES',
-    '<script src="../js/security.js"></script>\n\n<script>\n// ════════════════════════════════════════\n// IDENTIFIANTS VALIDES'
-)
-  
 </script>
 
 </body>
