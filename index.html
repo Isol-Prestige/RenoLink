@@ -12,27 +12,29 @@
   <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-
-<!-- ── NAVBAR ── -->
+  
+  <!-- ── NAVBAR ── -->
 <nav class="navbar" id="navbar">
   <a class="nav-logo" href="index.html">Reno<span>Link</span></a>
+
   <div class="nav-center">
     <a href="#comment">Comment ça marche</a>
     <a href="#artisans">Nos artisans</a>
     <a href="#garanties">Garanties</a>
     <a href="#temoignages">Avis clients</a>
   </div>
+
   <div class="nav-right">
     <button class="btn btn-outline" onclick="window.location.href='pages/inscription-artisan.html'">Je suis artisan</button>
-    <button class="btn btn-outline" onclick="window.location.href='pages/connexion.html'" style="display:flex;align-items:center;gap:6px;">🔑 Connexion</button>
+    <button class="btn btn-outline" onclick="window.location.href='pages/connexion.html'">🔑 Connexion</button>
     <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet</button>
   </div>
 
-  <!-- Burger mobile -->
   <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
-
+</nav>
+  
   <!-- Menu mobile -->
   <div class="nav-menu" id="navMenu">
     <a class="mobile-nav-link" href="#comment">Comment ça marche</a>
