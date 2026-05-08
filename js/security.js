@@ -162,3 +162,14 @@ function formatCommission(montant) {
   const c = calcCommission(montant);
   return `${c.toLocaleString('fr-FR')} € (8% de ${montant.toLocaleString('fr-FR')} €)`;
 }
+# Bug 1 — supprimer la référence à ACCOUNTS qui n'existe plus
+content = content.replace(
+    "    const acc = ACCOUNTS[currentRole];\n\n    // Vérification via security.js (credentials obfusqués)\n    const redirect = _va(email, password, currentRole);",
+    "    // Vérification via security.js\n    const redirect = _va(email, password, currentRole);"
+)
+
+# Bug 2 — ajouter security.js avant le script inline
+content = content.replace(
+    '<script>\n// ════════════════════════════════════════\n// IDENTIFIANTS VALIDES',
+    '<script src="../js/security.js"></script>\n\n<script>\n// ════════════════════════════════════════\n// IDENTIFIANTS VALIDES'
+)
