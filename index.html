@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-  
-  <!-- ── NAVBAR ── -->
+
+<!-- ── NAVBAR ── -->
 <nav class="navbar" id="navbar">
   <a class="nav-logo" href="index.html">Reno<span>Link</span></a>
 
@@ -34,20 +34,19 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-  
-  <!-- Menu mobile -->
-  <div class="nav-menu" id="navMenu">
-    <a class="mobile-nav-link" href="#comment">Comment ça marche</a>
-    <a class="mobile-nav-link" href="#artisans">Nos artisans</a>
-    <a class="mobile-nav-link" href="#garanties">Garanties</a>
-    <a class="mobile-nav-link" href="#temoignages">Avis clients</a>
-    <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">
-    <a class="mobile-nav-link" href="pages/connexion.html">🔑 Connexion</a>
-    <a class="mobile-nav-link" href="pages/inscription-artisan.html">🔨 Je suis artisan</a>
-    <button class="mobile-cta" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet →</button>
-  </div>
 
-</nav>
+<!-- Menu mobile — hors navbar -->
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileMenu()"></div>
+<div class="nav-menu" id="navMenu">
+  <a class="mobile-nav-link" href="#comment">Comment ça marche</a>
+  <a class="mobile-nav-link" href="#artisans">Nos artisans</a>
+  <a class="mobile-nav-link" href="#garanties">Nos garanties</a>
+  <a class="mobile-nav-link" href="#temoignages">Avis clients</a>
+  <hr style="border:none;border-top:1px solid var(--border);margin:4px 0;">
+  <a class="mobile-nav-link" href="pages/connexion.html">🔑 Se connecter</a>
+  <a class="mobile-nav-link" href="pages/inscription-artisan.html">🔨 Je suis artisan</a>
+  <button class="mobile-cta" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet →</button>
+</div>
 
 <!-- ── HERO ── -->
 <section class="hero">
@@ -434,7 +433,7 @@
     <div class="footer-col">
       <h4>Artisans</h4>
       <a href="pages/inscription-artisan.html">Rejoindre le réseau</a>
-      <a href="pages/connexion.html">Espace artisan</a>
+      <a href="pages/espace-artisan.html">Espace artisan</a>
       <a href="pages/faq-artisan.html">FAQ artisans</a>
     </div>
     <div class="footer-col">
