@@ -404,9 +404,9 @@
       <div class="tarif-card">
         <div class="tarif-ribbon">Offre Fondateur</div>
         <div class="tarif-label">Offre de lancement exclusive</div>
-        <div class="tarif-old">19€/mois</div>
+        <div class="tarif-old">49 €/mois</div>
         <div class="tarif-price"><sup>€</sup>0<span>/mois</span></div>
-        <div class="tarif-duration">19€/mois résiliable à tout moment</div>
+        <div class="tarif-duration">Pendant 12 mois — puis 49 €/mois résiliable à tout moment</div>
         <ul class="tarif-features">
           <li>Accès illimité aux dossiers clients qualifiés</li>
           <li>Profil vérifié avec badge officiel RenoLink</li>
@@ -480,7 +480,7 @@
     <!-- Étapes -->
     <div class="sidebar-section">
       <div class="sidebar-title">Votre progression</div>
-      <div class="sidebar-step" id="sidebar-step-1">
+      <div class="sidebar-step">
         <div class="sidebar-step-num active" id="sidebar-step-1">1</div>
         <div class="sidebar-step-content">
           <h5>Votre entreprise</h5>
@@ -591,35 +591,9 @@
 </div>
 
 <!-- JS -->
+<script src="../js/security.js"></script>
 <script src="../js/main.js"></script>
 <script src="../js/inscription.js"></script>
-
-python3 << 'EOF'
-# Corriger les IDs dupliqués dans inscription-artisan.html
-with open('/home/claude/renolink/pages/inscription-artisan.html', 'r') as f:
-    content = f.read()
-
-# Fix IDs dupliqués sidebar
-content = content.replace(
-    '<div class="sidebar-step" id="sidebar-step-1">\n        <div class="sidebar-step-num active" id="sidebar-step-1">1</div>',
-    '<div class="sidebar-step">\n        <div class="sidebar-step-num active" id="sidebar-step-1">1</div>'
-)
-
-# Ajouter security.js
-if 'security.js' not in content:
-    content = content.replace(
-        '<script src="../js/main.js"></script>',
-        '<script src="../js/security.js"></script>\n<script src="../js/main.js"></script>'
-    )
-
-with open('/home/claude/renolink/pages/inscription-artisan.html', 'w') as f:
-    f.write(content)
-print("Done inscription")
-EOF
-Sortie
-
-Done inscription
-
 
 <!-- Le récap est maintenant géré directement dans inscription.js -->
 
