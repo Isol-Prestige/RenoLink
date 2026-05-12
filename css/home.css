@@ -272,10 +272,12 @@
 .hc-trust-item { font-size: 0.62rem; color: rgba(247,243,236,0.22); }
 
 /* ════════════════════════════════════════
-   STATS BAND (promesses — pas de chiffres fictifs)
+   PROMISE BAND — sobre, crème, icône + texte
 ════════════════════════════════════════ */
 .stats-band {
-  background: var(--dark);
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   padding: 0;
   display: flex;
   align-items: stretch;
@@ -285,29 +287,60 @@
 .stat-item {
   flex: 1;
   min-width: 180px;
-  padding: 28px 24px;
+  padding: 26px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   text-align: center;
-  border-right: 1px solid rgba(247,243,236,0.07);
+  border-right: 1px solid var(--border);
   transition: background 0.2s;
+  position: relative;
 }
 .stat-item:last-child { border-right: none; }
-.stat-item:hover { background: rgba(184,130,10,0.06); }
+.stat-item:hover { background: var(--bg3); }
 
-/* On réutilise stat-num pour le titre de la promesse */
-.stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1.2;
-  margin-bottom: 6px;
+/* Ligne accent or en haut au hover */
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 0 0 2px 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
+.stat-item:hover::before { opacity: 1; }
+
+/* Icône SVG inline — définie dans le HTML ou via pseudo */
+.stat-item-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: var(--gold-light);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+}
+.stat-item-icon svg { color: var(--gold); }
+
+/* stat-num devient le titre court */
+.stat-num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+/* stat-lbl devient la description */
 .stat-lbl {
-  font-size: 0.68rem;
-  color: rgba(247,243,236,0.3);
-  line-height: 1.55;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.5;
   max-width: 160px;
-  margin: 0 auto;
 }
 
 /* ════════════════════════════════════════
@@ -419,7 +452,9 @@
 .step-desc  { font-size: 0.74rem; color: var(--muted); line-height: 1.65; }
 
 /* ════════════════════════════════════════
-   ARTISANS — CARDS PHOTO PRO
+   ARTISANS — CARDS PHOTO MAGAZINE
+   Ville + Spécialisation + Image chantier
+   Aucun nom, aucune note fictive
 ════════════════════════════════════════ */
 .artisans-section { background: var(--bg); }
 
@@ -427,175 +462,184 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 44px;
   flex-wrap: wrap;
   gap: 20px;
 }
 
 .see-all {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--gold);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--gold); background: transparent;
+  border: 1.5px solid rgba(184,130,10,0.3);
+  padding: 9px 18px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: var(--transition);
 }
-.see-all:hover { color: var(--gold2); }
+.see-all:hover { background: var(--gold-light); border-color: var(--gold); }
 
 .artisans-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 20px;
 }
 
-/* Card artisan — style magazine avec photo */
+/* ── Card principale ── */
 .artisan-card {
-  background: var(--white);
-  border: 1px solid var(--border2);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: var(--transition);
+  background: var(--white);
+  border: 1px solid var(--border2);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 .artisan-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 56px rgba(26,22,18,0.1);
-  border-color: rgba(184,130,10,0.28);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 64px rgba(26,22,18,0.12);
+  border-color: rgba(184,130,10,0.3);
 }
 
-/* Zone photo — remplace les covers emoji */
+/* ── Zone photo pleine hauteur ── */
 .ac-cover {
   position: relative;
-  height: 175px;
+  height: 210px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  background: var(--bg3); /* fallback si image ne charge pas */
 }
 
-/* Image de fond par métier via attribut data ou classe */
+/* Photos chantier par métier */
 .ac-cover.c1 {
-  background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&q=75&auto=format&fit=crop');
+  background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=700&q=80&auto=format&fit=crop');
   background-size: cover; background-position: center;
 }
 .ac-cover.c2 {
-  background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&q=75&auto=format&fit=crop');
-  background-size: cover; background-position: center;
+  background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=700&q=80&auto=format&fit=crop');
+  background-size: cover; background-position: center 30%;
 }
 .ac-cover.c3 {
-  background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=75&auto=format&fit=crop');
+  background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&q=80&auto=format&fit=crop');
   background-size: cover; background-position: center;
 }
 .ac-cover.c4 {
-  background-image: url('https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600&q=75&auto=format&fit=crop');
-  background-size: cover; background-position: center;
+  background-image: url('https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=700&q=80&auto=format&fit=crop');
+  background-size: cover; background-position: center 20%;
 }
 
-/* Voile dégradé sur la photo */
-.ac-cover::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(to bottom,
-    transparent 30%,
-    rgba(26,22,18,0.55) 100%);
-  z-index: 1;
-}
-
-/* On cache le span emoji dans le HTML */
-.ac-cover > span:first-child { display: none; }
-
-/* Badge vérifié repositionné */
-.ac-verified {
-  position: absolute;
-  bottom: 10px; right: 10px;
-  z-index: 2;
-  background: rgba(22,163,74,0.9) !important;
-  color: var(--white) !important;
-  font-size: 0.58rem !important;
-  font-weight: 700 !important;
-  padding: 3px 9px !important;
-  border-radius: 100px !important;
-  letter-spacing: 0.04em;
-}
-
-/* Badge métier (top gauche) */
-.ac-cover::after {
-  /* On ne peut pas injecter de texte dynamique en CSS pur */
-  /* Le badge métier est géré via .ac-meta ci-dessous */
-  display: none;
-}
-
-/* Hover zoom photo */
-.artisan-card:hover .ac-cover.c1,
-.artisan-card:hover .ac-cover.c2,
-.artisan-card:hover .ac-cover.c3,
-.artisan-card:hover .ac-cover.c4 {
-  background-size: 108%;
+/* Zoom doux au hover */
+.artisan-card:hover .ac-cover {
+  background-size: 112%;
   transition: background-size 0.5s ease;
 }
 
+/* Dégradé bas — laisse apparaître texte sur photo */
+.ac-cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 25%,
+    rgba(26,22,18,0.65) 100%
+  );
+  z-index: 1;
+}
+
+/* On masque l'emoji hérité du HTML */
+.ac-cover > span:first-child { display: none; }
+
+/* ── Badge spécialité — en haut à gauche sur la photo ── */
+.ac-cover > span.ac-verified,
+.badge-verified {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 3;
+  background: rgba(22,163,74,0.88) !important;
+  color: #fff !important;
+  font-size: 0.57rem !important;
+  font-weight: 700 !important;
+  padding: 3px 9px !important;
+  border-radius: 100px !important;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(4px);
+}
+
+/* Texte sur la photo (bas) — injecté via .ac-meta dans le body */
+.ac-photo-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2;
+  padding: 14px 16px 12px;
+}
+
+/* ── Corps de la card — compact ── */
 .ac-body {
-  padding: 18px 18px 20px;
+  padding: 16px 18px 18px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
 
-/* Nom masqué — on affiche "Artisan vérifié" à la place */
+/* Spécialité — titre principal (pas le nom d'entreprise) */
 .ac-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 3px;
-  /* Masque le vrai nom, affiche le métier */
-  font-size: 0px;
+  /* On masque le nom d'entreprise hérité du HTML */
+  font-size: 0 !important;
+  line-height: 0;
   overflow: hidden;
-}
-.ac-name::before {
-  content: 'Artisan vérifié';
-  font-size: 1rem;
-  color: var(--dark);
-  display: block;
+  height: 0;
 }
 
+/* Spécialité affichée depuis ac-meta */
 .ac-meta {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 5px;
+  display: block;
+  line-height: 1.3;
+  /* On retire le picto emoji via CSS en overridant le contenu affiché */
+}
+
+/* Ville — petite ligne secondaire */
+.ac-zone {
   font-size: 0.72rem;
   color: var(--muted);
-  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-bottom: 12px;
 }
 
-.ac-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
+/* Certifications */
+.ac-tags {
+  display: flex; gap: 5px; flex-wrap: wrap;
+  margin-bottom: 0;
+}
 
-/* Tags via .tag de components.css */
-
+/* Pied de card — discret */
 .ac-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-top: 12px;
+  margin-top: 12px;
   border-top: 1px solid var(--bg2);
-  margin-top: auto;
 }
 
-/* On masque étoiles/notes fictives */
-.ac-footer > div:first-child { display: none; }
+/* On masque notes/étoiles fictives */
+.ac-footer > div:first-child,
+.ac-count, .ac-rating, .stars { display: none !important; }
 
-/* À la place : confidentiel + zone */
+/* Message confidentiel à la place */
 .ac-footer::before {
   content: '🔒 Identité confidentielle';
-  font-size: 0.62rem;
+  font-size: 0.63rem;
   color: var(--muted2);
   font-style: italic;
+  letter-spacing: 0.01em;
 }
 
-.ac-zone { font-size: 0.7rem; color: var(--muted); }
-.ac-count, .ac-rating, .stars { display: none; } /* masque notes fictives */
+.ac-zone-footer { font-size: 0.68rem; color: var(--muted2); }
 
 /* ════════════════════════════════════════
    PROCESS (dark)
