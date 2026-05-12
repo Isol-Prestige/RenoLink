@@ -6,51 +6,85 @@
 /* ════════════════════════════════════════
    HERO
 ════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  padding-top: var(--nav-h);
+
+  display: grid;
+  grid-template-columns: 1fr 430px;
+
+  background: var(--bg);
+}
+
+/* ─────────────────────────────
+   CÔTÉ GAUCHE
+───────────────────────────── */
 .hero-left {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 100vh;
+
   padding: 76px 52px 76px 44px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  position: relative;
-  overflow: hidden;
-
+  /* IMAGE */
   background-image: url('../images/hero.png');
   background-size: cover;
-  background-position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
+/* Overlay crème premium */
 .hero-left::after {
   content: '';
   position: absolute;
   inset: 0;
 
-  background: rgba(255,255,255,0.55);
+  background: linear-gradient(
+    to right,
+    rgba(247,243,236,0.88),
+    rgba(247,243,236,0.68)
+  );
 
   z-index: 0;
 }
 
+/* Contenu au-dessus du fond */
 .hero-left > * {
   position: relative;
   z-index: 1;
 }
-/* Côté droit sombre */
+
+/* ─────────────────────────────
+   CÔTÉ DROIT
+───────────────────────────── */
 .hero-right {
+  position: relative;
+  overflow: hidden;
+
   background: var(--dark);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 52px 38px;
-  position: relative;
-  overflow: hidden;
 }
+
 .hero-right::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 55% at 50% 25%,
-    rgba(184,130,10,0.1) 0%,
-    transparent 65%);
+
+  background: radial-gradient(
+    ellipse 80% 55% at 50% 25%,
+    rgba(184,130,10,0.10) 0%,
+    transparent 65%
+  );
 }
 
 /* ── Tag localisation ── */
