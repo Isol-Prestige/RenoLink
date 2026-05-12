@@ -6,51 +6,43 @@
 /* ════════════════════════════════════════
    HERO
 ════════════════════════════════════════ */
-.hero {
-  min-height: 100vh;
-  padding-top: var(--nav-h);
-  display: grid;
-  grid-template-columns: 1fr 430px;
-}
-
-/* Côté gauche avec image fond subtile */
 .hero-left {
   padding: 76px 52px 76px 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   position: relative;
   overflow: hidden;
-
-  background-image: url('../images/hero.png');
-  background-size: cover;
-  background-position: center;
 }
 
-/* Photo de fond en filigrane */
 .hero-left::before {
   content: '';
   position: absolute;
   inset: 0;
+
   background-image: url('../images/hero.png');
   background-size: cover;
-  background-position: center 30%;
-  opacity: 0.055;
+  background-position: center;
+
+  opacity: 0.22;
+
   z-index: 0;
 }
+
 .hero-left::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg,
-    rgba(247,243,236,0.97) 0%,
-    rgba(247,243,236,0.90) 55%,
-    rgba(247,243,236,0.75) 100%);
+
+  background: rgba(255,255,255,0.55);
+
   z-index: 0;
 }
-.hero-left > * { position: relative; z-index: 1; }
 
+.hero-left > * {
+  position: relative;
+  z-index: 1;
+}
 /* Côté droit sombre */
 .hero-right {
   background: var(--dark);
