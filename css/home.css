@@ -519,7 +519,7 @@
 }
 .ac-cover.c3 {
   background-image: url('./images/isolation.png');
-  background-size: cover; background-position: center;
+  background-size: cover; background-position: center 30%;
 }
 .ac-cover.c4 {
   background-image: url('https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=700&q=80&auto=format&fit=crop');
