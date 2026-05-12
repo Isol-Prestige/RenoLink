@@ -11,8 +11,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   position: relative;
   overflow: hidden;
+
+  background-image: url('../images/hero.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-left::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background: rgba(255,255,255,0.75);
+
+  z-index: 0;
 }
 
 .hero-left > * {
