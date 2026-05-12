@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RenoLink — Les artisans vérifiés pour vos travaux en Lorraine</title>
+  <title>RenoLink — Artisans vérifiés pour vos travaux en Lorraine</title>
   <meta name="description" content="Trouvez les meilleurs artisans vérifiés pour vos travaux en Lorraine. Nancy, Metz, Verdun, Épinal. Mise en relation qualifiée, gratuit pour les particuliers.">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/home.css">
@@ -26,8 +24,8 @@
 
   <div class="nav-right">
     <button class="btn btn-outline" onclick="window.location.href='pages/inscription-artisan.html'">Je suis artisan</button>
-    <button class="btn btn-outline" onclick="window.location.href='pages/connexion.html'">🔑 Connexion</button>
-    <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet</button>
+    <button class="btn btn-outline" onclick="window.location.href='pages/connexion.html'">Connexion</button>
+    <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet</button>
   </div>
 
   <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
@@ -35,7 +33,7 @@
   </button>
 </nav>
 
-<!-- Menu mobile — hors navbar -->
+<!-- Menu mobile -->
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileMenu()"></div>
 <div class="nav-menu" id="navMenu">
   <a class="mobile-nav-link" href="#comment">Comment ça marche</a>
@@ -43,9 +41,9 @@
   <a class="mobile-nav-link" href="#garanties">Nos garanties</a>
   <a class="mobile-nav-link" href="#temoignages">Avis clients</a>
   <hr style="border:none;border-top:1px solid var(--border);margin:4px 0;">
-  <a class="mobile-nav-link" href="pages/connexion.html">🔑 Se connecter</a>
-  <a class="mobile-nav-link" href="pages/inscription-artisan.html">🔨 Je suis artisan</a>
-  <button class="mobile-cta" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet →</button>
+  <a class="mobile-nav-link" href="pages/connexion.html">Connexion</a>
+  <a class="mobile-nav-link" href="pages/inscription-artisan.html">Je suis artisan</a>
+  <button class="mobile-cta" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet &rarr;</button>
 </div>
 
 <!-- ── HERO ── -->
@@ -53,7 +51,7 @@
   <div class="hero-left">
     <div class="hero-tag">
       <span class="live-dot"></span>
-      Lorraine — Nancy · Metz · Verdun · Épinal
+      Lorraine &mdash; Nancy · Metz · Verdun · Épinal
     </div>
     <h1 class="hero-h1">
       Trouvez les bons artisans<br>
@@ -71,7 +69,7 @@
       <div class="check"><div class="check-icon">✓</div>Réponse garantie sous 48h ouvrées</div>
     </div>
     <div class="hero-btns">
-      <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Décrire mon projet →</button>
+      <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Décrire mon projet &rarr;</button>
       <button class="btn btn-ghost-gold btn-lg" onclick="document.getElementById('comment').scrollIntoView({behavior:'smooth'})">Comment ça marche</button>
     </div>
     <div class="hero-social">
@@ -82,8 +80,8 @@
         <div class="av">+</div>
       </div>
       <div class="social-txt">
-        <strong>+ de 500 projets traités</strong>
-        en Lorraine depuis le lancement
+        <strong>Réseau en cours de constitution</strong>
+        Rejoignez les premiers partenaires en Lorraine
       </div>
     </div>
   </div>
@@ -100,16 +98,16 @@
         <div class="hc-btn" onclick="selectHcType(this)"><span class="i">🌡️</span><span class="l">Isolation</span></div>
         <div class="hc-btn" onclick="selectHcType(this)"><span class="i">🔧</span><span class="l">Autre</span></div>
       </div>
-      <input type="text" class="hc-input" placeholder="📍 Ville — ex: Nancy, Metz, Verdun...">
+      <input type="text" class="hc-input" placeholder="Ville — Nancy, Metz, Verdun…">
       <select class="hc-select">
-        <option value="">Budget approximatif...</option>
+        <option value="">Budget approximatif…</option>
         <option>1 500 – 5 000 €</option>
         <option>5 000 – 15 000 €</option>
         <option>15 000 – 30 000 €</option>
         <option>30 000 – 50 000 €</option>
         <option>+ de 50 000 €</option>
       </select>
-      <button class="hc-cta" onclick="window.location.href='pages/formulaire-client.html'">Trouver mes artisans →</button>
+      <button class="hc-cta" onclick="window.location.href='pages/formulaire-client.html'">Trouver mes artisans &rarr;</button>
       <div class="hc-trust">
         <span class="hc-trust-item">🔒 Gratuit</span>
         <span class="hc-trust-item">⚡ Réponse 48h</span>
@@ -119,16 +117,31 @@
   </div>
 </section>
 
-<!-- ── STATS BAND ── -->
+<!-- ── STATS BAND (promesses honnêtes) ── -->
 <div class="stats-band">
-  <div class="stat-item"><div class="stat-num">Artisans vérifiés</div><div class="stat-lbl">Verification artisan avant adhesion</div></div>
-  <div class="stat-item"><div class="stat-num">Gartuit pour les particuliers</div><div class="stat-lbl">Dépôt de projet et mise en relation entièrement gratuits</div></div>
-  <div class="stat-item"><div class="stat-num">48h</div><div class="stat-lbl">Dossier analysé et transmis sous 48 heures ouvrées</div></div>
-  <div class="stat-item"><div class="stat-num">Qualifiaction humaine</div><div class="stat-lbl">Chaque dossier est relu par notre équipe</div></div>
-  <div class="stat-item"><div class="stat-num">3 max</div><div class="stat-lbl">Artisans par projet</div></div>
+  <div class="stat-item">
+    <div class="stat-num">Artisans vérifiés</div>
+    <div class="stat-lbl">KBIS, décennale et certifications contrôlés avant adhésion</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">Gratuit pour les particuliers</div>
+    <div class="stat-lbl">Dépôt de projet et mise en relation entièrement gratuits</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">Réponse sous 48h</div>
+    <div class="stat-lbl">Dossier analysé et transmis sous 48 heures ouvrées</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">Qualification humaine</div>
+    <div class="stat-lbl">Chaque dossier est relu et validé par notre équipe</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">3 maximum</div>
+    <div class="stat-lbl">Artisans par projet — jamais plus, jamais de démarchage massif</div>
+  </div>
 </div>
 
-<!-- ── TERRITORY BAND ── -->
+<!-- ── TERRITORY ── -->
 <div class="territory">
   <div class="territory-label">Zone couverte</div>
   <div class="territory-cities">
@@ -147,8 +160,8 @@
     <p class="section-p reveal">Chaque dossier est traité et validé par notre équipe avant toute mise en relation. Vous ne recevez que des contacts qualifiés.</p>
 
     <div class="parcours-tabs">
-      <button class="ptab active" onclick="switchTab('client',this)">👤 Je suis client</button>
-      <button class="ptab" onclick="switchTab('artisan',this)">🔨 Je suis artisan</button>
+      <button class="ptab active" onclick="switchTab('client',this)">Je suis client</button>
+      <button class="ptab" onclick="switchTab('artisan',this)">Je suis artisan</button>
     </div>
 
     <div id="tab-client">
@@ -218,60 +231,91 @@
       <div>
         <div class="eyebrow reveal">Notre réseau</div>
         <h2 class="section-h2 reveal">Artisans vérifiés<br>de Lorraine</h2>
-        <p class="section-p reveal">Chaque artisan passe par un processus de vérification rigoureux. Aucune exception.</p>
+        <p class="section-p reveal">Chaque artisan passe par un processus de vérification rigoureux. Leur identité vous est communiquée uniquement lors de la mise en relation officielle.</p>
       </div>
-      <button class="see-all reveal">Voir tous les artisans →</button>
+      <button class="see-all reveal" onclick="window.location.href='pages/inscription-artisan.html'">Rejoindre le réseau &rarr;</button>
     </div>
     <div class="artisans-grid">
       <div class="artisan-card reveal">
-        <div class="ac-cover c1"><span>🏗️</span><span class="ac-verified badge badge-verified">✓ Vérifié</span></div>
+        <div class="ac-cover c1">
+          <span>🏗️</span>
+          <span class="ac-verified badge badge-verified">✓ Vérifié</span>
+        </div>
         <div class="ac-body">
           <div class="ac-name">RENOV HABITAT</div>
           <div class="ac-meta">📍 Nancy · Rénovation intérieure</div>
-          <div class="ac-tags"><span class="tag">RGE</span><span class="tag">Qualibat</span><span class="tag">ITE</span></div>
+          <div class="ac-tags">
+            <span class="tag rge">RGE</span>
+            <span class="tag">Qualibat</span>
+            <span class="tag">ITE</span>
+          </div>
           <div class="ac-footer">
-            <div><span class="stars">★★★★★</span><span class="ac-rating">4.9</span><span class="ac-count"> (27 avis)</span></div>
-            <div class="ac-zone">📍 Nancy</div>
+            <div></div>
+            <div class="ac-zone">Nancy (54)</div>
           </div>
         </div>
       </div>
       <div class="artisan-card reveal">
-        <div class="ac-cover c2"><span>⚡</span><span class="ac-verified badge badge-verified">✓ Vérifié</span></div>
+        <div class="ac-cover c2">
+          <span>⚡</span>
+          <span class="ac-verified badge badge-verified">✓ Vérifié</span>
+        </div>
         <div class="ac-body">
           <div class="ac-name">BATI EXPERT</div>
-          <div class="ac-meta">📍 Metz · Rénovation complète</div>
-          <div class="ac-tags"><span class="tag">Qualifelec</span><span class="tag">RGE</span></div>
+          <div class="ac-meta">📍 Metz · Électricité générale</div>
+          <div class="ac-tags">
+            <span class="tag rge">RGE</span>
+            <span class="tag">Qualifelec</span>
+          </div>
           <div class="ac-footer">
-            <div><span class="stars">★★★★★</span><span class="ac-rating">4.7</span><span class="ac-count"> (11 avis)</span></div>
-            <div class="ac-zone">📍 Metz</div>
+            <div></div>
+            <div class="ac-zone">Metz (57)</div>
           </div>
         </div>
       </div>
       <div class="artisan-card reveal">
-        <div class="ac-cover c3"><span>🔥</span><span class="ac-verified badge badge-verified">✓ Vérifié</span></div>
+        <div class="ac-cover c3">
+          <span>🔥</span>
+          <span class="ac-verified badge badge-verified">✓ Vérifié</span>
+        </div>
         <div class="ac-body">
           <div class="ac-name">THERMIQUE EST</div>
-          <div class="ac-meta">📍 Nancy · Chauffage & PAC</div>
-          <div class="ac-tags"><span class="tag">RGE</span><span class="tag">QualiPAC</span><span class="tag">CEE</span></div>
+          <div class="ac-meta">📍 Nancy · Isolation &amp; Chauffage</div>
+          <div class="ac-tags">
+            <span class="tag rge">RGE</span>
+            <span class="tag">QualiPAC</span>
+            <span class="tag">CEE</span>
+          </div>
           <div class="ac-footer">
-            <div><span class="stars">★★★★★</span><span class="ac-rating">4.8</span><span class="ac-count"> (19 avis)</span></div>
-            <div class="ac-zone">📍 Nancy</div>
+            <div></div>
+            <div class="ac-zone">Nancy (54)</div>
           </div>
         </div>
       </div>
       <div class="artisan-card reveal">
-        <div class="ac-cover c4"><span>🚿</span><span class="ac-verified badge badge-verified">✓ Vérifié</span></div>
+        <div class="ac-cover c4">
+          <span>🚿</span>
+          <span class="ac-verified badge badge-verified">✓ Vérifié</span>
+        </div>
         <div class="ac-body">
           <div class="ac-name">PLOMBERIE MARTIN</div>
-          <div class="ac-meta">📍 Metz · Plomberie & Sanitaire</div>
-          <div class="ac-tags"><span class="tag">Qualibat</span><span class="tag">Décennale</span></div>
+          <div class="ac-meta">📍 Metz · Plomberie &amp; Sanitaire</div>
+          <div class="ac-tags">
+            <span class="tag">Qualibat</span>
+            <span class="tag">Décennale</span>
+          </div>
           <div class="ac-footer">
-            <div><span class="stars">★★★★★</span><span class="ac-rating">5.0</span><span class="ac-count"> (38 avis)</span></div>
-            <div class="ac-zone">📍 Metz</div>
+            <div></div>
+            <div class="ac-zone">Metz (57)</div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Note anonymat -->
+    <p style="text-align:center;margin-top:22px;font-size:0.74rem;color:var(--muted2);font-style:italic;">
+      🔒 L'identité des entreprises est transmise uniquement lors de la mise en relation officielle — c'est notre engagement envers les artisans du réseau.
+    </p>
   </div>
 </section>
 
@@ -279,7 +323,7 @@
 <section class="process-section">
   <div class="container">
     <div class="eyebrow reveal" style="color:var(--gold);">Notre méthode</div>
-    <h2 class="section-h2 reveal" style="color:white;">Un dossier qualifié,<br>une mise en relation contrôlée</h2>
+    <h2 class="section-h2 reveal" style="color:var(--bg);">Un dossier qualifié,<br>une mise en relation contrôlée</h2>
     <div class="process-grid">
       <div class="process-steps">
         <div class="proc-step reveal">
@@ -317,10 +361,10 @@
           <div class="pv-dot" style="background:#F59E0B;margin-left:4px;"></div>
           <div class="pv-dot" style="background:#10B981;margin-left:4px;"></div>
           <div class="pv-label">Dossier RenoLink</div>
-          <div class="pv-ref">RL-2026-047</div>
+          <div class="pv-ref">RL-2026-001</div>
         </div>
         <div class="pv-field"><div class="pv-field-label">Type de travaux</div><div class="pv-field-value">Rénovation salle de bain complète</div></div>
-        <div class="pv-field"><div class="pv-field-label">Surface</div><div class="pv-field-value">7,5 m² — Appartement 3ème étage</div></div>
+        <div class="pv-field"><div class="pv-field-label">Surface</div><div class="pv-field-value">7,5 m² — Appartement 3e étage</div></div>
         <div class="pv-field"><div class="pv-field-label">Budget validé</div><div class="pv-field-value gold">9 000 – 12 000 €</div></div>
         <div class="pv-field"><div class="pv-field-label">Localisation</div><div class="pv-field-value">Nancy (54000)</div></div>
         <div class="pv-field">
@@ -350,7 +394,7 @@
       <div class="trust-card reveal"><div class="tc-icon">📄</div><div class="tc-title">Documents vérifiés à l'adhésion</div><div class="tc-desc">KBIS récent, assurance décennale en cours, RC Pro et certifications métier contrôlés avant tout affichage.</div></div>
       <div class="trust-card reveal"><div class="tc-icon">🎯</div><div class="tc-title">3 artisans maximum</div><div class="tc-desc">Votre projet est transmis à 3 artisans au maximum. Vous n'êtes pas submergé d'appels inutiles.</div></div>
       <div class="trust-card reveal"><div class="tc-icon">🔍</div><div class="tc-title">Qualification humaine</div><div class="tc-desc">Chaque dossier est lu et validé par notre équipe. Un œil humain sur chaque projet avant toute transmission.</div></div>
-      <div class="trust-card reveal"><div class="tc-icon">⭐</div><div class="tc-title">Avis vérifiés par chantier</div><div class="tc-desc">Chaque avis est lié à un projet réellement réalisé via RenoLink. Aucun avis anonyme accepté.</div></div>
+      <div class="trust-card reveal"><div class="tc-icon">⭐</div><div class="tc-title">Avis vérifiés par chantier</div><div class="tc-desc">Chaque avis sera lié à un projet réellement réalisé via RenoLink. Aucun avis anonyme accepté.</div></div>
       <div class="trust-card reveal"><div class="tc-icon">💶</div><div class="tc-title">Gratuit pour les particuliers</div><div class="tc-desc">Dépôt de projet et mise en relation entièrement gratuits. Sans engagement, sans abonnement caché.</div></div>
       <div class="trust-card reveal"><div class="tc-icon">🔒</div><div class="tc-title">Données protégées RGPD</div><div class="tc-desc">Vos coordonnées restent confidentielles jusqu'à la mise en relation officielle. Conformité RGPD garantie.</div></div>
     </div>
@@ -361,22 +405,46 @@
 <section class="section testi-section" id="temoignages">
   <div class="container">
     <div class="eyebrow reveal">Témoignages</div>
-    <h2 class="section-h2 reveal">Ce qu'ils disent<br>de RenoLink</h2>
-    <div class="testi-grid">
-      <div class="testi-card reveal">
-        <div class="testi-quote">"</div>
-        <div class="testi-text">En 24h j'avais deux artisans qui m'avaient rappelé. Tous sérieux, assurés, avec de vraies références. J'ai signé en 3 jours. Impeccable.</div>
-        <div class="testi-author"><div class="testi-av">SM</div><div><div class="testi-stars">★★★★★</div><div class="testi-name">Sophie M.</div><div class="testi-city">Nancy · Cuisine 11 000 €</div></div></div>
+    <h2 class="section-h2 reveal">Ce qu'ils diront<br>de RenoLink</h2>
+    <p class="section-p reveal" style="margin-bottom:0;">Les premiers retours seront publiés ici dès nos premières mises en relation. Nous ne publions que des avis liés à un chantier réel.</p>
+
+    <!-- Placeholder sobre en attendant les vrais avis -->
+    <div class="testi-grid" style="margin-top:44px;">
+      <div class="testi-card reveal" style="opacity:0.5;border-style:dashed;">
+        <div class="testi-quote">&ldquo;</div>
+        <div class="testi-text" style="color:var(--muted2);">Les avis de nos clients seront publiés ici après réalisation de leur chantier via RenoLink.</div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:var(--bg3);color:var(--muted);">?</div>
+          <div>
+            <div class="testi-stars">· · · · ·</div>
+            <div class="testi-name" style="color:var(--muted);">Client vérifié</div>
+            <div class="testi-city">Lorraine · À venir</div>
+          </div>
+        </div>
       </div>
-      <div class="testi-card reveal">
-        <div class="testi-quote">"</div>
-        <div class="testi-text">Enfin une plateforme où les artisans sont vraiment vérifiés. J'ai reçu 2 devis comparables en une semaine. Exactement ce dont j'avais besoin.</div>
-        <div class="testi-author"><div class="testi-av">PL</div><div><div class="testi-stars">★★★★★</div><div class="testi-name">Pierre L.</div><div class="testi-city">Metz · Isolation 18 000 €</div></div></div>
+      <div class="testi-card reveal" style="opacity:0.35;border-style:dashed;">
+        <div class="testi-quote">&ldquo;</div>
+        <div class="testi-text" style="color:var(--muted2);">Chaque avis est associé à un projet réel. Nous ne publions rien d'anonyme.</div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:var(--bg3);color:var(--muted);">?</div>
+          <div>
+            <div class="testi-stars">· · · · ·</div>
+            <div class="testi-name" style="color:var(--muted);">Client vérifié</div>
+            <div class="testi-city">Lorraine · À venir</div>
+          </div>
+        </div>
       </div>
-      <div class="testi-card reveal">
-        <div class="testi-quote">"</div>
-        <div class="testi-text">L'équipe m'a rappelé pour compléter mon dossier — ça m'a rassuré. L'artisan retenu était ponctuel et professionnel. Je recommande.</div>
-        <div class="testi-author"><div class="testi-av">MR</div><div><div class="testi-stars">★★★★★</div><div class="testi-name">Marie R.</div><div class="testi-city">Épinal · Salle de bain 8 500 €</div></div></div>
+      <div class="testi-card reveal" style="opacity:0.2;border-style:dashed;">
+        <div class="testi-quote">&ldquo;</div>
+        <div class="testi-text" style="color:var(--muted2);">Bientôt disponible après nos premières mises en relation réussies.</div>
+        <div class="testi-author">
+          <div class="testi-av" style="background:var(--bg3);color:var(--muted);">?</div>
+          <div>
+            <div class="testi-stars">· · · · ·</div>
+            <div class="testi-name" style="color:var(--muted);">Client vérifié</div>
+            <div class="testi-city">Lorraine · À venir</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -386,7 +454,7 @@
 <div class="artisan-cta">
   <div class="artisan-cta-left">
     <h3>Vous êtes artisan<br>en Lorraine ?</h3>
-    <p>Rejoignez le réseau RenoLink gratuitement. Recevez des dossiers qualifiés dans votre zone. Inscription gratuite la première année.</p>
+    <p>Rejoignez le réseau RenoLink gratuitement. Recevez des dossiers qualifiés dans votre zone. Inscription gratuite, sans engagement.</p>
     <div class="artisan-perks">
       <div class="perk">Inscription 100% gratuite</div>
       <div class="perk">Dossiers clients qualifiés</div>
@@ -395,7 +463,7 @@
     </div>
   </div>
   <div>
-    <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/inscription-artisan.html'">Rejoindre le réseau →</button>
+    <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/inscription-artisan.html'">Rejoindre le réseau &rarr;</button>
   </div>
 </div>
 
@@ -405,7 +473,7 @@
   <h2 class="cta-h2 reveal">Décrivez votre projet<br><em>en 5 minutes</em></h2>
   <p class="cta-p reveal">Gratuit, sans engagement. Notre équipe sélectionne les meilleurs artisans vérifiés de votre zone sous 48h.</p>
   <div class="cta-btns reveal">
-    <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet →</button>
+    <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet &rarr;</button>
     <button class="btn btn-ghost-white btn-lg" onclick="window.location.href='pages/inscription-artisan.html'">Je suis artisan — Rejoindre</button>
   </div>
 </section>
@@ -414,7 +482,7 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a class="nav-logo" href="index.html" style="color:white;">Reno<span>Link</span></a>
+      <a class="nav-logo" href="index.html" style="color:var(--bg);">Reno<span style="color:var(--gold);">Link</span></a>
       <p>La plateforme de mise en relation qualifiée entre particuliers et artisans BTP vérifiés de Lorraine.</p>
       <div class="footer-cities">
         <span class="footer-city">Nancy</span>
@@ -446,13 +514,90 @@
   </div>
   <div class="footer-bottom">
     <span>© 2026 RenoLink — Lorraine · Tous droits réservés</span>
-    <span>Fait avec ♥ en Lorraine</span>
+    <span>Fait avec soin en Lorraine</span>
   </div>
 </footer>
 
-<!-- JS -->
-<script src="js/main.js"></script>
+<script>
+/* ═══════════════════════════════════════
+   RENOLINK — main.js
+═══════════════════════════════════════ */
+function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  if (!navbar) return;
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+}
 
+function initReveal() {
+  const reveals = document.querySelectorAll('.reveal');
+  if (!reveals.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('in'), i * 60);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+}
 
+function openMobileMenu() {
+  document.getElementById('navMenu')?.classList.add('open');
+  document.getElementById('navOverlay')?.classList.add('open');
+  document.getElementById('navBurger')?.classList.add('open');
+  document.getElementById('navBurger')?.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileMenu() {
+  document.getElementById('navMenu')?.classList.remove('open');
+  document.getElementById('navOverlay')?.classList.remove('open');
+  document.getElementById('navBurger')?.classList.remove('open');
+  document.getElementById('navBurger')?.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+function initBurger() {
+  const burger = document.getElementById('navBurger');
+  if (!burger) return;
+  burger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMobileMenu();
+  });
+  document.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(el => {
+    el.addEventListener('click', closeMobileMenu);
+  });
+  window.addEventListener('scroll', () => {
+    if (document.getElementById('navMenu')?.classList.contains('open')) {
+      closeMobileMenu();
+    }
+  }, { passive: true });
+}
+function toggleMobileMenu() {
+  const menu = document.getElementById('navMenu');
+  if (!menu) return;
+  menu.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const client  = document.getElementById('tab-client');
+  const artisan = document.getElementById('tab-artisan');
+  if (client)  client.style.display  = tab === 'client'  ? 'block' : 'none';
+  if (artisan) artisan.style.display = tab === 'artisan' ? 'block' : 'none';
+}
+
+function selectHcType(el) {
+  document.querySelectorAll('.hc-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
+  initReveal();
+  initBurger();
+});
+</script>
 </body>
 </html>
