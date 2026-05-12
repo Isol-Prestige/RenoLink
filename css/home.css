@@ -15,30 +15,6 @@
   overflow: hidden;
 }
 
-.hero-left::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-
-  background-image: url('../images/hero.png');
-  background-size: cover;
-  background-position: center;
-
-  opacity: 0.22;
-
-  z-index: 0;
-}
-
-.hero-left::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-
-  background: rgba(255,255,255,0.55);
-
-  z-index: 0;
-}
-
 .hero-left > * {
   position: relative;
   z-index: 1;
