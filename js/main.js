@@ -34,7 +34,6 @@ function openMobileMenu() {
   document.getElementById('navBurger')?.setAttribute('aria-expanded', 'true');
   document.body.style.overflow = 'hidden';
 }
-
 function closeMobileMenu() {
   document.getElementById('navMenu')?.classList.remove('open');
   document.getElementById('navOverlay')?.classList.remove('open');
@@ -42,28 +41,21 @@ function closeMobileMenu() {
   document.getElementById('navBurger')?.setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
 }
-
 function toggleMobileMenu() {
   const menu = document.getElementById('navMenu');
   if (!menu) return;
   menu.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
 }
-
 function initBurger() {
   const burger = document.getElementById('navBurger');
   if (!burger) return;
-
   burger.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleMobileMenu();
   });
-
-  // Fermer liens du menu
   document.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(el => {
     el.addEventListener('click', closeMobileMenu);
   });
-
-  // Fermer sur scroll
   window.addEventListener('scroll', () => {
     if (document.getElementById('navMenu')?.classList.contains('open')) {
       closeMobileMenu();
@@ -71,7 +63,7 @@ function initBurger() {
   }, { passive: true });
 }
 
-// ── Parcours tabs accueil ──
+// ── Tabs parcours ──
 function switchTab(tab, el) {
   document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
@@ -87,9 +79,7 @@ function selectHcType(el) {
   el.classList.add('active');
 }
 
-// ════════════════════════════════════════
-// INIT UNIQUE
-// ════════════════════════════════════════
+// ── Init ──
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initReveal();
