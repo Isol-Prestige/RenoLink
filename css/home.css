@@ -401,7 +401,7 @@
 }
 .ac-cover.c3 {
   /* ← REMPLACER par votre URL ou chemin local ex: url('../images/isolation.jpg') */
-  background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&q=80&auto=format&fit=crop');
+  background-image: url('../images/isolation.jpeg');
 }
 .ac-cover.c4 {
   background-image: url('https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=700&q=80&auto=format&fit=crop');
