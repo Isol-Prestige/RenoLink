@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RenoLink — Artisans vérifiés pour vos travaux en Lorraine</title>
-  <meta name="description" content="Trouvez les meilleurs artisans vérifiés pour vos travaux en Lorraine. Nancy, Metz, Verdun, Épinal. Mise en relation qualifiée, gratuit pour les particuliers.">
+  <meta name="description" content="Trouvez les meilleurs artisans vérifiés pour vos travaux en Lorraine. Mise en relation qualifiée, gratuit pour les particuliers.">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/home.css">
@@ -14,64 +14,81 @@
 <!-- ── NAVBAR ── -->
 <nav class="navbar" id="navbar">
   <a class="nav-logo" href="index.html">Reno<span>Link</span></a>
-
   <div class="nav-center">
     <a href="#comment">Comment ça marche</a>
     <a href="#artisans">Nos artisans</a>
     <a href="#garanties">Garanties</a>
-    <a href="#temoignages">Avis clients</a>
+    <a href="#engagements">Nos engagements</a>
   </div>
-
   <div class="nav-right">
     <button class="btn btn-outline" onclick="window.location.href='pages/inscription-artisan.html'">Je suis artisan</button>
     <button class="btn btn-outline" onclick="window.location.href='pages/connexion.html'">Connexion</button>
     <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet</button>
   </div>
-
   <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- Menu mobile -->
 <div class="nav-overlay" id="navOverlay" onclick="closeMobileMenu()"></div>
 <div class="nav-menu" id="navMenu">
   <a class="mobile-nav-link" href="#comment">Comment ça marche</a>
   <a class="mobile-nav-link" href="#artisans">Nos artisans</a>
-  <a class="mobile-nav-link" href="#garanties">Nos garanties</a>
-  <a class="mobile-nav-link" href="#temoignages">Avis clients</a>
+  <a class="mobile-nav-link" href="#garanties">Garanties</a>
+  <a class="mobile-nav-link" href="#engagements">Nos engagements</a>
   <hr style="border:none;border-top:1px solid var(--border);margin:4px 0;">
   <a class="mobile-nav-link" href="pages/connexion.html">Connexion</a>
   <a class="mobile-nav-link" href="pages/inscription-artisan.html">Je suis artisan</a>
   <button class="mobile-cta" onclick="window.location.href='pages/formulaire-client.html'">Déposer mon projet &rarr;</button>
 </div>
 
-<!-- ── HERO ── -->
+<!-- ══════════════════════════════════════
+     HERO — 2 colonnes
+══════════════════════════════════════ -->
 <section class="hero">
+
+  <!-- Côté gauche : texte + image fond -->
   <div class="hero-left">
     <div class="hero-tag">
       <span class="live-dot"></span>
-      Lorraine &mdash; Nancy · Metz · Verdun · Épinal
+      Artisans vérifiés en Lorraine
     </div>
+
     <h1 class="hero-h1">
       Trouvez les bons artisans<br>
       pour vos travaux,<br>
       <em>sans perdre de temps.</em>
     </h1>
+
     <p class="hero-p">
       RenoLink sélectionne et vérifie chaque artisan avant de vous mettre en relation.
       KBIS, assurances, certifications — tout est contrôlé. Gratuit pour les particuliers.
     </p>
+
     <div class="hero-checks">
-      <div class="check"><div class="check-icon">✓</div>1 à 3 artisans sélectionnés pour votre projet</div>
-      <div class="check"><div class="check-icon">✓</div>Dossier qualifié avant toute mise en relation</div>
-      <div class="check"><div class="check-icon">✓</div>Artisans vérifiés — KBIS, décennale, certifications</div>
-      <div class="check"><div class="check-icon">✓</div>Réponse garantie sous 48h ouvrées</div>
+      <div class="check">
+        <div class="check-icon">✓</div>
+        1 à 3 artisans sélectionnés pour votre projet
+      </div>
+      <div class="check">
+        <div class="check-icon">✓</div>
+        Dossier qualifié avant toute mise en relation
+      </div>
+      <div class="check">
+        <div class="check-icon">✓</div>
+        Artisans vérifiés — KBIS, décennale, certifications
+      </div>
+      <div class="check">
+        <div class="check-icon">✓</div>
+        Réponse garantie sous 48h ouvrées
+      </div>
     </div>
+
     <div class="hero-btns">
       <button class="btn btn-gold btn-lg" onclick="window.location.href='pages/formulaire-client.html'">Décrire mon projet &rarr;</button>
       <button class="btn btn-ghost-gold btn-lg" onclick="document.getElementById('comment').scrollIntoView({behavior:'smooth'})">Comment ça marche</button>
     </div>
+
     <div class="hero-social">
       <div class="avatars">
         <div class="av">ML</div>
@@ -86,6 +103,7 @@
     </div>
   </div>
 
+  <!-- Côté droit : formulaire sur fond sombre -->
   <div class="hero-right">
     <div class="hero-card">
       <div class="hc-title">Quel type de projet ?</div>
@@ -115,44 +133,69 @@
       </div>
     </div>
   </div>
+
 </section>
 
-<!-- ── STATS BAND (promesses honnêtes) ── -->
+<!-- ══════════════════════════════════════
+     PROMISE BAND — SVG icons + promesses
+══════════════════════════════════════ -->
 <div class="stats-band">
+
   <div class="stat-item">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+    </div>
     <div class="stat-num">Artisans vérifiés</div>
     <div class="stat-lbl">KBIS, décennale et certifications contrôlés avant adhésion</div>
   </div>
+
   <div class="stat-item">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
     <div class="stat-num">Gratuit pour les particuliers</div>
     <div class="stat-lbl">Dépôt de projet et mise en relation entièrement gratuits</div>
   </div>
+
   <div class="stat-item">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
     <div class="stat-num">Réponse sous 48h</div>
     <div class="stat-lbl">Dossier analysé et transmis sous 48 heures ouvrées</div>
   </div>
+
   <div class="stat-item">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
     <div class="stat-num">Qualification humaine</div>
     <div class="stat-lbl">Chaque dossier est relu et validé par notre équipe</div>
   </div>
+
   <div class="stat-item">
-    <div class="stat-num">3 maximum</div>
-    <div class="stat-lbl">Artisans par projet — jamais plus, jamais de démarchage massif</div>
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+    </div>
+    <div class="stat-num">3 artisans maximum</div>
+    <div class="stat-lbl">Jamais de démarchage massif — contacts ciblés uniquement</div>
   </div>
+
 </div>
 
-<!-- ── TERRITORY ── -->
+<!-- ── TERRITORY — texte générique sans villes ── -->
 <div class="territory">
-  <div class="territory-label">Zone couverte</div>
+  <div class="territory-label">Zone d'intervention</div>
   <div class="territory-cities">
-    <div class="city">Nancy (54)</div>
-    <div class="city">Metz (57)</div>
-    <div class="city">Verdun (55)</div>
-    <div class="city">Épinal (88)</div>
+    <div class="city">Grand Est</div>
+    <div class="city">Lorraine</div>
+    <div class="city">Dépt. 54 · 55 · 57 · 88</div>
   </div>
 </div>
 
-<!-- ── COMMENT ÇA MARCHE ── -->
+<!-- ══════════════════════════════════════
+     COMMENT ÇA MARCHE
+══════════════════════════════════════ -->
 <section class="section how-section" id="comment">
   <div class="container">
     <div class="eyebrow reveal">Comment ça marche</div>
@@ -182,7 +225,7 @@
           <div class="step-circle gold">3</div>
           <div class="step-icon">🎯</div>
           <div class="step-title">Sélection des artisans</div>
-          <div class="step-desc">1 à 3 artisans vérifiés de votre zone sont sélectionnés selon votre projet. Maximum 3 — jamais plus.</div>
+          <div class="step-desc">1 à 3 artisans vérifiés de votre zone sélectionnés selon votre projet. Maximum 3, jamais plus.</div>
         </div>
         <div class="step-box reveal">
           <div class="step-circle gold">4</div>
@@ -224,7 +267,9 @@
   </div>
 </section>
 
-<!-- ── ARTISANS ── -->
+<!-- ══════════════════════════════════════
+     ARTISANS — CARDS PHOTO
+══════════════════════════════════════ -->
 <section class="section artisans-section" id="artisans">
   <div class="container">
     <div class="artisans-header">
@@ -235,7 +280,9 @@
       </div>
       <button class="see-all reveal" onclick="window.location.href='pages/inscription-artisan.html'">Rejoindre le réseau &rarr;</button>
     </div>
+
     <div class="artisans-grid">
+      <!-- c1 = Rénovation | modifier l'image dans home.css ligne .ac-cover.c1 -->
       <div class="artisan-card reveal">
         <div class="ac-cover c1">
           <span>🏗️</span>
@@ -243,7 +290,7 @@
         </div>
         <div class="ac-body">
           <div class="ac-name">RENOV HABITAT</div>
-          <div class="ac-meta">📍 Nancy · Rénovation intérieure</div>
+          <div class="ac-meta">Rénovation intérieure</div>
           <div class="ac-tags">
             <span class="tag rge">RGE</span>
             <span class="tag">Qualibat</span>
@@ -255,6 +302,8 @@
           </div>
         </div>
       </div>
+
+      <!-- c2 = Électricité | modifier l'image dans home.css ligne .ac-cover.c2 -->
       <div class="artisan-card reveal">
         <div class="ac-cover c2">
           <span>⚡</span>
@@ -262,7 +311,7 @@
         </div>
         <div class="ac-body">
           <div class="ac-name">BATI EXPERT</div>
-          <div class="ac-meta">📍 Metz · Électricité générale</div>
+          <div class="ac-meta">Électricité générale</div>
           <div class="ac-tags">
             <span class="tag rge">RGE</span>
             <span class="tag">Qualifelec</span>
@@ -273,6 +322,8 @@
           </div>
         </div>
       </div>
+
+      <!-- c3 = Isolation | modifier l'image dans home.css ligne .ac-cover.c3 -->
       <div class="artisan-card reveal">
         <div class="ac-cover c3">
           <span>🔥</span>
@@ -280,7 +331,7 @@
         </div>
         <div class="ac-body">
           <div class="ac-name">THERMIQUE EST</div>
-          <div class="ac-meta">📍 Nancy · Isolation &amp; Chauffage</div>
+          <div class="ac-meta">Isolation &amp; Chauffage</div>
           <div class="ac-tags">
             <span class="tag rge">RGE</span>
             <span class="tag">QualiPAC</span>
@@ -292,6 +343,8 @@
           </div>
         </div>
       </div>
+
+      <!-- c4 = Plomberie | modifier l'image dans home.css ligne .ac-cover.c4 -->
       <div class="artisan-card reveal">
         <div class="ac-cover c4">
           <span>🚿</span>
@@ -299,7 +352,7 @@
         </div>
         <div class="ac-body">
           <div class="ac-name">PLOMBERIE MARTIN</div>
-          <div class="ac-meta">📍 Metz · Plomberie &amp; Sanitaire</div>
+          <div class="ac-meta">Plomberie &amp; Sanitaire</div>
           <div class="ac-tags">
             <span class="tag">Qualibat</span>
             <span class="tag">Décennale</span>
@@ -312,14 +365,15 @@
       </div>
     </div>
 
-    <!-- Note anonymat -->
-    <p style="text-align:center;margin-top:22px;font-size:0.74rem;color:var(--muted2);font-style:italic;">
-      🔒 L'identité des entreprises est transmise uniquement lors de la mise en relation officielle — c'est notre engagement envers les artisans du réseau.
+    <p style="text-align:center;margin-top:20px;font-size:0.73rem;color:var(--muted2);font-style:italic;">
+      🔒 L'identité des entreprises est transmise uniquement lors de la mise en relation officielle.
     </p>
   </div>
 </section>
 
-<!-- ── PROCESS ── -->
+<!-- ══════════════════════════════════════
+     PROCESS
+══════════════════════════════════════ -->
 <section class="process-section">
   <div class="container">
     <div class="eyebrow reveal" style="color:var(--gold);">Notre méthode</div>
@@ -384,73 +438,92 @@
   </div>
 </section>
 
-<!-- ── GARANTIES ── -->
+<!-- ══════════════════════════════════════
+     GARANTIES
+══════════════════════════════════════ -->
 <section class="section trust-section" id="garanties">
   <div class="container">
     <div class="eyebrow reveal">Nos garanties</div>
     <h2 class="section-h2 reveal">Pourquoi nous faire<br>confiance</h2>
     <p class="section-p reveal">Un niveau d'exigence que les grandes plateformes nationales ne peuvent pas vous offrir.</p>
     <div class="trust-grid">
-      <div class="trust-card reveal"><div class="tc-icon">📄</div><div class="tc-title">Documents vérifiés à l'adhésion</div><div class="tc-desc">KBIS récent, assurance décennale en cours, RC Pro et certifications métier contrôlés avant tout affichage.</div></div>
-      <div class="trust-card reveal"><div class="tc-icon">🎯</div><div class="tc-title">3 artisans maximum</div><div class="tc-desc">Votre projet est transmis à 3 artisans au maximum. Vous n'êtes pas submergé d'appels inutiles.</div></div>
-      <div class="trust-card reveal"><div class="tc-icon">🔍</div><div class="tc-title">Qualification humaine</div><div class="tc-desc">Chaque dossier est lu et validé par notre équipe. Un œil humain sur chaque projet avant toute transmission.</div></div>
-      <div class="trust-card reveal"><div class="tc-icon">⭐</div><div class="tc-title">Avis vérifiés par chantier</div><div class="tc-desc">Chaque avis sera lié à un projet réellement réalisé via RenoLink. Aucun avis anonyme accepté.</div></div>
-      <div class="trust-card reveal"><div class="tc-icon">💶</div><div class="tc-title">Gratuit pour les particuliers</div><div class="tc-desc">Dépôt de projet et mise en relation entièrement gratuits. Sans engagement, sans abonnement caché.</div></div>
-      <div class="trust-card reveal"><div class="tc-icon">🔒</div><div class="tc-title">Données protégées RGPD</div><div class="tc-desc">Vos coordonnées restent confidentielles jusqu'à la mise en relation officielle. Conformité RGPD garantie.</div></div>
+      <div class="trust-card reveal">
+        <div class="tc-icon">📄</div>
+        <div class="tc-title">Documents vérifiés à l'adhésion</div>
+        <div class="tc-desc">KBIS récent, assurance décennale en cours, RC Pro et certifications métier contrôlés avant tout affichage.</div>
+      </div>
+      <div class="trust-card reveal">
+        <div class="tc-icon">🎯</div>
+        <div class="tc-title">3 artisans maximum</div>
+        <div class="tc-desc">Votre projet est transmis à 3 artisans au maximum. Vous n'êtes pas submergé d'appels inutiles.</div>
+      </div>
+      <div class="trust-card reveal">
+        <div class="tc-icon">🔍</div>
+        <div class="tc-title">Qualification humaine</div>
+        <div class="tc-desc">Chaque dossier est lu et validé par notre équipe. Un œil humain sur chaque projet avant toute transmission.</div>
+      </div>
+      <div class="trust-card reveal">
+        <div class="tc-icon">⭐</div>
+        <div class="tc-title">Avis vérifiés par chantier</div>
+        <div class="tc-desc">Chaque avis sera lié à un projet réellement réalisé via RenoLink. Aucun avis anonyme accepté.</div>
+      </div>
+      <div class="trust-card reveal">
+        <div class="tc-icon">💶</div>
+        <div class="tc-title">Gratuit pour les particuliers</div>
+        <div class="tc-desc">Dépôt de projet et mise en relation entièrement gratuits. Sans engagement, sans abonnement caché.</div>
+      </div>
+      <div class="trust-card reveal">
+        <div class="tc-icon">🔒</div>
+        <div class="tc-title">Données protégées RGPD</div>
+        <div class="tc-desc">Vos coordonnées restent confidentielles jusqu'à la mise en relation officielle. Conformité RGPD garantie.</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── TÉMOIGNAGES ── -->
-<section class="section testi-section" id="temoignages">
+<!-- ══════════════════════════════════════
+     NOS ENGAGEMENTS — remplace témoignages
+     Fond sombre, 3 promesses éditoriales avec SVG
+══════════════════════════════════════ -->
+<section class="section testi-section" id="engagements">
   <div class="container">
-    <div class="eyebrow reveal">Témoignages</div>
-    <h2 class="section-h2 reveal">Ce qu'ils diront<br>de RenoLink</h2>
-    <p class="section-p reveal" style="margin-bottom:0;">Les premiers retours seront publiés ici dès nos premières mises en relation. Nous ne publions que des avis liés à un chantier réel.</p>
+    <div class="eyebrow reveal">Nos engagements</div>
+    <h2 class="section-h2 reveal">Ce que nous vous<br><em>promettons</em></h2>
+    <p class="section-p reveal">RenoLink est une plateforme de mise en relation humaine. Avant les premiers chantiers, voici ce qui guide chacune de nos décisions.</p>
 
-    <!-- Placeholder sobre en attendant les vrais avis -->
-    <div class="testi-grid" style="margin-top:44px;">
-      <div class="testi-card reveal" style="opacity:0.5;border-style:dashed;">
-        <div class="testi-quote">&ldquo;</div>
-        <div class="testi-text" style="color:var(--muted2);">Les avis de nos clients seront publiés ici après réalisation de leur chantier via RenoLink.</div>
-        <div class="testi-author">
-          <div class="testi-av" style="background:var(--bg3);color:var(--muted);">?</div>
-          <div>
-            <div class="testi-stars">· · · · ·</div>
-            <div class="testi-name" style="color:var(--muted);">Client vérifié</div>
-            <div class="testi-city">Lorraine · À venir</div>
-          </div>
+    <div class="testi-grid">
+
+      <div class="testi-card reveal">
+        <div class="testi-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
+        <div class="testi-title">Votre projet ne sera jamais bradé</div>
+        <div class="testi-text">Chaque dossier est lu et qualifié par un membre de notre équipe. Aucun algorithme ne décide seul de la mise en relation — un regard humain valide chaque étape.</div>
       </div>
-      <div class="testi-card reveal" style="opacity:0.35;border-style:dashed;">
-        <div class="testi-quote">&ldquo;</div>
-        <div class="testi-text" style="color:var(--muted2);">Chaque avis est associé à un projet réel. Nous ne publions rien d'anonyme.</div>
-        <div class="testi-author">
-          <div class="testi-av" style="background:var(--bg3);color:var(--muted);">?</div>
-          <div>
-            <div class="testi-stars">· · · · ·</div>
-            <div class="testi-name" style="color:var(--muted);">Client vérifié</div>
-            <div class="testi-city">Lorraine · À venir</div>
-          </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
+        <div class="testi-title">Votre identité reste protégée</div>
+        <div class="testi-text">Vos coordonnées ne sont transmises à l'artisan qu'au moment de la mise en relation officielle. Avant ça, votre dossier circule anonymement dans notre réseau.</div>
       </div>
-      <div class="testi-card reveal" style="opacity:0.2;border-style:dashed;">
-        <div class="testi-quote">&ldquo;</div>
-        <div class="testi-text" style="color:var(--muted2);">Bientôt disponible après nos premières mises en relation réussies.</div>
-        <div class="testi-author">
-          <div class="testi-av" style="background:var(--bg3);color:var(--muted);">?</div>
-          <div>
-            <div class="testi-stars">· · · · ·</div>
-            <div class="testi-name" style="color:var(--muted);">Client vérifié</div>
-            <div class="testi-city">Lorraine · À venir</div>
-          </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
+        <div class="testi-title">Zéro démarchage, zéro pression</div>
+        <div class="testi-text">Vous recevez au maximum 3 contacts d'artisans vérifiés. Pas de revente de données, pas de relances commerciales — juste des artisans qualifiés qui correspondent à votre projet.</div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- ── ARTISAN CTA ── -->
+<!-- ══════════════════════════════════════
+     ARTISAN CTA
+══════════════════════════════════════ -->
 <div class="artisan-cta">
   <div class="artisan-cta-left">
     <h3>Vous êtes artisan<br>en Lorraine ?</h3>
@@ -467,7 +540,9 @@
   </div>
 </div>
 
-<!-- ── CTA FINAL ── -->
+<!-- ══════════════════════════════════════
+     CTA FINAL
+══════════════════════════════════════ -->
 <section class="cta-section">
   <span class="eyebrow reveal" style="color:var(--gold);">Prêt à commencer ?</span>
   <h2 class="cta-h2 reveal">Décrivez votre projet<br><em>en 5 minutes</em></h2>
@@ -478,7 +553,9 @@
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
@@ -518,86 +595,8 @@
   </div>
 </footer>
 
-<script>
-/* ═══════════════════════════════════════
-   RENOLINK — main.js
-═══════════════════════════════════════ */
-function initNavbar() {
-  const navbar = document.getElementById('navbar');
-  if (!navbar) return;
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
-  }, { passive: true });
-}
+<!-- JS externe — ne pas mettre le contenu ici -->
+<script src="js/main.js"></script>
 
-function initReveal() {
-  const reveals = document.querySelectorAll('.reveal');
-  if (!reveals.length) return;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('in'), i * 60);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
-}
-
-function openMobileMenu() {
-  document.getElementById('navMenu')?.classList.add('open');
-  document.getElementById('navOverlay')?.classList.add('open');
-  document.getElementById('navBurger')?.classList.add('open');
-  document.getElementById('navBurger')?.setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden';
-}
-function closeMobileMenu() {
-  document.getElementById('navMenu')?.classList.remove('open');
-  document.getElementById('navOverlay')?.classList.remove('open');
-  document.getElementById('navBurger')?.classList.remove('open');
-  document.getElementById('navBurger')?.setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-function initBurger() {
-  const burger = document.getElementById('navBurger');
-  if (!burger) return;
-  burger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMobileMenu();
-  });
-  document.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(el => {
-    el.addEventListener('click', closeMobileMenu);
-  });
-  window.addEventListener('scroll', () => {
-    if (document.getElementById('navMenu')?.classList.contains('open')) {
-      closeMobileMenu();
-    }
-  }, { passive: true });
-}
-function toggleMobileMenu() {
-  const menu = document.getElementById('navMenu');
-  if (!menu) return;
-  menu.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
-}
-
-function switchTab(tab, el) {
-  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const client  = document.getElementById('tab-client');
-  const artisan = document.getElementById('tab-artisan');
-  if (client)  client.style.display  = tab === 'client'  ? 'block' : 'none';
-  if (artisan) artisan.style.display = tab === 'artisan' ? 'block' : 'none';
-}
-
-function selectHcType(el) {
-  document.querySelectorAll('.hc-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  initNavbar();
-  initReveal();
-  initBurger();
-});
-</script>
 </body>
 </html>
