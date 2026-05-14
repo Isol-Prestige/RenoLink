@@ -481,29 +481,109 @@ ${p.notes ? `<div class="section"><h2>📝 Notes internes</h2><div style="line-h
 // ══════════════════════════════════════════
 // WHATSAPP / EMAIL / APPEL
 // ══════════════════════════════════════════
-function sendWA(id) {
-  const p = projects.find(x=>x.id===id);
-  if(!p) return;
-  const msg = encodeURIComponent(`Bonjour,\n\nNous avons bien reçu votre projet RenoLink (${p.id}).\nType : ${p.type}\nVille : ${p.ville}\n\nNous revenons vers vous sous 48h.\n\nL'équipe RenoLink`);
-  window.open(`https://wa.me/33${p.client.tel.replace(/\s/g,'').replace(/^0/,'')}?text=${msg}`,'_blank');
+function sendWA(id, customPhone = null) {
+
+  const p = projects.find(x => x.id === id);
+
+  if (!p) return;
+
+  // numéro choisi
+  const phone = customPhone || p.client.tel;
+
+  // nettoyage du numéro
+  const cleanPhone = phone
+    .replace(/\s/g, '')
+    .replace(/^0/, '');
+
+  // message WhatsApp
+  const msg = encodeURIComponent(
+`Bonjour,
+
+Nous avons bien reçu votre projet RenoLink (${p.id}).
+
+Type : ${p.type}
+Ville : ${p.ville}
+
+Nous revenons vers vous sous 48h.
+
+L'équipe RenoLink`
+  );
+
+  // ouverture WhatsApp
+  window.open(
+    `https://wa.me/33${cleanPhone}?text=${msg}`,
+    '_blank'
+  );
 }
-function sendWhatsApp() { if(activeProject) sendWA(activeProject.id); }
+
+function sendWhatsApp() {
+  if (activeProject) {
+    sendWA(activeProject.id);
+  }
+}
 
 function emailClient() {
-  if(!activeProject) return;
+
+  if (!activeProject) return;
+
   const p = activeProject;
-  window.location.href = `mailto:${p.client.email}?subject=Votre projet RenoLink ${p.id}&body=Bonjour ${p.client.nom.split(' ')[0]},\n\nMerci pour votre dossier RenoLink (${p.id}) concernant : ${p.type}.\n\nNous revenons vers vous prochainement.\n\nCordialement,\nL'équipe RenoLink`;
-}
-function sendEmail() { emailClient(); }
-function callClient() {
-  if(!activeProject) return;
-  window.location.href = `tel:${activeProject.client.tel.replace(/\s/g,'')}`;
-}
-function whatsappClient() {
-  if(!activeProject) sendWA(activeProject?.id);
-  else sendWA(activeProject.id);
+
+  window.location.href =
+`mailto:${p.client.email}?subject=Votre projet RenoLink ${p.id}&body=Bonjour ${p.client.nom.split(' ')[0]},
+
+Merci pour votre dossier RenoLink (${p.id}) concernant : ${p.type}.
+
+Nous revenons vers vous prochainement.
+
+Cordialement,
+L'équipe RenoLink`;
 }
 
+function sendEmail() {
+  emailClient();
+}
+
+function callClient() {
+
+  if (!activeProject) return;
+
+  window.location.href =
+    `tel:${activeProject.client.tel.replace(/\s/g,'')}`;
+}
+
+function whatsappClient() {
+
+  if (!activeProject) return;
+
+  const assignedPhone = activeProject.client.tel;
+
+  // choix utilisateur
+  const useAssigned = confirm(
+`Envoyer au numéro du client ?
+
+${assignedPhone}
+
+OK = numéro du client
+Annuler = autre numéro`
+  );
+
+  if (useAssigned) {
+
+    // numéro du client
+    sendWA(activeProject.id);
+
+  } else {
+
+    // autre numéro
+    const otherPhone = prompt(
+      "Entrez un autre numéro WhatsApp :"
+    );
+
+    if (!otherPhone) return;
+
+    sendWA(activeProject.id, otherPhone);
+  }
+}
 // ══════════════════════════════════════════
 // UTILS
 // ══════════════════════════════════════════
