@@ -11,442 +11,395 @@
 <body>
 <div class="admin-layout">
 
-<!-- ════ SIDEBAR ════ -->
-<aside class="admin-sidebar">
-  <div class="sidebar-logo">
-    <a href="../index.html" style="text-decoration:none;">
-      <div class="logo">Reno<span>Link</span></div>
-    </a>
-    <div class="admin-badge">⚙️ Admin</div>
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="logo">Reno<span>Link</span></div>
+    <div class="badge">⚙️ Admin MVP</div>
   </div>
-  <nav class="sidebar-nav">
-    <div class="nav-section-label">Principal</div>
-    <a class="nav-item active" onclick="showPage('dossiers',this)"><span class="ni-icon">📋</span>Dossiers<span class="nav-badge red" id="navBadgeNew">2</span></a>
-    <a class="nav-item" onclick="showPage('artisans',this)"><span class="ni-icon">🔨</span>Artisans<span class="nav-badge">12</span></a>
-    <a class="nav-item" onclick="showPage('commissions',this)"><span class="ni-icon">💶</span>Commissions 8%</a>
-    <div class="nav-section-label">Analyse</div>
-    <a class="nav-item" onclick="showPage('stats',this)"><span class="ni-icon">📊</span>Statistiques</a>
-    <div class="nav-section-label">Compte</div>
-    <a class="nav-item" onclick="showPage('parametres',this)"><span class="ni-icon">⚙️</span>Paramètres</a>
-    <a class="nav-item" href="../index.html"><span class="ni-icon">🌐</span>Voir le site</a>
-    <a class="nav-item" href="connexion.html" style="color:rgba(220,38,38,0.6);"><span class="ni-icon">🚪</span>Déconnexion</a>
+  <nav class="sb-nav">
+    <div class="sb-section">Projets</div>
+    <button class="nav-item active" onclick="showPage('projets',this)">
+      <span>📋</span> Projets clients
+      <span class="nav-badge red" id="nb-new">0</span>
+    </button>
+    <div class="sb-section">Réseau</div>
+    <button class="nav-item" onclick="showPage('artisans',this)">
+      <span>🔨</span> Artisans
+      <span class="nav-badge" id="nb-art">0</span>
+    </button>
+    <div class="sb-section">Finance</div>
+    <button class="nav-item" onclick="showPage('commissions',this)">
+      <span>💶</span> Commissions 8%
+    </button>
+    <div class="sb-section">Compte</div>
+    <button class="nav-item" onclick="showPage('parametres',this)">
+      <span>⚙️</span> Paramètres
+    </button>
   </nav>
-  <div class="sidebar-bottom">
-    <div class="admin-profile">
-      <div class="admin-avatar">RL</div>
+  <div class="sb-bottom">
+    <div class="sb-user">
+      <div class="sb-avatar">RL</div>
       <div>
-        <div class="admin-name">Administrateur</div>
-        <div class="admin-role">RenoLink · Lorraine</div>
+        <div class="sb-name">Admin RenoLink</div>
+        <div class="sb-role">Lorraine · MVP</div>
       </div>
     </div>
   </div>
 </aside>
 
-<!-- ════ CONTENU ════ -->
-<div class="admin-content">
+<!-- ═══════════ MAIN ═══════════ -->
+<div class="main">
 
 <!-- TOPBAR -->
-<div class="admin-topbar">
-  <div class="topbar-title">
-    <h1 id="topbarTitle">Gestion des dossiers</h1>
-    <p id="topbarSub">Validation, publication et suivi</p>
+<div class="topbar">
+  <div class="topbar-left">
+    <h1 id="page-title">Projets clients</h1>
+    <p id="page-sub">Qualification et suivi des dossiers</p>
   </div>
-  <div class="topbar-actions">
-    <button class="topbar-btn" onclick="showNotif('📊 Export en cours...','info')">📥 Exporter tout</button>
-    <button class="topbar-btn gold" onclick="openNouveauDossier()">+ Nouveau dossier</button>
+  <div class="topbar-right" id="topbar-actions">
+    <button class="tbtn" onclick="exportCSV()">📥 Exporter CSV</button>
+    <button class="tbtn gold" onclick="openAddProject()">+ Nouveau projet</button>
   </div>
 </div>
 
-<!-- ════ PAGE DOSSIERS ════ -->
-<div class="page-content" id="page-dossiers">
+<!-- ══════════ PAGE PROJETS ══════════ -->
+<div class="page active" id="page-projets">
+
+  <!-- KPIs -->
   <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-header"><div class="kpi-label">Total dossiers</div><div class="kpi-icon">📋</div></div>
-      <div class="kpi-value" id="kpiTotal">—</div>
-      <div class="kpi-delta neutral">Depuis le lancement</div>
+    <div class="kpi">
+      <div class="kpi-top"><div class="kpi-label">Total projets</div><div>📋</div></div>
+      <div class="kpi-val" id="k-total">—</div>
+      <div class="kpi-sub">Depuis le lancement</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-header"><div class="kpi-label">Nouveaux à traiter</div><div class="kpi-icon">🔵</div></div>
-      <div class="kpi-value" id="kpiNew">—</div>
-      <div class="kpi-delta neutral">Priorité haute</div>
+    <div class="kpi">
+      <div class="kpi-top"><div class="kpi-label">À traiter</div><div>🔵</div></div>
+      <div class="kpi-val" id="k-new">—</div>
+      <div class="kpi-sub">Nouveaux dossiers</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-header"><div class="kpi-label">Chantiers signés</div><div class="kpi-icon">🤝</div></div>
-      <div class="kpi-value" id="kpiSigne">—</div>
-      <div class="kpi-delta up">↑ Ce mois</div>
+    <div class="kpi">
+      <div class="kpi-top"><div class="kpi-label">Chantiers signés</div><div>🤝</div></div>
+      <div class="kpi-val" id="k-signe">—</div>
+      <div class="kpi-sub">Ce mois</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-header"><div class="kpi-label">Commissions 8%</div><div class="kpi-icon">💶</div></div>
-      <div class="kpi-value gold" id="kpiCA">—</div>
-      <div class="kpi-delta up">↑ À facturer</div>
+    <div class="kpi">
+      <div class="kpi-top"><div class="kpi-label">Commissions dues</div><div>💶</div></div>
+      <div class="kpi-val gold" id="k-comm">—</div>
+      <div class="kpi-sub">8% chantiers signés</div>
     </div>
   </div>
 
-  <!-- Filtres -->
-  <div class="filters-bar">
-    <div class="search-input-wrap">
+  <!-- FILTRES -->
+  <div class="filters">
+    <div class="search-wrap">
       <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" placeholder="Rechercher dossier, client, ville..." oninput="handleRecherche(this.value)">
+      <input type="text" placeholder="Rechercher projet, client, ville…" oninput="filterProjects(this.value)">
     </div>
-    <button class="filter-btn active" data-statut="tous"     onclick="setFiltreStatut('tous',this)">Tous</button>
-    <button class="filter-btn" data-statut="nouveau"         onclick="setFiltreStatut('nouveau',this)">🔵 Nouveau</button>
-    <button class="filter-btn" data-statut="en-cours"        onclick="setFiltreStatut('en-cours',this)">🟡 En cours</button>
-    <button class="filter-btn" data-statut="valide"          onclick="setFiltreStatut('valide',this)">✅ Validé</button>
-    <button class="filter-btn" data-statut="envoye"          onclick="setFiltreStatut('envoye',this)">📤 Envoyé</button>
-    <button class="filter-btn" data-statut="signe"           onclick="setFiltreStatut('signe',this)">🤝 Signé</button>
-    <select class="filter-select" onchange="setFiltrePriorite(this.value)">
-      <option value="tous">Toutes priorités</option>
-      <option value="haute">🔴 Haute</option>
-      <option value="normale">🟡 Normale</option>
-      <option value="basse">⚪ Basse</option>
-    </select>
+    <button class="fbtn active" onclick="setFilter('tous',this)">Tous</button>
+    <button class="fbtn" onclick="setFilter('nouveau',this)">🔵 Nouveau</button>
+    <button class="fbtn" onclick="setFilter('valide',this)">✅ Validé</button>
+    <button class="fbtn" onclick="setFilter('en-cours',this)">🟡 En cours</button>
+    <button class="fbtn" onclick="setFilter('visite',this)">📍 Visite</button>
+    <button class="fbtn" onclick="setFilter('devis',this)">📄 Devis</button>
+    <button class="fbtn" onclick="setFilter('signe',this)">🤝 Signé</button>
+    <button class="fbtn" onclick="setFilter('perdu',this)">❌ Perdu</button>
   </div>
-  <div style="font-size:0.78rem;color:var(--muted);margin-bottom:12px;" id="dossiersCount"></div>
+  <div style="font-size:.73rem;color:var(--muted);margin-bottom:10px;" id="count-label"></div>
 
-  <!-- Table -->
-  <div class="dossiers-table">
-    <div class="table-header">
-      <div>Référence</div>
-      <div>Projet / Client</div>
-      <div>Statut</div>
-      <div>Publication</div>
-      <div>Budget</div>
-      <div>Date</div>
-      <div>Actions</div>
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <div class="table-head">
+      <div>Réf.</div><div>Projet / Client</div><div>Statut</div><div>Budget</div><div>Date</div><div>Actions</div>
     </div>
-    <div id="dossiersBody"></div>
+    <div id="projects-body"></div>
   </div>
 </div>
 
-<!-- ════ PAGE ARTISANS ════ -->
-<div class="page-content hidden" id="page-artisans">
+<!-- ══════════ PAGE ARTISANS ══════════ -->
+<div class="page" id="page-artisans">
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Actifs</div><div class="kpi-icon">✅</div></div><div class="kpi-value">12</div><div class="kpi-delta up">↑ +2 ce mois</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">En attente</div><div class="kpi-icon">⏳</div></div><div class="kpi-value">3</div><div class="kpi-delta neutral">À vérifier</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Docs expirés</div><div class="kpi-icon">⚠️</div></div><div class="kpi-value" style="color:var(--error);">1</div><div class="kpi-delta down">Action requise</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Taux réponse</div><div class="kpi-icon">📊</div></div><div class="kpi-value gold">78%</div><div class="kpi-delta up">↑ Bon</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Actifs</div><div>✅</div></div><div class="kpi-val" id="k-art-actif">—</div><div class="kpi-sub">Artisans vérifiés</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">En attente</div><div>⏳</div></div><div class="kpi-val" id="k-art-att">—</div><div class="kpi-sub">À valider</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Total réseau</div><div>🔨</div></div><div class="kpi-val" id="k-art-total">—</div><div class="kpi-sub">Inscrits</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">RGE</div><div>🌱</div></div><div class="kpi-val gold" id="k-art-rge">—</div><div class="kpi-sub">Certifiés</div></div>
   </div>
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-    <div style="font-size:0.92rem;font-weight:600;">Liste des artisans vérifiés</div>
-    <button class="topbar-btn gold" onclick="showNotif('📝 Formulaire ajout artisan','info')">+ Ajouter artisan</button>
+  <div class="sec-head">
+    <div><div class="sec-title">Réseau artisans</div><div class="sec-sub">Gérez vos artisans partenaires</div></div>
+    <button class="tbtn gold" onclick="openAddArtisan()">+ Ajouter artisan</button>
   </div>
-  <div class="artisans-panel">
-    <div class="artisan-row">
-      <div class="artisan-avatar-sm">🏗️</div>
-      <div class="artisan-info"><h4>RENOV HABITAT</h4><p>📍 Nancy · Rénovation intérieure</p></div>
-      <div class="artisan-tags-sm"><span class="artisan-tag-sm">RGE</span><span class="artisan-tag-sm">Qualibat</span></div>
-      <div class="artisan-rating-sm">⭐ 4.9 (27 avis)</div>
-      <span class="statut statut-valide" style="margin-left:16px;">✅ Actif</span>
-      <div class="row-actions" style="margin-left:12px;">
-        <button class="action-btn" onclick="showNotif('📞 06 10 20 30 40','info')">📞</button>
-        <button class="action-btn" onclick="showNotif('📧 Email envoyé','success')">📧</button>
-        <button class="action-btn danger" onclick="showNotif('⏸ Artisan suspendu','error')">⏸️</button>
-      </div>
-    </div>
-    <div class="artisan-row">
-      <div class="artisan-avatar-sm">⚡</div>
-      <div class="artisan-info"><h4>BATI EXPERT</h4><p>📍 Metz · Électricité, Rénovation</p></div>
-      <div class="artisan-tags-sm"><span class="artisan-tag-sm">Qualifelec</span></div>
-      <div class="artisan-rating-sm">⭐ 4.7 (11 avis)</div>
-      <span class="statut statut-valide" style="margin-left:16px;">✅ Actif</span>
-      <div class="row-actions" style="margin-left:12px;">
-        <button class="action-btn" onclick="showNotif('📞 06 20 30 40 50','info')">📞</button>
-        <button class="action-btn" onclick="showNotif('📧 Email envoyé','success')">📧</button>
-        <button class="action-btn danger">⏸️</button>
-      </div>
-    </div>
-    <div class="artisan-row" style="background:#FFFBF5;">
-      <div class="artisan-avatar-sm">🔥</div>
-      <div class="artisan-info"><h4>THERMIQUE EST</h4><p>📍 Nancy · Chauffage, PAC</p></div>
-      <div class="artisan-tags-sm"><span class="artisan-tag-sm">RGE</span><span class="artisan-tag-sm">QualiPAC</span></div>
-      <div class="artisan-rating-sm">⭐ 4.8 (19 avis)</div>
-      <span class="statut statut-en-cours" style="margin-left:16px;">⏳ En attente</span>
-      <div class="row-actions" style="margin-left:12px;">
-        <button class="action-btn" onclick="showNotif('✅ Artisan validé et activé','success')">✅</button>
-        <button class="action-btn danger" onclick="showNotif('❌ Artisan rejeté','error')">❌</button>
-      </div>
-    </div>
-    <div class="artisan-row" style="background:#FEF2F2;">
-      <div class="artisan-avatar-sm">🚿</div>
-      <div class="artisan-info"><h4>PLOMBERIE MARTIN</h4><p>📍 Metz · Plomberie</p></div>
-      <div class="artisan-tags-sm"><span class="artisan-tag-sm">Qualibat</span></div>
-      <div class="artisan-rating-sm">⭐ 5.0 (38 avis)</div>
-      <span class="statut statut-rejete" style="margin-left:16px;">⚠️ Doc. expiré</span>
-      <div class="row-actions" style="margin-left:12px;">
-        <button class="action-btn" onclick="showNotif('📧 Email relance envoyé','info')">📧</button>
-        <button class="action-btn danger">⏸️</button>
-      </div>
-    </div>
-  </div>
+  <div class="artisan-grid" id="artisans-body"></div>
 </div>
 
-<!-- ════ PAGE COMMISSIONS ════ -->
-<div class="page-content hidden" id="page-commissions">
-  <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;">
-    <span style="font-size:1.2rem;">⚖️</span>
+<!-- ══════════ PAGE COMMISSIONS ══════════ -->
+<div class="page" id="page-commissions">
+  <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:1.1rem;">⚖️</span>
     <div>
-      <div style="font-size:0.85rem;font-weight:700;color:#92400E;">Clause commission — 8% obligatoire</div>
-      <div style="font-size:0.78rem;color:#92400E;margin-top:2px;">Tout artisan inscrit sur RenoLink s'engage à reverser 8% du montant HT de chaque chantier signé via la plateforme. Cette clause est acceptée lors de l'inscription.</div>
+      <div style="font-size:.83rem;font-weight:700;color:#92400E;">Clause commission RenoLink — 8%</div>
+      <div style="font-size:.74rem;color:#92400E;margin-top:2px;">Chaque artisan inscrit s'engage à reverser 8% du montant HT de chaque chantier signé via la plateforme. Contactez le client pour confirmer la signature.</div>
     </div>
   </div>
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Commissions dues</div><div class="kpi-icon">💶</div></div><div class="kpi-value gold">1 760 €</div><div class="kpi-delta neutral">1 chantier signé</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Reçues</div><div class="kpi-icon">✅</div></div><div class="kpi-value" style="color:var(--success);">0 €</div><div class="kpi-delta neutral">À facturer</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">CA chantiers signés</div><div class="kpi-icon">📊</div></div><div class="kpi-value">22 000 €</div><div class="kpi-delta up">↑ 1 chantier</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Taux appliqué</div><div class="kpi-icon">%</div></div><div class="kpi-value gold">8%</div><div class="kpi-delta neutral">Taux fixe RenoLink</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">CA total signé</div><div>📊</div></div><div class="kpi-val" id="k-ca">—</div><div class="kpi-sub">Chantiers signés</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Commissions dues</div><div>💶</div></div><div class="kpi-val gold" id="k-comm2">—</div><div class="kpi-sub">8% à encaisser</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Nb signés</div><div>🤝</div></div><div class="kpi-val" id="k-nb-sign">—</div><div class="kpi-sub">Chantiers confirmés</div></div>
+    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Taux</div><div>%</div></div><div class="kpi-val gold">8%</div><div class="kpi-sub">Taux fixe</div></div>
   </div>
-  <div class="dossiers-table" style="margin-top:0;">
-    <div style="padding:14px 20px;background:#F9F6F1;border-bottom:1px solid var(--border);display:grid;grid-template-columns:120px 1fr 140px 120px 130px 140px;font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">
-      <div>Référence</div><div>Chantier</div><div>Artisan</div><div>Montant HT</div><div>Commission 8%</div><div>Statut</div>
-    </div>
-    <div style="padding:16px 20px;border-bottom:1px solid #F5F2ED;display:grid;grid-template-columns:120px 1fr 140px 120px 130px 140px;align-items:center;">
-      <div style="font-family:monospace;font-size:0.75rem;font-weight:700;color:var(--gold);">RL-2026-043</div>
-      <div><div style="font-size:0.84rem;font-weight:600;">Toiture complète</div><div style="font-size:0.72rem;color:var(--muted);">Schmitt Alain · Metz</div></div>
-      <div style="font-size:0.78rem;font-weight:600;">Couverture Lorraine</div>
-      <div style="font-size:0.88rem;font-weight:700;">22 000 €</div>
-      <div style="font-size:0.88rem;font-weight:700;color:var(--gold);">1 760 €</div>
-      <div><span class="statut statut-en-cours">🟡 À facturer</span></div>
-    </div>
-    <div style="padding:32px 20px;text-align:center;color:var(--muted);font-size:0.82rem;">Aucun autre chantier signé pour l'instant.</div>
-  </div>
+  <div class="table-wrap" id="comm-table"></div>
 </div>
 
-<!-- ════ PAGE STATS ════ -->
-<div class="page-content hidden" id="page-stats">
-  <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Taux conversion</div><div class="kpi-icon">📈</div></div><div class="kpi-value gold">16,7%</div><div class="kpi-delta up">1 signé / 6 dossiers</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Délai moyen</div><div class="kpi-icon">⏱️</div></div><div class="kpi-value">18h</div><div class="kpi-delta up">↑ Très bon</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Budget moyen</div><div class="kpi-icon">💶</div></div><div class="kpi-value">11 467 €</div><div class="kpi-delta neutral">Sur 6 dossiers</div></div>
-    <div class="kpi-card"><div class="kpi-header"><div class="kpi-label">Villes actives</div><div class="kpi-icon">📍</div></div><div class="kpi-value" style="font-size:1.2rem;">Nancy · Metz</div><div class="kpi-delta neutral">Lorraine</div></div>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-    <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Dossiers par statut</div>
-      ${[['Nouveau','2','33%','#1D4ED8'],['En cours','1','17%','#92400E'],['Validé','1','17%','var(--success)'],['Envoyé','1','17%','var(--gold)'],['Signé','1','17%','var(--success)'],['Rejeté','1','17%','var(--error)']].map(([l,n,p,c]) => `
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.78rem;">
-          <span style="width:72px;color:var(--muted);">${l}</span>
-          <div style="flex:1;background:#F5F2ED;border-radius:4px;height:7px;overflow:hidden;"><div style="width:${p};background:${c};height:100%;border-radius:4px;"></div></div>
-          <span style="width:20px;text-align:right;font-weight:700;">${n}</span>
-        </div>`).join('')}
+<!-- ══════════ PAGE PARAMÈTRES ══════════ -->
+<div class="page" id="page-parametres">
+  <div style="max-width:500px;display:flex;flex-direction:column;gap:16px;">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">👤 Mon compte</div>
+      <div class="form-group"><label class="form-label">Email admin</label><input type="email" class="form-input" value="admin@renolink.fr"></div>
+      <div class="form-group"><label class="form-label">Mot de passe</label><input type="password" class="form-input" placeholder="••••••••"></div>
+      <button class="tbtn gold" onclick="toast('✅ Sauvegardé','success')">Sauvegarder</button>
     </div>
-    <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Top types de travaux</div>
-      ${[['🛁 Salle de bain','1'],['🌡️ Isolation ITE','1'],['🍳 Cuisine','1'],['🔥 Pompe à chaleur','1'],['🏠 Toiture','1'],['🎨 Peinture','1']].map(([l,n]) => `
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F5F2ED;font-size:0.8rem;">
-          <span>${l}</span><span style="font-weight:700;color:var(--gold);">${n}</span>
-        </div>`).join('')}
-    </div>
-  </div>
-</div>
-
-<!-- ════ PAGE PARAMÈTRES ════ -->
-<div class="page-content hidden" id="page-parametres">
-  <div style="max-width:560px;display:flex;flex-direction:column;gap:16px;">
-    <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">👤 Mon compte</div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Prénom</label><input type="text" class="form-input" value="Administrateur"></div>
-        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" value="admin@renolink.fr"></div>
-      </div>
-      <button class="topbar-btn gold" onclick="showNotif('✅ Sauvegardé','success')">Sauvegarder</button>
-    </div>
-    <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">💶 Commission</div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">💶 Commission</div>
       <div style="display:flex;align-items:center;gap:16px;">
-        <div style="font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;color:var(--gold);">8%</div>
-        <div style="font-size:0.8rem;color:var(--muted);line-height:1.6;">Taux de commission appliqué sur tous les chantiers signés via RenoLink. Ce taux est accepté par les artisans lors de l'inscription.</div>
+        <div style="font-family:'Fraunces',serif;font-size:2.8rem;font-weight:900;color:var(--gold);">8%</div>
+        <div style="font-size:.78rem;color:var(--muted);line-height:1.6;">Taux appliqué sur tous les chantiers signés via RenoLink. Accepté par les artisans à l'inscription.</div>
       </div>
     </div>
-    <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">🔔 Notifications</div>
-      ${[['Nouveau dossier client',true],['Artisan intéressé',true],['Document expiré',true],['Résumé hebdomadaire',false]].map(([l,c]) => `
-        <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.84rem;padding:8px 0;border-bottom:1px solid #F5F2ED;">
-          <span>${l}</span><input type="checkbox" ${c?'checked':''} style="accent-color:var(--gold);width:16px;height:16px;">
-        </div>`).join('')}
-    </div>
-  </div>
-</div>
-
-</div><!-- fin admin-content -->
-</div><!-- fin admin-layout -->
-
-<!-- ════ MODAL DOSSIER ════ -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title" id="modalTitle">—</div>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
-          <div class="modal-ref" id="modalRef">—</div>
-          <div id="mPublie"></div>
-        </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">🔔 Notifications email</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Nouveau projet client</span><input type="checkbox" checked style="accent-color:var(--gold);"></label>
+        <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Artisan inscrit</span><input type="checkbox" checked style="accent-color:var(--gold);"></label>
+        <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Résumé hebdo</span><input type="checkbox" style="accent-color:var(--gold);"></label>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div id="mStatut"></div>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-    </div>
-
-    <div class="modal-body">
-
-      <!-- Client -->
-      <div class="modal-section">
-        <div class="modal-section-title">👤 Client — coordonnées complètes</div>
-        <div class="modal-grid">
-          <div class="modal-field"><div class="modal-field-label">Nom</div><div class="modal-field-value" id="mClientNom">—</div></div>
-          <div class="modal-field"><div class="modal-field-label">Préférence</div><div class="modal-field-value" id="mClientPref">—</div></div>
-          <div class="modal-field">
-            <div class="modal-field-label">Téléphone</div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div class="modal-field-value" id="mClientTel">—</div>
-              <button onclick="showNotif('📞 Composition...','info')" style="background:var(--dark);color:white;border:none;padding:4px 10px;border-radius:6px;font-size:0.7rem;font-weight:600;cursor:pointer;">Appeler</button>
-            </div>
-          </div>
-          <div class="modal-field">
-            <div class="modal-field-label">Email</div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div class="modal-field-value" id="mClientEmail">—</div>
-              <button onclick="showNotif('📧 Email ouvert...','info')" style="background:var(--dark);color:white;border:none;padding:4px 10px;border-radius:6px;font-size:0.7rem;font-weight:600;cursor:pointer;">Email</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Projet -->
-      <div class="modal-section">
-        <div class="modal-section-title">🏗️ Détails du projet</div>
-        <div class="modal-grid-3">
-          <div class="modal-field"><div class="modal-field-label">Type</div><div class="modal-field-value" id="mType">—</div></div>
-          <div class="modal-field"><div class="modal-field-label">Localisation</div><div class="modal-field-value" id="mVille">—</div></div>
-          <div class="modal-field"><div class="modal-field-label">Surface</div><div class="modal-field-value" id="mSurface">—</div></div>
-          <div class="modal-field"><div class="modal-field-label">Bien</div><div class="modal-field-value" id="mBien">—</div></div>
-          <div class="modal-field"><div class="modal-field-label">Budget</div><div class="modal-field-value gold" id="mBudget">—</div></div>
-          <div class="modal-field"><div class="modal-field-label">Délai</div><div class="modal-field-value" id="mDelai">—</div></div>
-        </div>
-        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
-          <div class="modal-field-label" style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Description</div>
-          <div id="mDesc" style="font-size:0.82rem;color:var(--muted);line-height:1.65;"></div>
-        </div>
-        <div style="margin-top:12px;">
-          <div class="modal-field-label" style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Photos</div>
-          <div class="modal-photos" id="mPhotos"></div>
-        </div>
-        <div style="margin-top:8px;font-size:0.72rem;color:var(--muted);" id="mDate"></div>
-
-        <!-- Commission -->
-        <div style="margin-top:14px;background:#FEF3E2;border:1px solid rgba(184,130,10,0.3);border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:space-between;">
-          <div style="font-size:0.78rem;color:#92400E;font-weight:600;">💶 Commission RenoLink 8%</div>
-          <div style="font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;color:var(--gold);" id="mCommission">—</div>
-        </div>
-      </div>
-
-      <!-- Artisans -->
-      <div class="modal-section">
-        <div class="modal-section-title">🔨 Proposer manuellement à un artisan</div>
-        <div id="mArtisans" style="margin-bottom:14px;"></div>
-        <div style="font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:8px;">Sélectionner un artisan du réseau :</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="modal-btn" onclick="proposerArtisan('RENOV HABITAT')">🏗️ RENOV HABITAT</button>
-          <button class="modal-btn" onclick="proposerArtisan('BATI EXPERT')">⚡ BATI EXPERT</button>
-          <button class="modal-btn" onclick="proposerArtisan('THERMIQUE EST')">🔥 THERMIQUE EST</button>
-          <button class="modal-btn" onclick="proposerArtisan('PLOMBERIE MARTIN')">🚿 PLOMBERIE MARTIN</button>
-        </div>
-        <div style="margin-top:10px;font-size:0.72rem;color:var(--muted);">
-          ⚠️ L'artisan recevra le dossier complet et devra accepter ou refuser avant que le client reçoive ses coordonnées.
-        </div>
-      </div>
-
-      <!-- Timeline -->
-      <div class="modal-section">
-        <div class="modal-section-title">📅 Historique complet et traçabilité</div>
-        <div class="timeline" id="mTimeline"></div>
-      </div>
-
-      <!-- Notes -->
-      <div class="modal-section">
-        <div class="modal-section-title">📝 Notes internes admin</div>
-        <textarea class="modal-notes" id="mNotes" placeholder="Notes : appels client, observations, instructions artisan..."></textarea>
-        <button class="modal-btn" onclick="saveNotes()" style="margin-top:8px;">💾 Sauvegarder</button>
-      </div>
-
-    </div>
-
-    <!-- Actions footer -->
-    <div class="modal-footer">
-      <button class="modal-btn" onclick="changeStatut('en-cours')">🟡 En cours</button>
-      <button class="modal-btn success" onclick="validerDossier()">✅ Valider</button>
-      <button class="modal-btn" id="btnPublier" onclick="togglePublierModal()">🟢 Publier</button>
-      <button class="modal-btn gold" onclick="changeStatut('envoye')">📤 Marquer envoyé</button>
-      <button class="modal-btn primary" onclick="marquerSigne()">🤝 Chantier signé</button>
-      <button class="modal-btn" onclick="exportModalPDF()">📄 PDF</button>
-      <button class="modal-btn danger" onclick="rejectDossier(adminState.dossierActif?.id, null)">❌</button>
     </div>
   </div>
 </div>
 
-<!-- ════ MODAL NOUVEAU DOSSIER ════ -->
-<div class="modal-overlay" id="modalNouveauDossier">
-  <div class="modal" style="max-width:600px;">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title">+ Nouveau dossier manuel</div>
-        <div class="modal-ref">Ajout direct par l'administrateur</div>
-      </div>
-      <button class="modal-close" onclick="closeNouveauDossier()">✕</button>
+</div><!-- fin main -->
+
+<!-- ═══════════ MODAL PROJET ═══════════ -->
+<div class="overlay" id="modal-projet">
+<div class="modal">
+  <div class="modal-head">
+    <div>
+      <div class="modal-title" id="m-title">—</div>
+      <div class="modal-ref" id="m-ref">—</div>
     </div>
-    <div class="modal-body">
-      <div class="modal-section">
-        <div class="modal-section-title">🏗️ Projet</div>
-        <div class="form-group">
-          <label class="form-label">Type de travaux <span class="req">*</span></label>
-          <input type="text" class="form-input" id="nd-type" placeholder="Ex: Rénovation salle de bain">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Description</label>
-          <textarea class="modal-notes" id="nd-desc" placeholder="Description du projet..." style="height:80px;"></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Ville <span class="req">*</span></label>
-            <input type="text" class="form-input" id="nd-ville" placeholder="Ex: Nancy">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Code postal</label>
-            <input type="text" class="form-input" id="nd-cp" placeholder="54000" maxlength="5">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Budget estimé (€) <span class="req">*</span></label>
-          <input type="number" class="form-input" id="nd-budget" placeholder="Ex: 8000" min="1500">
-        </div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">👤 Client</div>
-        <div class="form-group">
-          <label class="form-label">Nom complet <span class="req">*</span></label>
-          <input type="text" class="form-input" id="nd-nom" placeholder="Prénom Nom">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Téléphone <span class="req">*</span></label>
-            <input type="tel" class="form-input" id="nd-tel" placeholder="06 XX XX XX XX">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input" id="nd-email" placeholder="email@exemple.fr">
-          </div>
-        </div>
-      </div>
-      <div style="background:#FEF3E2;border:1px solid rgba(184,130,10,0.3);border-radius:8px;padding:12px 16px;font-size:0.78rem;color:#92400E;">
-        💶 <strong>Commission 8%</strong> applicable dès signature du chantier par l'artisan.
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn" onclick="closeNouveauDossier()">Annuler</button>
-      <button class="modal-btn success" onclick="submitNouveauDossier()">✅ Créer le dossier</button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div id="m-statut-badge"></div>
+      <button class="modal-close" onclick="closeModal('modal-projet')">✕</button>
     </div>
   </div>
+  <div class="modal-body">
+
+    <!-- Client -->
+    <div class="msection">
+      <div class="msection-title">👤 Client — coordonnées complètes</div>
+      <div class="mgrid">
+        <div><div class="mfield-label">Nom</div><div class="mfield-val" id="m-nom">—</div></div>
+        <div><div class="mfield-label">Préférence contact</div><div class="mfield-val" id="m-pref">—</div></div>
+        <div>
+          <div class="mfield-label">Téléphone</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="mfield-val" id="m-tel">—</div>
+            <button class="tbtn" onclick="callClient()" style="padding:4px 10px;font-size:.68rem;">📞 Appeler</button>
+            <button class="tbtn" onclick="whatsappClient()" style="padding:4px 10px;font-size:.68rem;">💬 WA</button>
+          </div>
+        </div>
+        <div>
+          <div class="mfield-label">Email</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="mfield-val" id="m-email">—</div>
+            <button class="tbtn" onclick="emailClient()" style="padding:4px 10px;font-size:.68rem;">✉️ Email</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet -->
+    <div class="msection">
+      <div class="msection-title">🏗️ Détails du projet</div>
+      <div class="mgrid3">
+        <div><div class="mfield-label">Type</div><div class="mfield-val" id="m-type">—</div></div>
+        <div><div class="mfield-label">Ville</div><div class="mfield-val" id="m-ville">—</div></div>
+        <div><div class="mfield-label">Surface</div><div class="mfield-val" id="m-surface">—</div></div>
+        <div><div class="mfield-label">Budget estimé</div><div class="mfield-val gold" id="m-budget">—</div></div>
+        <div><div class="mfield-label">Délai souhaité</div><div class="mfield-val" id="m-delai">—</div></div>
+        <div><div class="mfield-label">Date réception</div><div class="mfield-val" id="m-date">—</div></div>
+      </div>
+      <div style="margin-top:12px;"><div class="mfield-label" style="margin-bottom:5px;">Description</div><div id="m-desc" style="font-size:.8rem;color:var(--muted);line-height:1.65;"></div></div>
+      <div class="comm-box">
+        <div class="comm-label">💶 Commission RenoLink 8%</div>
+        <div class="comm-val" id="m-comm">—</div>
+      </div>
+    </div>
+
+    <!-- Artisan assigné -->
+    <div class="msection">
+      <div class="msection-title">🔨 Proposer à un artisan</div>
+      <div id="m-artisan-assigned" style="margin-bottom:12px;font-size:.78rem;color:var(--muted);">Aucun artisan assigné</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="m-artisan-btns"></div>
+      <div style="margin-top:10px;font-size:.72rem;color:var(--muted);">⚠️ L'artisan reçoit le dossier PDF par email/WhatsApp. Il répond OUI/NON. Ses coordonnées sont transmises au client seulement après acceptation.</div>
+    </div>
+
+    <!-- Statut & suivi -->
+    <div class="msection">
+      <div class="msection-title">📊 Statut et suivi chantier</div>
+      <div class="mgrid">
+        <div>
+          <div class="mfield-label" style="margin-bottom:6px;">Changer le statut</div>
+          <select class="statut-select" id="m-statut-select" onchange="updateStatut()">
+            <option value="nouveau">🔵 Nouveau</option>
+            <option value="valide">✅ Validé</option>
+            <option value="en-cours">🟡 En cours</option>
+            <option value="visite">📍 Visite planifiée</option>
+            <option value="devis">📄 Devis envoyé</option>
+            <option value="signe">🤝 Chantier signé</option>
+            <option value="perdu">❌ Perdu</option>
+            <option value="rejete">🚫 Rejeté</option>
+          </select>
+        </div>
+        <div>
+          <div class="mfield-label" style="margin-bottom:6px;">Montant signé réel (€)</div>
+          <input type="number" class="form-input" id="m-montant-signe" placeholder="Ex: 10500" onchange="updateMontantSigne()" style="max-width:200px;">
+          <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">Renseignez lors de la signature pour calculer la commission exacte</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="msection">
+      <div class="msection-title">📅 Historique</div>
+      <div class="timeline" id="m-timeline"></div>
+    </div>
+
+    <!-- Notes -->
+    <div class="msection">
+      <div class="msection-title">📝 Notes internes</div>
+      <textarea class="modal-notes" id="m-notes" placeholder="Appels, observations, instructions…"></textarea>
+    </div>
+
+  </div>
+  <div class="modal-foot">
+    <button class="mfbtn" onclick="saveNotes()">💾 Sauvegarder notes</button>
+    <button class="mfbtn gold" onclick="exportProjectPDF()">📄 Export PDF</button>
+    <button class="mfbtn dark" onclick="sendWhatsApp()">💬 Envoyer WhatsApp</button>
+    <button class="mfbtn" onclick="sendEmail()">✉️ Envoyer Email</button>
+    <button class="mfbtn danger" onclick="rejectProject()">🚫 Rejeter</button>
+  </div>
 </div>
+</div>
+
+<!-- ═══════════ MODAL AJOUTER PROJET ═══════════ -->
+<div class="overlay" id="modal-add-project">
+<div class="modal" style="max-width:620px;">
+  <div class="modal-head">
+    <div><div class="modal-title">+ Nouveau projet (manuel)</div><div class="modal-ref">Ajout direct admin</div></div>
+    <button class="modal-close" onclick="closeModal('modal-add-project')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="msection">
+      <div class="msection-title">🏗️ Projet</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Type de travaux <span class="req">*</span></label><input type="text" class="form-input" id="add-type" placeholder="Ex: Rénovation salle de bain"></div>
+        <div class="form-group"><label class="form-label">Budget estimé (€) <span class="req">*</span></label><input type="number" class="form-input" id="add-budget" placeholder="Ex: 9000" min="1500"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Ville <span class="req">*</span></label><input type="text" class="form-input" id="add-ville" placeholder="Nancy"></div>
+        <div class="form-group"><label class="form-label">Code postal</label><input type="text" class="form-input" id="add-cp" placeholder="54000" maxlength="5"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Surface</label><input type="text" class="form-input" id="add-surface" placeholder="Ex: 12 m²"></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="add-desc" placeholder="Décrivez le projet…"></textarea></div>
+      <div class="form-group">
+        <label class="form-label">Délai souhaité</label>
+        <select class="form-select" id="add-delai">
+          <option>Dès que possible</option>
+          <option>Dans le mois</option>
+          <option>Dans 1 à 3 mois</option>
+          <option>Dans 3 à 6 mois</option>
+          <option>Non défini</option>
+        </select>
+      </div>
+    </div>
+    <div class="msection">
+      <div class="msection-title">👤 Client</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Nom complet <span class="req">*</span></label><input type="text" class="form-input" id="add-nom" placeholder="Prénom Nom"></div>
+        <div class="form-group"><label class="form-label">Téléphone <span class="req">*</span></label><input type="tel" class="form-input" id="add-tel" placeholder="06 XX XX XX XX"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="add-email" placeholder="email@exemple.fr"></div>
+        <div class="form-group">
+          <label class="form-label">Préférence contact</label>
+          <select class="form-select" id="add-pref">
+            <option>Téléphone</option><option>SMS</option><option>Email</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="mfbtn" onclick="closeModal('modal-add-project')">Annuler</button>
+    <button class="mfbtn success" onclick="submitAddProject()">✅ Créer le projet</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ MODAL AJOUTER ARTISAN ═══════════ -->
+<div class="overlay" id="modal-add-artisan">
+<div class="modal" style="max-width:640px;">
+  <div class="modal-head">
+    <div><div class="modal-title">+ Nouvel artisan</div><div class="modal-ref">Inscription manuelle admin</div></div>
+    <button class="modal-close" onclick="closeModal('modal-add-artisan')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="msection">
+      <div class="msection-title">🏢 Entreprise</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Raison sociale <span class="req">*</span></label><input type="text" class="form-input" id="art-rs" placeholder="DUPONT RÉNOVATION"></div>
+        <div class="form-group"><label class="form-label">SIRET <span class="req">*</span></label><input type="text" class="form-input" id="art-siret" placeholder="14 chiffres"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Téléphone <span class="req">*</span></label><input type="tel" class="form-input" id="art-tel" placeholder="06 XX XX XX XX"></div>
+        <div class="form-group"><label class="form-label">Email <span class="req">*</span></label><input type="email" class="form-input" id="art-email" placeholder="contact@artisan.fr"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Métier principal <span class="req">*</span></label><input type="text" class="form-input" id="art-metier" placeholder="Ex: Rénovation intérieure"></div>
+        <div class="form-group"><label class="form-label">Ville <span class="req">*</span></label><input type="text" class="form-input" id="art-ville" placeholder="Nancy"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Zone d'intervention</label><input type="text" class="form-input" id="art-zone" placeholder="Ex: Nancy, Meurthe-et-Moselle, Grand Est…"></div>
+    </div>
+
+    <div class="msection">
+      <div class="msection-title">🏆 Certifications & Assurances — l'artisan déclare</div>
+      <div class="check-cols">
+        <label class="check-group"><input type="checkbox" id="art-kbis"><label for="art-kbis">KBIS valide <span class="ck-sub">Document fourni à l'inscription</span></label></label>
+        <label class="check-group"><input type="checkbox" id="art-decennale"><label for="art-decennale">Assurance décennale <span class="ck-sub">Oui / déclare en avoir une</span></label></label>
+        <label class="check-group"><input type="checkbox" id="art-rcpro"><label for="art-rcpro">RC Professionnelle <span class="ck-sub">Oui / déclare en avoir une</span></label></label>
+        <label class="check-group"><input type="checkbox" id="art-rge"><label for="art-rge">Certification RGE <span class="ck-sub">Reconnu Garant Environnement</span></label></label>
+        <label class="check-group"><input type="checkbox" id="art-qualibat"><label for="art-qualibat">Qualibat / Qualifelec <span class="ck-sub">Qualification professionnelle</span></label></label>
+        <label class="check-group"><input type="checkbox" id="art-qualipac"><label for="art-qualipac">QualiPAC / CEE <span class="ck-sub">Pompe à chaleur, isolation</span></label></label>
+      </div>
+      <div style="margin-top:12px;background:#FEF9F0;border:1px solid rgba(184,130,10,.2);border-radius:8px;padding:10px 14px;font-size:.72rem;color:#92400E;line-height:1.5;">
+        ⚠️ Ces informations sont déclaratives. RenoLink se réserve le droit de demander les documents justificatifs à tout moment. L'artisan s'engage à les fournir sur demande.
+      </div>
+    </div>
+
+    <div class="msection">
+      <div class="msection-title">📝 Notes</div>
+      <textarea class="form-textarea" id="art-notes" placeholder="Informations complémentaires, source du contact…"></textarea>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="mfbtn" onclick="closeModal('modal-add-artisan')">Annuler</button>
+    <button class="mfbtn success" onclick="submitAddArtisan()">✅ Ajouter l'artisan</button>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
 
 <!-- JS -->
 <script src="../js/security.js"></script>
