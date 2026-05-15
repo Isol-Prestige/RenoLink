@@ -4,92 +4,500 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RenoLink — Rejoindre le réseau artisan</title>
-  <meta name="description" content="Inscrivez-vous gratuitement sur RenoLink. Recevez des dossiers clients qualifiés en Lorraine. KBIS, décennale et certifications vérifiés.">
+  <meta name="description" content="Inscrivez-vous gratuitement sur RenoLink. Recevez des dossiers clients qualifiés en Lorraine.">
 
-  <!-- CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/inscription.css">
+
+  <style>
+    /* ── LAYOUT ── */
+    .insc-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      min-height: calc(100vh - var(--nav-h, 70px));
+      padding-top: var(--nav-h, 70px);
+    }
+    .insc-main {
+      padding: 48px 56px 80px;
+      max-width: 780px;
+    }
+    .insc-sidebar {
+      background: var(--dark);
+      padding: 40px 28px;
+      position: sticky;
+      top: var(--nav-h, 70px);
+      height: calc(100vh - var(--nav-h, 70px));
+      overflow-y: auto;
+    }
+
+    /* ── HEADER ── */
+    .insc-eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(184,130,10,0.08);
+      border: 1px solid rgba(184,130,10,0.2);
+      color: var(--gold);
+      font-size: 0.68rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 100px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .insc-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -0.025em; margin-bottom: 10px;
+    }
+    .insc-sub {
+      font-size: 0.88rem; color: var(--muted);
+      line-height: 1.7; margin-bottom: 32px; max-width: 540px;
+    }
+
+    /* ── PROGRESS ── */
+    .prog-bar {
+      display: flex; gap: 5px; margin-bottom: 36px;
+    }
+    .prog-step {
+      flex: 1; height: 4px; border-radius: 2px;
+      background: var(--border); transition: background 0.4s;
+    }
+    .prog-step.done   { background: var(--success); }
+    .prog-step.active { background: var(--gold); }
+
+    /* ── ÉTAPES ── */
+    .etape { display: none; animation: fadeIn 0.3s ease; }
+    .etape.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    .etape-eyebrow {
+      font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 5px;
+    }
+    .etape-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem; font-weight: 700;
+      margin-bottom: 5px; letter-spacing: -0.02em;
+    }
+    .etape-sub {
+      font-size: 0.82rem; color: var(--muted);
+      line-height: 1.6; margin-bottom: 24px;
+    }
+
+    /* ── FORM CARDS ── */
+    .form-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 14px;
+      padding: 26px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+    .form-card-title {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* ── FORMULAIRES ── */
+    .form-group  { margin-bottom: 18px; }
+    .form-label  { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 7px; color: var(--text); }
+    .form-label .req { color: var(--gold); }
+    .form-label .opt { font-weight: 400; color: var(--muted); font-size: 0.7rem; margin-left: 4px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; border: 1.5px solid #e5e5e5;
+      border-radius: 9px; padding: 11px 14px;
+      font-size: 0.85rem; color: var(--text);
+      background: #fafafa; outline: none;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,130,10,0.1);
+      background: #fff;
+    }
+    .form-input.error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(220,38,38,0.08); }
+    .form-textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-hint { font-size: 0.7rem; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+    .form-error { font-size: 0.72rem; color: var(--error); margin-top: 5px; display: none; align-items: center; gap: 4px; }
+    .form-error.show { display: flex; }
+
+    /* ── KBIS UPLOAD (OBLIGATOIRE) ── */
+    .kbis-upload {
+      border: 2px dashed var(--border);
+      border-radius: 10px; padding: 20px;
+      text-align: center; cursor: pointer;
+      transition: all 0.2s; background: #fafafa;
+      position: relative;
+    }
+    .kbis-upload:hover { border-color: var(--gold); background: rgba(184,130,10,0.03); }
+    .kbis-upload.uploaded { border-style: solid; border-color: var(--success); background: #F0FDF4; }
+    .kbis-upload.missing  { border-color: var(--error); background: #FFF5F5; }
+    .kbis-upload input[type="file"] {
+      position: absolute; inset: 0; opacity: 0;
+      cursor: pointer; width: 100%; height: 100%;
+    }
+    .kbis-icon  { font-size: 1.8rem; margin-bottom: 8px; }
+    .kbis-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .kbis-sub   { font-size: 0.72rem; color: var(--muted); }
+    .kbis-ok    { font-size: 0.78rem; font-weight: 700; color: var(--success); margin-top: 6px; }
+
+    /* ── CERTIFICATIONS DÉCLARATIVES ── */
+    .cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cert-check {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 14px;
+      background: #fafafa; border: 1.5px solid #e5e5e5;
+      border-radius: 9px; cursor: pointer; transition: all 0.2s;
+    }
+    .cert-check:hover { border-color: var(--gold); background: rgba(184,130,10,0.03); }
+    .cert-check input[type="checkbox"] {
+      accent-color: var(--gold); width: 15px; height: 15px;
+      flex-shrink: 0; margin-top: 2px; cursor: pointer;
+    }
+    .cert-check-text { flex: 1; }
+    .cert-check-label { font-size: 0.82rem; font-weight: 600; cursor: pointer; display: block; }
+    .cert-check-sub   { font-size: 0.68rem; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+    /* ── UPLOAD DOCS OPTIONNELS ── */
+    .doc-upload-item {
+      display: flex; align-items: center; gap: 12px;
+      border: 1.5px dashed #e5e5e5; border-radius: 9px;
+      padding: 12px 14px; cursor: pointer;
+      transition: all 0.2s; position: relative;
+      margin-bottom: 8px;
+    }
+    .doc-upload-item:hover { border-color: var(--gold); background: rgba(184,130,10,0.02); }
+    .doc-upload-item.uploaded { border-style: solid; border-color: var(--success); background: #F0FDF4; }
+    .doc-upload-item input[type="file"] {
+      position: absolute; inset: 0; opacity: 0;
+      cursor: pointer; width: 100%; height: 100%;
+    }
+    .doc-icon  { font-size: 1.3rem; flex-shrink: 0; }
+    .doc-info  { flex: 1; }
+    .doc-name  { font-size: 0.82rem; font-weight: 600; margin-bottom: 2px; }
+    .doc-state { font-size: 0.7rem; color: var(--muted); }
+    .doc-state.ok { color: var(--success); font-weight: 700; }
+    .doc-action { font-size: 0.7rem; font-weight: 600; color: var(--gold); flex-shrink: 0; }
+
+    /* ── MÉTIERS ── */
+    .metier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    .metier-btn {
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 14px 10px; text-align: center;
+      cursor: pointer; transition: all 0.2s; background: #fff;
+    }
+    .metier-btn:hover { border-color: var(--gold); background: #FFFBF5; transform: translateY(-1px); }
+    .metier-btn.selected { border-color: var(--gold); background: #FFFBF5; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+    .metier-btn .mi { font-size: 1.4rem; margin-bottom: 5px; display: block; }
+    .metier-btn .ml { font-size: 0.73rem; font-weight: 600; color: var(--text); }
+    .metier-btn .ms { font-size: 0.63rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── ZONE TAGS ── */
+    .zone-wrap { display: flex; gap: 8px; margin-bottom: 10px; }
+    .zone-wrap input { flex: 1; }
+    .zone-wrap button {
+      padding: 11px 18px; background: var(--dark); color: #fff;
+      border: none; border-radius: 9px; font-weight: 600;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; white-space: nowrap; transition: all 0.2s;
+    }
+    .zone-wrap button:hover { background: var(--charcoal); }
+    .zone-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .zone-tag {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(184,130,10,0.08);
+      border: 1px solid rgba(184,130,10,0.25);
+      color: var(--gold); font-size: 0.75rem; font-weight: 600;
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .zone-tag button {
+      background: none; border: none; color: var(--gold);
+      cursor: pointer; font-size: 0.7rem; padding: 0; line-height: 1;
+    }
+    .zone-suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .zone-sug {
+      padding: 5px 12px; border: 1.5px solid var(--border);
+      border-radius: 100px; font-size: 0.73rem; font-weight: 600;
+      cursor: pointer; background: #fff; color: var(--muted);
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .zone-sug:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── CONSENTEMENT COMMISSION ── */
+    .commission-box {
+      background: var(--dark);
+      border: 1px solid rgba(184,130,10,0.3);
+      border-radius: 14px; padding: 28px;
+      color: #fff; margin-bottom: 18px;
+    }
+    .commission-box h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .commission-rate {
+      font-family: 'Fraunces', serif;
+      font-size: 3rem; font-weight: 900;
+      color: var(--gold); line-height: 1;
+      margin-bottom: 6px;
+    }
+    .commission-label { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-bottom: 18px; }
+    .commission-clauses { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .clause-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.8rem; color: rgba(255,255,255,0.65); line-height: 1.6;
+    }
+    .clause-item::before {
+      content: '→'; color: var(--gold); font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .clause-item strong { color: rgba(255,255,255,0.9); }
+
+    /* ── CHECKBOXES CONSENTEMENT ── */
+    .consent-wrap {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(184,130,10,0.2);
+      border-radius: 10px; padding: 16px;
+      margin-bottom: 10px;
+    }
+    .consent-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 12px;
+    }
+    .consent-row:last-child { margin-bottom: 0; }
+    .consent-row input[type="checkbox"] {
+      accent-color: var(--gold); width: 16px; height: 16px;
+      flex-shrink: 0; margin-top: 3px; cursor: pointer;
+    }
+    .consent-text { font-size: 0.78rem; color: rgba(255,255,255,0.6); line-height: 1.6; cursor: pointer; }
+    .consent-text strong { color: var(--gold); }
+    .consent-error { font-size: 0.72rem; color: #FCA5A5; margin-top: 8px; display: none; }
+    .consent-error.show { display: block; }
+
+    /* ── RÉCAP ── */
+    .recap-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; margin-bottom: 18px;
+    }
+    .recap-card-title {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .recap-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      font-size: 0.8rem; padding: 7px 0;
+      border-bottom: 1px solid #F5F2ED;
+    }
+    .recap-row:last-child { border-bottom: none; }
+    .recap-label { color: var(--muted); flex-shrink: 0; margin-right: 16px; }
+    .recap-value { font-weight: 600; text-align: right; }
+
+    /* ── BOUTONS ── */
+    .btn-row { display: flex; gap: 12px; margin-top: 24px; }
+    .btn-next {
+      flex: 1; padding: 14px; background: var(--dark); color: #fff;
+      border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .btn-next:hover { background: var(--charcoal); transform: translateY(-1px); }
+    .btn-prev {
+      padding: 14px 22px; background: #fff; color: var(--text);
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.86rem; font-weight: 500; cursor: pointer;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .btn-prev:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-submit {
+      flex: 1; padding: 14px; background: var(--gold); color: #fff;
+      border: none; border-radius: 10px; font-size: 0.92rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .btn-submit:hover { background: var(--gold2); transform: translateY(-1px); }
+
+    /* ── SIDEBAR ── */
+    .sb-section-title {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.25);
+      margin-bottom: 14px;
+    }
+    .sb-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .sb-step:last-child { border-bottom: none; }
+    .sb-step-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 700;
+      color: rgba(255,255,255,0.28); flex-shrink: 0;
+    }
+    .sb-step-num.active { background: var(--gold); color: #fff; }
+    .sb-step-num.done   { background: var(--success); color: #fff; }
+    .sb-step-content h5 { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 2px; }
+    .sb-step-content p  { font-size: 0.7rem; color: rgba(255,255,255,0.28); line-height: 1.4; }
+
+    .sb-guarantees {
+      margin-top: 28px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 18px;
+    }
+    .sb-guarantee-item {
+      display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px;
+    }
+    .sb-guarantee-item:last-child { margin-bottom: 0; }
+    .sb-g-icon {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: rgba(184,130,10,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+    .sb-g-text { font-size: 0.73rem; color: rgba(255,255,255,0.35); line-height: 1.5; }
+    .sb-g-text strong { color: rgba(255,255,255,0.65); display: block; margin-bottom: 1px; }
+
+    /* ── PAGE SUCCÈS ── */
+    .success-page {
+      display: none; text-align: center;
+      padding: 80px 32px; max-width: 560px; margin: 0 auto;
+      animation: fadeIn 0.5s ease;
+    }
+    .success-page.show { display: block; }
+    .success-icon {
+      width: 76px; height: 76px; border-radius: 50%;
+      background: #D1FAE5;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin: 0 auto 22px;
+    }
+    .success-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem; font-weight: 700; margin-bottom: 10px;
+    }
+    .success-ref {
+      display: inline-block; background: #F5F2ED;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 7px 18px; font-size: 0.84rem; font-weight: 700;
+      color: var(--gold); margin-bottom: 14px; font-family: monospace;
+    }
+    .success-steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin: 28px auto 0; max-width: 520px;
+    }
+    .success-step {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 12px; text-align: center;
+    }
+    .ss-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--gold); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; margin: 0 auto 8px;
+    }
+    .ss-title { font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; }
+    .ss-desc  { font-size: 0.68rem; color: var(--muted); line-height: 1.4; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .insc-layout { grid-template-columns: 1fr; }
+      .insc-sidebar { display: none; }
+      .insc-main { padding: 36px 20px 60px; }
+      .cert-grid, .form-row { grid-template-columns: 1fr; }
+      .metier-grid { grid-template-columns: repeat(2, 1fr); }
+      .success-steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .btn-row { flex-direction: column; }
+      .metier-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ── NAVBAR ── -->
+<!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a class="nav-logo" href="../index.html">Reno<span>Link</span></a>
-  <a href="../index.html" style="font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:6px;">← Retour à l'accueil</a>
+  <a href="../index.html" style="font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:6px;">← Retour</a>
 </nav>
 
-<!-- ── LAYOUT PRINCIPAL ── -->
-<div class="inscription-layout">
+<div class="insc-layout" id="insc-layout">
 
-  <!-- ════ COLONNE PRINCIPALE ════ -->
-  <div class="inscription-main">
+  <!-- ════ MAIN ════ -->
+  <div class="insc-main">
 
-    <!-- En-tête -->
-    <div class="inscription-tag">🔨 Espace artisan</div>
-    <h1 class="inscription-title">Rejoignez le réseau<br>RenoLink</h1>
-    <p class="inscription-sub">
-      Inscription gratuite la première année. Recevez des dossiers clients qualifiés
-      dans votre zone. Chaque artisan est vérifié — votre profil devient un label de confiance.
+    <div class="insc-eyebrow">🔨 Espace artisan</div>
+    <h1 class="insc-title">Rejoignez le réseau RenoLink</h1>
+    <p class="insc-sub">
+      Inscription gratuite. Recevez des dossiers clients qualifiés dans votre zone.
+      Une commission de 8% sur le montant HT de chaque chantier signé sera facturée par RenoLink.
     </p>
 
-    <!-- Barre de progression -->
-    <div class="inscription-progress">
+    <!-- PROGRESS -->
+    <div class="prog-bar">
       <div class="prog-step active" id="prog1"></div>
       <div class="prog-step" id="prog2"></div>
       <div class="prog-step" id="prog3"></div>
       <div class="prog-step" id="prog4"></div>
     </div>
 
-    <!-- ══ ÉTAPE 1 — INFORMATIONS ENTREPRISE ══ -->
+    <!-- ══ ÉTAPE 1 — ENTREPRISE ══ -->
     <div class="etape active" id="etape1">
       <div class="etape-eyebrow">Étape 1 sur 4</div>
       <h2 class="etape-title">Votre entreprise</h2>
-      <p class="etape-sub">Informations de base sur votre entreprise. Ces données seront vérifiées avant validation.</p>
+      <p class="etape-sub">Informations légales et coordonnées de contact.</p>
 
       <div class="form-card">
         <div class="form-card-title">🏢 Informations légales</div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Raison sociale <span class="req">*</span></label>
-            <input type="text" class="form-input" id="raisonSociale" placeholder="Ex: Müller Rénovation SARL">
-            <div class="form-error" id="raisonSocialeError">⚠️ Veuillez indiquer la raison sociale</div>
+            <input type="text" class="form-input" id="rs" placeholder="DUPONT RÉNOVATION SARL" maxlength="150">
+            <div class="form-error" id="rs-err">⚠️ Obligatoire</div>
           </div>
           <div class="form-group">
-            <label class="form-label">Forme juridique</label>
-            <select class="form-select" id="formeJuridique">
-              <option value="">Sélectionner...</option>
-              <option>Auto-entrepreneur / Micro-entreprise</option>
-              <option>EURL</option>
-              <option>SARL</option>
-              <option>SAS / SASU</option>
-              <option>EI — Entreprise individuelle</option>
-              <option>Autre</option>
+            <label class="form-label">Forme juridique <span class="opt">(optionnel)</span></label>
+            <select class="form-select" id="forme">
+              <option value="">Sélectionner…</option>
+              <option>Auto-entrepreneur / Micro</option>
+              <option>EI</option><option>EURL</option>
+              <option>SARL</option><option>SAS / SASU</option><option>Autre</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label">Numéro SIRET <span class="req">*</span></label>
-          <input type="text" class="form-input" id="siret" placeholder="14 chiffres — ex: 81234567800012" maxlength="17">
-          <div class="form-hint">📋 Trouvez votre SIRET sur societe.com ou votre extrait KBIS</div>
-          <div class="form-error" id="siretError">⚠️ SIRET invalide — 14 chiffres requis</div>
+          <input type="text" class="form-input" id="siret" placeholder="14 chiffres" maxlength="17">
+          <div class="form-hint">Trouvez votre SIRET sur societe.com ou votre KBIS</div>
+          <div class="form-error" id="siret-err">⚠️ SIRET invalide (14 chiffres)</div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Date de création</label>
-            <input type="date" class="form-input" id="dateCreation">
+            <label class="form-label">Date de création <span class="opt">(optionnel)</span></label>
+            <input type="date" class="form-input" id="date-creation">
           </div>
           <div class="form-group">
-            <label class="form-label">Nombre de salariés</label>
-            <select class="form-select" id="nbSalaries">
-              <option value="">Sélectionner...</option>
+            <label class="form-label">Nombre de salariés <span class="opt">(optionnel)</span></label>
+            <select class="form-select" id="salaries">
+              <option value="">Sélectionner…</option>
               <option>Seul (auto-entrepreneur)</option>
-              <option>1 à 2 salariés</option>
-              <option>3 à 5 salariés</option>
-              <option>6 à 10 salariés</option>
-              <option>Plus de 10 salariés</option>
+              <option>1 à 2</option><option>3 à 5</option>
+              <option>6 à 10</option><option>+ de 10</option>
             </select>
           </div>
         </div>
@@ -100,51 +508,53 @@
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Prénom du gérant <span class="req">*</span></label>
-            <input type="text" class="form-input" id="prenom" placeholder="Votre prénom">
+            <input type="text" class="form-input" id="prenom" placeholder="Jean" maxlength="80">
+            <div class="form-error" id="prenom-err">⚠️ Obligatoire</div>
           </div>
           <div class="form-group">
-            <label class="form-label">Nom du gérant <span class="req">*</span></label>
-            <input type="text" class="form-input" id="nom" placeholder="Votre nom">
+            <label class="form-label">Nom <span class="req">*</span></label>
+            <input type="text" class="form-input" id="nom" placeholder="Dupont" maxlength="80">
+            <div class="form-error" id="nom-err">⚠️ Obligatoire</div>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Téléphone professionnel <span class="req">*</span></label>
-            <input type="tel" class="form-input" id="telephone" placeholder="06 XX XX XX XX">
-            <div class="form-error" id="telError">⚠️ Numéro de téléphone invalide</div>
+            <label class="form-label">Téléphone <span class="req">*</span></label>
+            <input type="tel" class="form-input" id="tel" placeholder="06 XX XX XX XX" maxlength="20">
+            <div class="form-error" id="tel-err">⚠️ Téléphone invalide</div>
           </div>
           <div class="form-group">
             <label class="form-label">Email professionnel <span class="req">*</span></label>
-            <input type="email" class="form-input" id="email" placeholder="contact@votre-entreprise.fr">
-            <div class="form-error" id="emailError">⚠️ Adresse email invalide</div>
+            <input type="email" class="form-input" id="email" placeholder="contact@votre-entreprise.fr" maxlength="150">
+            <div class="form-error" id="email-err">⚠️ Email invalide</div>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Site web <span class="opt">(optionnel)</span></label>
-          <input type="url" class="form-input" id="siteWeb" placeholder="https://www.votre-site.fr">
+          <input type="url" class="form-input" id="siteweb" placeholder="https://www.votre-site.fr" maxlength="200">
         </div>
       </div>
 
       <div class="form-card">
         <div class="form-card-title">📍 Adresse du siège</div>
         <div class="form-group">
-          <label class="form-label">Adresse</label>
-          <input type="text" class="form-input" id="adresse" placeholder="Numéro et nom de rue">
+          <label class="form-label">Adresse <span class="opt">(optionnel)</span></label>
+          <input type="text" class="form-input" id="adresse" placeholder="12 rue des Jardins" maxlength="200">
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Code postal <span class="req">*</span></label>
-            <input type="text" class="form-input" id="cpSiege" placeholder="Ex: 54000" maxlength="5">
+            <label class="form-label">Code postal <span class="opt">(optionnel)</span></label>
+            <input type="text" class="form-input" id="cp" placeholder="54000" maxlength="5">
           </div>
           <div class="form-group">
-            <label class="form-label">Ville <span class="req">*</span></label>
-            <input type="text" class="form-input" id="villeSiege" placeholder="Ex: Nancy">
+            <label class="form-label">Ville <span class="opt">(optionnel)</span></label>
+            <input type="text" class="form-input" id="ville" placeholder="Nancy" maxlength="100">
           </div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn-next-i" onclick="nextEtape(1)">Continuer → Métier & Zone</button>
+        <button class="btn-next" onclick="nextEtape(1)">Continuer — Métier & Zone →</button>
       </div>
     </div>
 
@@ -152,450 +562,629 @@
     <div class="etape" id="etape2">
       <div class="etape-eyebrow">Étape 2 sur 4</div>
       <h2 class="etape-title">Votre métier & zone</h2>
-      <p class="etape-sub">Sélectionnez vos corps de métier et définissez votre zone d'intervention. Vous ne recevrez que des projets dans votre zone.</p>
+      <p class="etape-sub">Sélectionnez vos corps de métier et définissez votre zone d'intervention.</p>
 
-      <!-- Métiers -->
       <div class="form-card">
         <div class="form-card-title">
-          🔨 Corps de métier
-          <div id="metierCount" style="margin-left:auto;background:var(--gold);color:white;font-size:0.65rem;font-weight:700;padding:2px 10px;border-radius:100px;display:none;"></div>
+          🔨 Corps de métier <span class="req" style="font-size:.8rem;">*</span>
+          <span id="metier-count" style="margin-left:auto;background:var(--gold);color:#fff;font-size:.62rem;font-weight:700;padding:2px 9px;border-radius:100px;display:none;"></span>
         </div>
         <div class="metier-grid">
-          <div class="metier-btn" onclick="toggleMetier(this,'Maçonnerie & Gros œuvre')"><span class="mi">🏗️</span><div class="ml">Maçonnerie</div><div class="ms">Gros œuvre, fondations</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Toiture & Charpente')"><span class="mi">🏠</span><div class="ml">Toiture</div><div class="ms">Couverture, charpente</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Maçonnerie')"><span class="mi">🏗️</span><div class="ml">Maçonnerie</div><div class="ms">Gros œuvre</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Toiture')"><span class="mi">🏠</span><div class="ml">Toiture</div><div class="ms">Couverture, charpente</div></div>
           <div class="metier-btn" onclick="toggleMetier(this,'Électricité')"><span class="mi">⚡</span><div class="ml">Électricité</div><div class="ms">Installation, domotique</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Plomberie & Sanitaire')"><span class="mi">🚿</span><div class="ml">Plomberie</div><div class="ms">Sanitaires, tuyauterie</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Chauffage & PAC')"><span class="mi">🔥</span><div class="ml">Chauffage</div><div class="ms">PAC, chaudière, radiateurs</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Climatisation')"><span class="mi">❄️</span><div class="ml">Climatisation</div><div class="ms">Split, gainable</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Isolation thermique')"><span class="mi">🌡️</span><div class="ml">Isolation</div><div class="ms">ITE, combles, plancher</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Menuiserie intérieure')"><span class="mi">🚪</span><div class="ml">Menuiserie int.</div><div class="ms">Portes, placards, escalier</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Menuiserie extérieure')"><span class="mi">🪟</span><div class="ml">Menuiserie ext.</div><div class="ms">Fenêtres, volets, portails</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Carrelage & Sols')"><span class="mi">🪵</span><div class="ml">Carrelage & Sols</div><div class="ms">Carrelage, parquet, lino</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Peinture & Revêtements')"><span class="mi">🎨</span><div class="ml">Peinture</div><div class="ms">Intérieure, extérieure</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Plâtrerie & Cloisons')"><span class="mi">🧱</span><div class="ml">Plâtrerie</div><div class="ms">Cloisons, faux-plafonds</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Ravalement façade')"><span class="mi">🏢</span><div class="ml">Ravalement</div><div class="ms">Façade, enduit</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Panneaux solaires')"><span class="mi">☀️</span><div class="ml">Solaire</div><div class="ms">Photovoltaïque, thermique</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Aménagement extérieur')"><span class="mi">🌿</span><div class="ml">Extérieur</div><div class="ms">Terrasse, allée, jardin</div></div>
-          <div class="metier-btn" onclick="toggleMetier(this,'Tous corps d\'état')"><span class="mi">🔧</span><div class="ml">Tous corps d'état</div><div class="ms">Rénovation complète</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Plomberie')"><span class="mi">🚿</span><div class="ml">Plomberie</div><div class="ms">Sanitaires</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Chauffage & PAC')"><span class="mi">🔥</span><div class="ml">Chauffage</div><div class="ms">PAC, chaudière</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Isolation thermique')"><span class="mi">🌡️</span><div class="ml">Isolation</div><div class="ms">ITE, combles</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Menuiserie ext.')"><span class="mi">🪟</span><div class="ml">Menuiserie ext.</div><div class="ms">Fenêtres, volets</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Menuiserie int.')"><span class="mi">🚪</span><div class="ml">Menuiserie int.</div><div class="ms">Portes, placards</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Carrelage & Sols')"><span class="mi">🪵</span><div class="ml">Sols & Carrelage</div><div class="ms">Parquet, carrelage</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Peinture')"><span class="mi">🎨</span><div class="ml">Peinture</div><div class="ms">Intérieure, extérieure</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Plâtrerie')"><span class="mi">🧱</span><div class="ml">Plâtrerie</div><div class="ms">Cloisons, faux-plafonds</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Panneaux solaires')"><span class="mi">☀️</span><div class="ml">Solaire</div><div class="ms">PV, thermique</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Ravalement')"><span class="mi">🏢</span><div class="ml">Ravalement</div><div class="ms">Façade, enduit</div></div>
+          <div class="metier-btn" onclick="toggleMetier(this,'Tous corps d\'état')"><span class="mi">🔧</span><div class="ml">Tous corps</div><div class="ms">Rénovation complète</div></div>
         </div>
-        <div class="form-error" id="metierError" style="margin-top:12px;">⚠️ Veuillez sélectionner au moins un corps de métier</div>
+        <div class="form-error" id="metier-err" style="margin-top:12px;">⚠️ Sélectionnez au moins un métier</div>
       </div>
 
-      <!-- Certifications -->
       <div class="form-card">
-        <div class="form-card-title">🏆 Certifications & Labels <span style="font-weight:400;font-size:0.7rem;text-transform:none;letter-spacing:0;">(optionnel)</span></div>
-        <div class="cert-list">
-          <div class="cert-tag" onclick="toggleCert(this,'RGE')">RGE</div>
-          <div class="cert-tag" onclick="toggleCert(this,'Qualibat')">Qualibat</div>
-          <div class="cert-tag" onclick="toggleCert(this,'QualiPAC')">QualiPAC</div>
-          <div class="cert-tag" onclick="toggleCert(this,'Qualifelec')">Qualifelec</div>
-          <div class="cert-tag" onclick="toggleCert(this,'QualiSol')">QualiSol</div>
-          <div class="cert-tag" onclick="toggleCert(this,'IRVE')">IRVE</div>
-          <div class="cert-tag" onclick="toggleCert(this,'CEE')">CEE</div>
-          <div class="cert-tag" onclick="toggleCert(this,'PGN / PGP')">PGN / PGP</div>
-          <div class="cert-tag" onclick="toggleCert(this,'Label BBC')">Label BBC</div>
-          <div class="cert-tag" onclick="toggleCert(this,'NF Habitat')">NF Habitat</div>
-          <div class="cert-tag" onclick="toggleCert(this,'Eco-artisan')">Eco-artisan</div>
-          <div class="cert-tag" onclick="toggleCert(this,'Pro de la performance')">Pro de la performance</div>
+        <div class="form-card-title">📍 Zone d'intervention <span class="req" style="font-size:.8rem;">*</span></div>
+        <div class="zone-wrap">
+          <input type="text" class="form-input" id="zone-input"
+                 placeholder="Ex: Nancy, 54, Meurthe-et-Moselle…"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();addZone();}"
+                 maxlength="100">
+          <button onclick="addZone()">+ Ajouter</button>
         </div>
-        <div class="form-hint" style="margin-top:12px;">💡 Les artisans RGE peuvent être mis en relation pour des projets éligibles aux aides de l'État (MaPrimeRénov', CEE)</div>
-      </div>
-
-      <!-- Zone d'intervention -->
-      <div class="form-card">
-        <div class="form-card-title">📍 Zone d'intervention <span class="req" style="font-size:0.8rem;">*</span></div>
-        <div class="form-group">
-          <label class="form-label">Ajoutez vos villes ou départements</label>
-          <div style="display:flex;gap:8px;">
-            <input
-              type="text"
-              class="form-input"
-              id="zoneInput"
-              placeholder="Ex: Nancy, Metz, 54..."
-              onkeydown="handleZoneKeydown(event)"
-              style="flex:1;">
-            <button
-              onclick="addZone()"
-              style="padding:12px 18px;background:var(--dark);color:white;border:none;border-radius:10px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;font-size:0.85rem;">
-              + Ajouter
-            </button>
-          </div>
-          <div class="zone-tags" id="zoneTags"></div>
-          <div class="form-error" id="zoneError" style="margin-top:8px;">⚠️ Veuillez indiquer au moins une zone d'intervention</div>
-        </div>
-
-        <!-- Suggestions rapides Lorraine -->
-        <div class="form-group" style="margin-top:16px;">
-          <label class="form-label">Suggestions rapides — Lorraine</label>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
-            <button onclick="addZoneSuggestion('Nancy (54)')"    class="cert-tag">Nancy (54)</button>
-            <button onclick="addZoneSuggestion('Metz (57)')"     class="cert-tag">Metz (57)</button>
-            <button onclick="addZoneSuggestion('Verdun (55)')"   class="cert-tag">Verdun (55)</button>
-            <button onclick="addZoneSuggestion('Épinal (88)')"   class="cert-tag">Épinal (88)</button>
-            <button onclick="addZoneSuggestion('Thionville (57)')" class="cert-tag">Thionville (57)</button>
-            <button onclick="addZoneSuggestion('Lunéville (54)')" class="cert-tag">Lunéville (54)</button>
-            <button onclick="addZoneSuggestion('Bar-le-Duc (55)')" class="cert-tag">Bar-le-Duc (55)</button>
-            <button onclick="addZoneSuggestion('Saint-Dié (88)')" class="cert-tag">Saint-Dié (88)</button>
-            <button onclick="addZoneSuggestion('Tout le Grand Est')" class="cert-tag">Tout le Grand Est</button>
+        <div class="zone-tags" id="zone-tags"></div>
+        <div class="form-error" id="zone-err">⚠️ Ajoutez au moins une zone</div>
+        <div style="margin-top:14px;">
+          <div style="font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:8px;">Suggestions rapides :</div>
+          <div class="zone-suggestions">
+            <button class="zone-sug" onclick="addZoneSug('Nancy (54)')">Nancy (54)</button>
+            <button class="zone-sug" onclick="addZoneSug('Metz (57)')">Metz (57)</button>
+            <button class="zone-sug" onclick="addZoneSug('Verdun (55)')">Verdun (55)</button>
+            <button class="zone-sug" onclick="addZoneSug('Épinal (88)')">Épinal (88)</button>
+            <button class="zone-sug" onclick="addZoneSug('Lunéville (54)')">Lunéville (54)</button>
+            <button class="zone-sug" onclick="addZoneSug('Thionville (57)')">Thionville (57)</button>
+            <button class="zone-sug" onclick="addZoneSug('Grand Est')">Grand Est</button>
           </div>
         </div>
-
         <div class="form-group" style="margin-top:16px;">
-          <label class="form-label">Rayon d'intervention maximum</label>
+          <label class="form-label">Rayon d'intervention <span class="opt">(optionnel)</span></label>
           <select class="form-select" id="rayon">
-            <option value="">Sélectionner...</option>
-            <option>Moins de 20 km</option>
-            <option>20 à 50 km</option>
-            <option>50 à 100 km</option>
-            <option>Plus de 100 km</option>
+            <option value="">Sélectionner…</option>
+            <option>Moins de 20 km</option><option>20 à 50 km</option>
+            <option>50 à 100 km</option><option>Plus de 100 km</option>
             <option>Pas de limite</option>
           </select>
         </div>
       </div>
 
-      <!-- Budget moyen -->
-      <div class="form-card">
-        <div class="form-card-title">💶 Vos chantiers habituels</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Budget moyen de vos chantiers</label>
-            <select class="form-select" id="budgetMoyen">
-              <option value="">Sélectionner...</option>
-              <option>Moins de 3 000 €</option>
-              <option>3 000 – 10 000 €</option>
-              <option>10 000 – 30 000 €</option>
-              <option>30 000 – 80 000 €</option>
-              <option>Plus de 80 000 €</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Délai moyen de réponse devis</label>
-            <select class="form-select" id="delaiDevis">
-              <option value="">Sélectionner...</option>
-              <option>Moins de 48h</option>
-              <option>2 à 5 jours</option>
-              <option>1 semaine</option>
-              <option>Plus d'une semaine</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
       <div class="btn-row">
-        <button class="btn-prev-i" onclick="prevEtape(2)">← Retour</button>
-        <button class="btn-next-i" onclick="nextEtape(2)">Continuer → Documents</button>
+        <button class="btn-prev" onclick="prevEtape(2)">← Retour</button>
+        <button class="btn-next" onclick="nextEtape(2)">Continuer — Documents →</button>
       </div>
     </div>
 
     <!-- ══ ÉTAPE 3 — DOCUMENTS ══ -->
     <div class="etape" id="etape3">
       <div class="etape-eyebrow">Étape 3 sur 4</div>
-      <h2 class="etape-title">Vos documents</h2>
-      <p class="etape-sub">Les documents obligatoires sont vérifiés par notre équipe avant validation. C'est ce qui garantit la qualité du réseau RenoLink.</p>
+      <h2 class="etape-title">Documents & certifications</h2>
+      <p class="etape-sub">Un seul document obligatoire : le KBIS. Les certifications et assurances sont déclaratives — vous pouvez joindre les justificatifs si vous le souhaitez.</p>
 
-      <!-- Documents obligatoires -->
+      <!-- KBIS OBLIGATOIRE -->
       <div class="form-card">
-        <div class="form-card-title">📋 Documents obligatoires</div>
-        <div style="margin-bottom:16px;">
-          <div style="font-size:0.78rem;color:var(--muted);" id="docProgress">0/3 documents obligatoires fournis</div>
+        <div class="form-card-title">
+          📄 KBIS <span style="color:var(--error);font-size:.75rem;font-weight:700;margin-left:4px;">OBLIGATOIRE</span>
         </div>
-        <div class="doc-list">
-
-          <div class="doc-item" id="doc-kbis">
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload('kbis',this)">
-            <div class="doc-icon">📄</div>
-            <div class="doc-info">
-              <div class="doc-name">Extrait KBIS</div>
-              <div class="doc-status required" id="doc-kbis-status">⚠️ Obligatoire — de moins de 3 mois</div>
-            </div>
-            <div class="doc-action">Déposer</div>
-          </div>
-
-          <div class="doc-item" id="doc-decennale">
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload('decennale',this)">
-            <div class="doc-icon">🛡️</div>
-            <div class="doc-info">
-              <div class="doc-name">Assurance décennale en cours</div>
-              <div class="doc-status required" id="doc-decennale-status">⚠️ Obligatoire — attestation valide</div>
-            </div>
-            <div class="doc-action">Déposer</div>
-          </div>
-
-          <div class="doc-item" id="doc-rcpro">
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload('rcpro',this)">
-            <div class="doc-icon">🔒</div>
-            <div class="doc-info">
-              <div class="doc-name">Assurance RC Professionnelle</div>
-              <div class="doc-status required" id="doc-rcpro-status">⚠️ Obligatoire — attestation valide</div>
-            </div>
-            <div class="doc-action">Déposer</div>
-          </div>
-
+        <div class="kbis-upload" id="kbis-zone">
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                 onchange="handleKbisUpload(this)" id="kbis-input">
+          <div class="kbis-icon">📄</div>
+          <div class="kbis-label">Déposez votre extrait KBIS</div>
+          <div class="kbis-sub">PDF, JPG ou PNG — de moins de 3 mois — Max 5 Mo</div>
+          <div class="kbis-ok" id="kbis-ok" style="display:none;"></div>
         </div>
-        <div class="form-error" id="docError" style="margin-top:12px;">⚠️ Les 3 documents obligatoires sont requis pour continuer</div>
+        <div class="form-error" id="kbis-err" style="margin-top:8px;">⚠️ Le KBIS est obligatoire pour valider votre inscription</div>
       </div>
 
-      <!-- Documents optionnels -->
+      <!-- CERTIFICATIONS DÉCLARATIVES -->
       <div class="form-card">
-        <div class="form-card-title">🏆 Documents optionnels <span style="font-weight:400;font-size:0.7rem;text-transform:none;letter-spacing:0;">(améliorent votre profil)</span></div>
-        <div class="doc-list">
-
-          <div class="doc-item" id="doc-rge">
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload('rge',this)">
-            <div class="doc-icon">🌱</div>
-            <div class="doc-info">
-              <div class="doc-name">Certificat RGE</div>
-              <div class="doc-status optional">Optionnel — Reconnu Garant de l'Environnement</div>
+        <div class="form-card-title">
+          🏆 Certifications & Assurances
+          <span style="font-weight:400;font-size:.68rem;text-transform:none;letter-spacing:0;color:var(--muted);margin-left:6px;">— déclaratif, non obligatoire</span>
+        </div>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;line-height:1.6;">
+          Cochez les certifications et assurances que vous possédez. Ces informations sont déclaratives.
+          RenoLink peut vous demander les justificatifs à tout moment.
+        </p>
+        <div class="cert-grid">
+          <label class="cert-check">
+            <input type="checkbox" id="cert-decennale">
+            <div class="cert-check-text">
+              <span class="cert-check-label">Assurance décennale</span>
+              <span class="cert-check-sub">Je déclare posséder une assurance décennale valide</span>
             </div>
-            <div class="doc-action">Déposer</div>
-          </div>
-
-          <div class="doc-item" id="doc-qualibat">
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload('qualibat',this)">
-            <div class="doc-icon">🏆</div>
-            <div class="doc-info">
-              <div class="doc-name">Certificat Qualibat / Qualifelec</div>
-              <div class="doc-status optional">Optionnel — renforce votre crédibilité</div>
+          </label>
+          <label class="cert-check">
+            <input type="checkbox" id="cert-rcpro">
+            <div class="cert-check-text">
+              <span class="cert-check-label">RC Professionnelle</span>
+              <span class="cert-check-sub">Je déclare posséder une RC Pro valide</span>
             </div>
-            <div class="doc-action">Déposer</div>
-          </div>
-
-          <div class="doc-item" id="doc-photos">
-            <input type="file" accept="image/*" multiple onchange="handleDocUpload('photos',this)">
-            <div class="doc-icon">📸</div>
-            <div class="doc-info">
-              <div class="doc-name">Photos de réalisations</div>
-              <div class="doc-status optional">Recommandé — 3 à 5 photos de chantiers réalisés</div>
+          </label>
+          <label class="cert-check">
+            <input type="checkbox" id="cert-rge">
+            <div class="cert-check-text">
+              <span class="cert-check-label">Certification RGE</span>
+              <span class="cert-check-sub">Reconnu Garant de l'Environnement</span>
             </div>
-            <div class="doc-action">Déposer</div>
-          </div>
-
+          </label>
+          <label class="cert-check">
+            <input type="checkbox" id="cert-qualibat">
+            <div class="cert-check-text">
+              <span class="cert-check-label">Qualibat / Qualifelec</span>
+              <span class="cert-check-sub">Qualification professionnelle</span>
+            </div>
+          </label>
+          <label class="cert-check">
+            <input type="checkbox" id="cert-qualipac">
+            <div class="cert-check-text">
+              <span class="cert-check-label">QualiPAC / CEE</span>
+              <span class="cert-check-sub">PAC, isolation, énergie</span>
+            </div>
+          </label>
+          <label class="cert-check">
+            <input type="checkbox" id="cert-irve">
+            <div class="cert-check-text">
+              <span class="cert-check-label">IRVE</span>
+              <span class="cert-check-sub">Bornes de recharge véhicules</span>
+            </div>
+          </label>
+        </div>
+        <div style="background:#FEF9F0;border:1px solid rgba(184,130,10,.2);border-radius:8px;padding:10px 14px;margin-top:14px;font-size:.72rem;color:#92400E;line-height:1.5;">
+          ⚠️ En cochant ces cases, vous vous engagez à l'exactitude des informations déclarées.
+          RenoLink se réserve le droit de demander les justificatifs à tout moment et de suspendre votre compte en cas de fausse déclaration.
         </div>
       </div>
 
-      <!-- Description libre -->
+      <!-- DOCUMENTS OPTIONNELS -->
       <div class="form-card">
-        <div class="form-card-title">✍️ Présentation de votre entreprise</div>
-        <div class="form-group">
-          <label class="form-label">Description <span class="opt">(optionnel mais recommandé)</span></label>
-          <textarea
-            class="form-textarea"
-            id="description"
-            placeholder="Présentez votre entreprise en quelques lignes : votre expérience, vos spécialités, ce qui vous différencie...&#10;&#10;Ex : Entreprise familiale fondée en 1998, spécialisée dans la rénovation complète de logements anciens en Lorraine. Équipe de 4 compagnons qualifiés. RGE depuis 2015."
-            style="height:130px;"
-            maxlength="600">
-          </textarea>
+        <div class="form-card-title">
+          📎 Documents justificatifs
+          <span style="font-weight:400;font-size:.68rem;text-transform:none;letter-spacing:0;color:var(--muted);margin-left:6px;">— optionnels, renforcent votre profil</span>
         </div>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;">Joindre vos documents renforce votre crédibilité auprès des clients et de RenoLink.</p>
+
+        <div class="doc-upload-item" id="doc-decennale-zone">
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload(this,'decennale')">
+          <div class="doc-icon">🛡️</div>
+          <div class="doc-info">
+            <div class="doc-name">Attestation décennale</div>
+            <div class="doc-state" id="doc-decennale-state">Optionnel — PDF ou image</div>
+          </div>
+          <div class="doc-action">Déposer</div>
+        </div>
+
+        <div class="doc-upload-item" id="doc-rcpro-zone">
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload(this,'rcpro')">
+          <div class="doc-icon">🔒</div>
+          <div class="doc-info">
+            <div class="doc-name">Attestation RC Professionnelle</div>
+            <div class="doc-state" id="doc-rcpro-state">Optionnel — PDF ou image</div>
+          </div>
+          <div class="doc-action">Déposer</div>
+        </div>
+
+        <div class="doc-upload-item" id="doc-rge-zone">
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload(this,'rge')">
+          <div class="doc-icon">🌱</div>
+          <div class="doc-info">
+            <div class="doc-name">Certificat RGE</div>
+            <div class="doc-state" id="doc-rge-state">Optionnel — PDF ou image</div>
+          </div>
+          <div class="doc-action">Déposer</div>
+        </div>
+
+        <div class="doc-upload-item" id="doc-photos-zone">
+          <input type="file" accept="image/*" multiple onchange="handleDocUpload(this,'photos')">
+          <div class="doc-icon">📸</div>
+          <div class="doc-info">
+            <div class="doc-name">Photos de réalisations</div>
+            <div class="doc-state" id="doc-photos-state">Recommandé — 3 à 5 photos de chantiers</div>
+          </div>
+          <div class="doc-action">Déposer</div>
+        </div>
+      </div>
+
+      <!-- PRÉSENTATION -->
+      <div class="form-card">
+        <div class="form-card-title">✍️ Présentation <span style="font-weight:400;font-size:.68rem;text-transform:none;letter-spacing:0;color:var(--muted);">— optionnel mais recommandé</span></div>
+        <textarea class="form-textarea" id="presentation"
+                  placeholder="Présentez votre entreprise en quelques lignes : expérience, spécialités, ce qui vous différencie…"
+                  maxlength="600"></textarea>
       </div>
 
       <div class="btn-row">
-        <button class="btn-prev-i" onclick="prevEtape(3)">← Retour</button>
-        <button class="btn-next-i" onclick="nextEtape(3)">Continuer → Offre & Validation</button>
+        <button class="btn-prev" onclick="prevEtape(3)">← Retour</button>
+        <button class="btn-next" onclick="nextEtape(3)">Continuer — Engagement →</button>
       </div>
     </div>
 
-    <!-- ══ ÉTAPE 4 — OFFRE & VALIDATION ══ -->
+    <!-- ══ ÉTAPE 4 — ENGAGEMENT COMMISSION ══ -->
     <div class="etape" id="etape4">
-      <div class="etape-eyebrow">Étape 4 sur 4 — Dernière étape !</div>
-      <h2 class="etape-title">Votre offre de lancement</h2>
-      <p class="etape-sub">Rejoignez le réseau RenoLink gratuitement pendant 12 mois. Pas d'engagement, pas de surprise.</p>
+      <div class="etape-eyebrow">Étape 4 sur 4 — Dernière étape</div>
+      <h2 class="etape-title">Engagement & validation</h2>
+      <p class="etape-sub">Lisez attentivement les conditions d'utilisation et confirmez votre engagement.</p>
 
-      <!-- Tarif fondateur -->
-      <div class="tarif-card">
-        <div class="tarif-ribbon">Offre Fondateur</div>
-        <div class="tarif-label">Offre de lancement exclusive</div>
-        <div class="tarif-old">49 €/mois</div>
-        <div class="tarif-price"><sup>€</sup>0<span>/mois</span></div>
-        <div class="tarif-duration">Pendant 12 mois — puis 49 €/mois résiliable à tout moment</div>
-        <ul class="tarif-features">
-          <li>Accès illimité aux dossiers clients qualifiés</li>
-          <li>Profil vérifié avec badge officiel RenoLink</li>
-          <li>Alertes email & SMS instantanées</li>
-          <li>Tableau de bord statistiques</li>
-          <li>Statut Artisan Fondateur affiché sur votre profil</li>
-          <li>Tarif bloqué à vie après la période gratuite</li>
-          <li>Support prioritaire par l'équipe RenoLink</li>
-        </ul>
-        <div style="font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:8px;">
-          Aucune carte bancaire requise pour l'inscription. Facturation uniquement après la période gratuite.
-        </div>
+      <!-- RÉCAP -->
+      <div class="recap-card" id="recap-card">
+        <div class="recap-card-title">📋 Récapitulatif de votre dossier</div>
+        <div class="recap-row"><span class="recap-label">Entreprise</span><span class="recap-value" id="recap-rs">—</span></div>
+        <div class="recap-row"><span class="recap-label">Métiers</span><span class="recap-value" id="recap-metiers">—</span></div>
+        <div class="recap-row"><span class="recap-label">Zone</span><span class="recap-value" id="recap-zones">—</span></div>
+        <div class="recap-row"><span class="recap-label">Certifications déclarées</span><span class="recap-value" id="recap-certs">Aucune</span></div>
+        <div class="recap-row"><span class="recap-label">Documents fournis</span><span class="recap-value" id="recap-docs">KBIS uniquement</span></div>
       </div>
 
-      <!-- Récapitulatif -->
-      <div class="form-card">
-        <div class="form-card-title">📋 Récapitulatif de votre dossier</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:8px 0;border-bottom:1px solid #F5F2ED;">
-            <span style="color:var(--muted);">Entreprise</span>
-            <span id="recap-entreprise" style="font-weight:600;">—</span>
+      <!-- COMMISSION BOX -->
+      <div class="commission-box">
+        <h3>Commission RenoLink — Engagement contractuel</h3>
+        <div class="commission-rate">8%</div>
+        <div class="commission-label">du montant HT de chaque devis signé via RenoLink</div>
+
+        <div class="commission-clauses">
+          <div class="clause-item">
+            <span>L'inscription sur RenoLink est <strong>entièrement gratuite</strong>. Aucun abonnement, aucun frais mensuel.</span>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:8px 0;border-bottom:1px solid #F5F2ED;">
-            <span style="color:var(--muted);">Métiers</span>
-            <span id="recap-metiers" style="font-weight:600;text-align:right;max-width:60%;">—</span>
+          <div class="clause-item">
+            <span>Pour chaque chantier signé grâce à une mise en relation RenoLink, vous vous engagez à verser <strong>8% du montant HT du devis signé</strong>.</span>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:8px 0;border-bottom:1px solid #F5F2ED;">
-            <span style="color:var(--muted);">Certifications</span>
-            <span id="recap-certifs" style="font-weight:600;">—</span>
+          <div class="clause-item">
+            <span>Vous avez l'<strong>obligation de nous informer de tout devis signé</strong> dans les 7 jours suivant la signature, en communiquant le montant HT du chantier.</span>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:8px 0;border-bottom:1px solid #F5F2ED;">
-            <span style="color:var(--muted);">Zone d'intervention</span>
-            <span id="recap-zones" style="font-weight:600;text-align:right;max-width:60%;">—</span>
+          <div class="clause-item">
+            <span>RenoLink émettra une <strong>facture de commission</strong> à régler sous 30 jours à compter de l'émission.</span>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:8px 0;">
-            <span style="color:var(--muted);">Documents fournis</span>
-            <span id="recap-docs" style="font-weight:600;color:var(--success);">—</span>
+          <div class="clause-item">
+            <span>Le non-respect de ces obligations entraîne la <strong>suspension immédiate du compte</strong> et des poursuites pour inexécution contractuelle.</span>
           </div>
         </div>
+
+        <!-- CONSENTEMENTS -->
+        <div class="consent-wrap">
+          <div class="consent-row">
+            <input type="checkbox" id="consent-commission" onchange="checkConsents()">
+            <label class="consent-text" for="consent-commission">
+              Je comprends et accepte le principe de commission de <strong>8% HT</strong> sur chaque chantier signé via RenoLink,
+              et m'engage à informer RenoLink de tout devis signé dans les <strong>7 jours</strong> suivant la signature.
+            </label>
+          </div>
+          <div class="consent-row">
+            <input type="checkbox" id="consent-declaration" onchange="checkConsents()">
+            <label class="consent-text" for="consent-declaration">
+              Je m'engage à <strong>déclarer spontanément</strong> tout chantier signé avec un client mis en relation par RenoLink,
+              même en l'absence de relance de leur part, et à fournir le montant exact du devis signé.
+            </label>
+          </div>
+          <div class="consent-row">
+            <input type="checkbox" id="consent-cgu" onchange="checkConsents()">
+            <label class="consent-text" for="consent-cgu">
+              J'accepte les <a href="mentions-legales.html" style="color:var(--gold);">conditions générales d'utilisation</a>
+              et la <a href="rgpd.html" style="color:var(--gold);">politique de confidentialité</a> de RenoLink.
+              Je m'engage à maintenir mes documents à jour et à respecter la charte qualité du réseau.
+            </label>
+          </div>
+        </div>
+        <div class="consent-error" id="consent-err">⚠️ Veuillez cocher les 3 cases pour finaliser votre inscription</div>
       </div>
 
-      <!-- CGU -->
-      <div class="cgu-wrap">
-        <input type="checkbox" class="cgu-check" id="cguCheck">
-        <div class="cgu-text">
-          J'accepte les <a href="../pages/mentions-legales.html">conditions générales d'utilisation</a>
-          et la <a href="../pages/rgpd.html">politique de confidentialité</a> de RenoLink.
-          Je m'engage à maintenir mes documents à jour et à respecter la charte qualité du réseau.
-          Je comprends que tout manquement peut entraîner la suspension de mon accès.
-        </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:20px;">
+        <div style="font-size:.72rem;color:var(--muted);">🔒 Inscription gratuite</div>
+        <div style="font-size:.72rem;color:var(--muted);">📄 Aucune CB requise</div>
+        <div style="font-size:.72rem;color:var(--muted);">⚡ Validation sous 48h</div>
       </div>
-      <div class="form-error" id="cguError" style="margin-bottom:14px;">⚠️ Veuillez accepter les conditions pour finaliser votre inscription</div>
 
       <div class="btn-row">
-        <button class="btn-prev-i" onclick="prevEtape(4)">← Retour</button>
-        <button class="btn-submit-i" onclick="submitInscription()">✅ Finaliser mon inscription</button>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-top:16px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--muted);">🔒 Données sécurisées</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--muted);">⚡ Validation sous 48h</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--muted);">💶 Aucune CB requise</div>
+        <button class="btn-prev" onclick="prevEtape(4)">← Retour</button>
+        <button class="btn-submit" id="btn-submit" onclick="submitInscription()" disabled>
+          ✅ Finaliser mon inscription
+        </button>
       </div>
     </div>
 
-  </div><!-- fin inscription-main -->
+  </div><!-- fin insc-main -->
 
   <!-- ════ SIDEBAR ════ -->
-  <div class="inscription-sidebar">
+  <div class="insc-sidebar">
+    <div class="sb-section-title">Votre progression</div>
+    <div class="sb-step">
+      <div class="sb-step-num active" id="sb1">1</div>
+      <div class="sb-step-content"><h5>Votre entreprise</h5><p>Informations légales et contact</p></div>
+    </div>
+    <div class="sb-step">
+      <div class="sb-step-num" id="sb2">2</div>
+      <div class="sb-step-content"><h5>Métier & Zone</h5><p>Corps de métier et territoire</p></div>
+    </div>
+    <div class="sb-step">
+      <div class="sb-step-num" id="sb3">3</div>
+      <div class="sb-step-content"><h5>Documents</h5><p>KBIS + certifications optionnelles</p></div>
+    </div>
+    <div class="sb-step">
+      <div class="sb-step-num" id="sb4">4</div>
+      <div class="sb-step-content"><h5>Engagement</h5><p>Commission 8% et validation</p></div>
+    </div>
 
-    <!-- Étapes -->
-    <div class="sidebar-section">
-      <div class="sidebar-title">Votre progression</div>
-      <div class="sidebar-step">
-        <div class="sidebar-step-num active" id="sidebar-step-1">1</div>
-        <div class="sidebar-step-content">
-          <h5>Votre entreprise</h5>
-          <p>Informations légales et coordonnées</p>
-        </div>
+    <div class="sb-guarantees">
+      <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:14px;">Pourquoi RenoLink</div>
+      <div class="sb-guarantee-item">
+        <div class="sb-g-icon">💶</div>
+        <div class="sb-g-text"><strong>Inscription 100% gratuite</strong>Commission uniquement sur les chantiers signés.</div>
       </div>
-      <div class="sidebar-step">
-        <div class="sidebar-step-num" id="sidebar-step-2">2</div>
-        <div class="sidebar-step-content">
-          <h5>Métier & Zone</h5>
-          <p>Corps de métier et zone d'intervention</p>
-        </div>
+      <div class="sb-guarantee-item">
+        <div class="sb-g-icon">📁</div>
+        <div class="sb-g-text"><strong>Dossiers qualifiés</strong>Chaque projet est analysé avant transmission.</div>
       </div>
-      <div class="sidebar-step">
-        <div class="sidebar-step-num" id="sidebar-step-3">3</div>
-        <div class="sidebar-step-content">
-          <h5>Documents</h5>
-          <p>KBIS, décennale, certifications</p>
-        </div>
+      <div class="sb-guarantee-item">
+        <div class="sb-g-icon">🎯</div>
+        <div class="sb-g-text"><strong>Projets dans votre zone</strong>Uniquement dans votre territoire défini.</div>
       </div>
-      <div class="sidebar-step">
-        <div class="sidebar-step-num" id="sidebar-step-4">4</div>
-        <div class="sidebar-step-content">
-          <h5>Offre & Validation</h5>
-          <p>Confirmation et finalisation</p>
-        </div>
+      <div class="sb-guarantee-item">
+        <div class="sb-g-icon">🔒</div>
+        <div class="sb-g-text"><strong>Sans engagement mensuel</strong>Aucun abonnement, aucun frais fixe.</div>
       </div>
     </div>
 
-    <!-- Garanties -->
-    <div class="sidebar-section">
-      <div class="sidebar-title">Pourquoi RenoLink</div>
-      <div class="sidebar-guarantee">
-        <div class="sidebar-guarantee-item">
-          <div class="sg-icon">💶</div>
-          <div class="sg-text"><strong>Gratuit 12 mois</strong>Aucun frais pendant la première année. Pas de CB requise à l'inscription.</div>
-        </div>
-        <div class="sidebar-guarantee-item">
-          <div class="sg-icon">📁</div>
-          <div class="sg-text"><strong>Dossiers qualifiés</strong>Chaque projet est analysé par notre équipe avant de vous être transmis.</div>
-        </div>
-        <div class="sidebar-guarantee-item">
-          <div class="sg-icon">🎯</div>
-          <div class="sg-text"><strong>Projets dans votre zone</strong>Vous ne recevez que des projets dans votre zone d'intervention définie.</div>
-        </div>
-        <div class="sidebar-guarantee-item">
-          <div class="sg-icon">🏆</div>
-          <div class="sg-text"><strong>Badge artisan vérifié</strong>Votre profil affiche un badge officiel visible par tous les clients.</div>
-        </div>
-        <div class="sidebar-guarantee-item">
-          <div class="sg-icon">🔒</div>
-          <div class="sg-text"><strong>Résiliable à tout moment</strong>Aucun engagement après la période gratuite.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Témoignage artisan -->
-    <div style="background:rgba(184,130,10,0.06);border:1px solid rgba(184,130,10,0.15);border-radius:12px;padding:20px;margin-top:8px;">
-      <div style="font-size:1.2rem;color:var(--gold);font-family:'Fraunces',serif;margin-bottom:10px;">"</div>
-      <p style="font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.6;font-style:italic;margin-bottom:14px;">
-        J'ai signé 3 chantiers en 2 mois via RenoLink. Les dossiers sont vraiment qualifiés — les clients savent ce qu'ils veulent et ont un budget réel.
+    <!-- Témoignage -->
+    <div style="margin-top:20px;background:rgba(184,130,10,.06);border:1px solid rgba(184,130,10,.15);border-radius:12px;padding:18px;">
+      <div style="font-size:1.2rem;color:var(--gold);font-family:'Fraunces',serif;margin-bottom:8px;">"</div>
+      <p style="font-size:.76rem;color:rgba(255,255,255,.42);line-height:1.6;font-style:italic;margin-bottom:12px;">
+        J'ai signé 3 chantiers en 2 mois. Les dossiers sont sérieux — les clients ont un vrai budget et un projet défini.
       </p>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#7a5500);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:white;flex-shrink:0;">JM</div>
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#7a5500);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#fff;">JM</div>
         <div>
-          <div style="font-size:0.78rem;font-weight:600;color:rgba(255,255,255,0.6);">Jean-Marc R.</div>
-          <div style="font-size:0.68rem;color:rgba(255,255,255,0.28);">Maçonnerie · Nancy</div>
+          <div style="font-size:.76rem;font-weight:600;color:rgba(255,255,255,.6);">Jean-Marc R.</div>
+          <div style="font-size:.66rem;color:rgba(255,255,255,.28);">Maçonnerie · Nancy</div>
         </div>
       </div>
-    </div>
-
-  </div><!-- fin sidebar -->
-
-</div><!-- fin layout -->
-
-<!-- ── PAGE SUCCÈS ── -->
-<div class="success-inscription" id="successInscription">
-  <div class="si-icon">🎉</div>
-  <h1 class="si-title">Dossier reçu !</h1>
-  <p style="color:var(--muted);margin-bottom:16px;font-size:0.92rem;">Votre demande d'inscription a bien été enregistrée.</p>
-  <div class="si-ref" id="successRef">Réf. ART-2026-001</div>
-  <p style="font-size:0.85rem;color:var(--muted);max-width:440px;margin:0 auto 12px;line-height:1.7;">
-    Notre équipe vérifie vos documents et valide votre profil sous <strong>48h ouvrées</strong>.
-    Vous recevrez un email de confirmation dès que votre compte est activé.
-  </p>
-  <div class="si-steps">
-    <div class="si-step">
-      <div class="si-step-num">1</div>
-      <div class="si-step-title">Vérification documents</div>
-      <div class="si-step-desc">Notre équipe contrôle KBIS, décennale et certifications</div>
-    </div>
-    <div class="si-step">
-      <div class="si-step-num">2</div>
-      <div class="si-step-title">Activation du profil</div>
-      <div class="si-step-desc">Votre badge vérifié est activé et votre profil mis en ligne</div>
-    </div>
-    <div class="si-step">
-      <div class="si-step-num">3</div>
-      <div class="si-step-title">Premiers dossiers</div>
-      <div class="si-step-desc">Vous recevez vos premiers projets clients qualifiés</div>
     </div>
   </div>
-  <button
-    style="margin-top:32px;padding:14px 36px;background:var(--dark);color:white;border:none;border-radius:10px;font-size:0.92rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;"
-    onclick="window.location.href='../index.html'">
+
+</div><!-- fin insc-layout -->
+
+<!-- PAGE SUCCÈS -->
+<div class="success-page" id="success-page">
+  <div class="success-icon">🎉</div>
+  <h1 class="success-title">Dossier reçu !</h1>
+  <p style="color:var(--muted);margin-bottom:14px;font-size:.9rem;">Votre demande d'inscription a bien été enregistrée.</p>
+  <div class="success-ref" id="success-ref">Réf. ART-2026-001</div>
+  <p style="font-size:.84rem;color:var(--muted);max-width:440px;margin:0 auto 10px;line-height:1.7;">
+    Notre équipe vérifie votre KBIS et valide votre profil sous <strong>48h ouvrées</strong>.
+    Vous recevrez une confirmation par email et/ou téléphone dès activation de votre compte.
+  </p>
+  <div class="success-steps">
+    <div class="success-step">
+      <div class="ss-num">1</div>
+      <div class="ss-title">Vérification KBIS</div>
+      <div class="ss-desc">Notre équipe contrôle votre KBIS et vos déclarations</div>
+    </div>
+    <div class="success-step">
+      <div class="ss-num">2</div>
+      <div class="ss-title">Activation compte</div>
+      <div class="ss-desc">Badge vérifié activé, vous serez contacté directement</div>
+    </div>
+    <div class="success-step">
+      <div class="ss-num">3</div>
+      <div class="ss-title">Premiers dossiers</div>
+      <div class="ss-desc">Nous vous proposons des projets dans votre zone</div>
+    </div>
+  </div>
+  <button onclick="window.location.href='../index.html'"
+    style="margin-top:28px;padding:13px 32px;background:var(--dark);color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">
     ← Retour à l'accueil
   </button>
 </div>
 
-<!-- JS -->
 <script src="../js/security.js"></script>
 <script src="../js/main.js"></script>
-<script src="../js/inscription.js"></script>
+<script>
+'use strict';
 
-<!-- Le récap est maintenant géré directement dans inscription.js -->
+// ── État ──
+const inscState = {
+  step: 1,
+  metiers: [],
+  zones: [],
+  kbisFile: null,
+  docs: {},
+};
+
+// ══ NAVIGATION ══
+function nextEtape(n) {
+  if (!validateEtape(n)) return;
+  prog(n, 'done');
+  prog(n + 1, 'active');
+  showEtape(n, n + 1);
+  updateSidebar(n + 1);
+  if (n === 3) buildRecap();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevEtape(n) {
+  prog(n, '');
+  prog(n - 1, 'active');
+  showEtape(n, n - 1);
+  updateSidebar(n - 1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showEtape(from, to) {
+  document.getElementById('etape' + from).classList.remove('active');
+  document.getElementById('etape' + to).classList.add('active');
+  inscState.step = to;
+}
+
+function prog(n, state) {
+  const el = document.getElementById('prog' + n);
+  if (!el) return;
+  el.classList.remove('active', 'done');
+  if (state) el.classList.add(state);
+}
+
+function updateSidebar(step) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('sb' + i);
+    if (!el) continue;
+    el.classList.remove('active', 'done');
+    if (i < step)  el.classList.add('done');
+    if (i === step) el.classList.add('active');
+  }
+}
+
+// ══ VALIDATION ══
+function validateEtape(n) {
+  let ok = true;
+
+  if (n === 1) {
+    ok = validateField('rs', 'rs-err', v => v.length > 0) && ok;
+    const siret = document.getElementById('siret').value.replace(/\s/g, '');
+    const siretOk = siret.length === 14 && !isNaN(siret);
+    showErr('siret-err', !siretOk);
+    if (document.getElementById('siret').classList) {
+      document.getElementById('siret').classList.toggle('error', !siretOk);
+    }
+    ok = siretOk && ok;
+    ok = validateField('prenom', 'prenom-err', v => v.length > 0) && ok;
+    ok = validateField('nom',    'nom-err',    v => v.length > 0) && ok;
+    ok = validateField('tel',    'tel-err',    v => v.replace(/\s/g,'').length >= 10) && ok;
+    ok = validateField('email',  'email-err',  v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) && ok;
+  }
+
+  if (n === 2) {
+    const metierOk = inscState.metiers.length > 0;
+    showErr('metier-err', !metierOk);
+    ok = metierOk && ok;
+    const zoneOk = inscState.zones.length > 0;
+    showErr('zone-err', !zoneOk);
+    ok = zoneOk && ok;
+  }
+
+  if (n === 3) {
+    const kbisOk = inscState.kbisFile !== null;
+    showErr('kbis-err', !kbisOk);
+    document.getElementById('kbis-zone').classList.toggle('missing', !kbisOk);
+    ok = kbisOk && ok;
+  }
+
+  if (n === 4) {
+    const c1 = document.getElementById('consent-commission').checked;
+    const c2 = document.getElementById('consent-declaration').checked;
+    const c3 = document.getElementById('consent-cgu').checked;
+    const allOk = c1 && c2 && c3;
+    showErr('consent-err', !allOk);
+    ok = allOk && ok;
+  }
+
+  return ok;
+}
+
+function validateField(id, errId, check) {
+  const el  = document.getElementById(id);
+  const err = document.getElementById(errId);
+  const ok  = check(el.value.trim());
+  el.classList.toggle('error', !ok);
+  if (err) showErr(errId, !ok);
+  return ok;
+}
+
+function showErr(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('show', show);
+}
+
+// ══ MÉTIERS ══
+function toggleMetier(el, label) {
+  const idx = inscState.metiers.indexOf(label);
+  if (idx === -1) { inscState.metiers.push(label); el.classList.add('selected'); }
+  else            { inscState.metiers.splice(idx, 1); el.classList.remove('selected'); }
+  const cnt = document.getElementById('metier-count');
+  if (inscState.metiers.length > 0) {
+    cnt.style.display = 'inline-block';
+    cnt.textContent = inscState.metiers.length + ' sélectionné(s)';
+    showErr('metier-err', false);
+  } else {
+    cnt.style.display = 'none';
+  }
+}
+
+// ══ ZONES ══
+function addZone() {
+  const input = document.getElementById('zone-input');
+  const val   = sanitize(input.value.trim());
+  if (!val || inscState.zones.includes(val)) { input.value = ''; return; }
+  inscState.zones.push(val);
+  input.value = '';
+  renderZones();
+  showErr('zone-err', false);
+}
+
+function addZoneSug(z) {
+  if (!inscState.zones.includes(z)) {
+    inscState.zones.push(z);
+    renderZones();
+    showErr('zone-err', false);
+  }
+}
+
+function removeZone(z) {
+  inscState.zones = inscState.zones.filter(x => x !== z);
+  renderZones();
+}
+
+function renderZones() {
+  const el = document.getElementById('zone-tags');
+  el.innerHTML = inscState.zones.map(z =>
+    `<div class="zone-tag">${escHtml(z)}<button onclick="removeZone('${escAttr(z)}')" title="Supprimer">✕</button></div>`
+  ).join('');
+}
+
+// ══ KBIS UPLOAD ══
+function handleKbisUpload(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  const allowed = ['application/pdf','image/jpeg','image/jpg','image/png'];
+  if (!allowed.includes(file.type)) { alert('Format non supporté. Utilisez PDF, JPG ou PNG.'); return; }
+  if (file.size > 5 * 1024 * 1024)  { alert('Fichier trop lourd (max 5 Mo).'); return; }
+  inscState.kbisFile = file.name;
+  const zone = document.getElementById('kbis-zone');
+  zone.classList.add('uploaded');
+  zone.classList.remove('missing');
+  const ok = document.getElementById('kbis-ok');
+  ok.textContent = '✓ ' + sanitize(file.name) + ' chargé';
+  ok.style.display = 'block';
+  showErr('kbis-err', false);
+}
+
+// ══ DOCS OPTIONNELS ══
+function handleDocUpload(input, docId) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  inscState.docs[docId] = file.name;
+  const zone  = document.getElementById('doc-' + docId + '-zone');
+  const state = document.getElementById('doc-' + docId + '-state');
+  if (zone)  zone.classList.add('uploaded');
+  if (state) { state.textContent = '✓ ' + sanitize(file.name); state.className = 'doc-state ok'; }
+}
+
+// ══ CONSENTEMENTS ══
+function checkConsents() {
+  const c1 = document.getElementById('consent-commission').checked;
+  const c2 = document.getElementById('consent-declaration').checked;
+  const c3 = document.getElementById('consent-cgu').checked;
+  document.getElementById('btn-submit').disabled = !(c1 && c2 && c3);
+  if (c1 && c2 && c3) showErr('consent-err', false);
+}
+
+// ══ RÉCAP ══
+function buildRecap() {
+  const rs = document.getElementById('rs').value.trim();
+  document.getElementById('recap-rs').textContent      = rs || '—';
+  document.getElementById('recap-metiers').textContent = inscState.metiers.join(', ') || '—';
+  document.getElementById('recap-zones').textContent   = inscState.zones.join(', ') || '—';
+
+  const certs = [];
+  if (document.getElementById('cert-decennale').checked) certs.push('Décennale');
+  if (document.getElementById('cert-rcpro').checked)     certs.push('RC Pro');
+  if (document.getElementById('cert-rge').checked)       certs.push('RGE');
+  if (document.getElementById('cert-qualibat').checked)  certs.push('Qualibat');
+  if (document.getElementById('cert-qualipac').checked)  certs.push('QualiPAC');
+  if (document.getElementById('cert-irve').checked)      certs.push('IRVE');
+  document.getElementById('recap-certs').textContent = certs.length ? certs.join(', ') : 'Aucune déclarée';
+
+  const docList = ['KBIS ✓'];
+  if (inscState.docs.decennale) docList.push('Décennale');
+  if (inscState.docs.rcpro)     docList.push('RC Pro');
+  if (inscState.docs.rge)       docList.push('RGE');
+  if (inscState.docs.photos)    docList.push('Photos');
+  document.getElementById('recap-docs').textContent = docList.join(', ');
+}
+
+// ══ SOUMISSION ══
+function submitInscription() {
+  if (!validateEtape(4)) return;
+  const ref = 'ART-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 900) + 100).padStart(3, '0');
+  document.getElementById('success-ref').textContent = 'Réf. ' + ref;
+  document.getElementById('insc-layout').style.display = 'none';
+  document.getElementById('success-page').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Init sidebar
+document.addEventListener('DOMContentLoaded', () => { updateSidebar(1); });
+</script>
 
 </body>
 </html>
