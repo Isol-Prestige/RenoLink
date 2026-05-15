@@ -149,6 +149,10 @@ function clearSession() {
   } catch (e) {}
 }
 
+function getSession() {
+  return JSON.parse(localStorage.getItem('session'));
+}
+
 function requireAuth() {
   const session = getSession();
 
@@ -156,6 +160,9 @@ function requireAuth() {
     window.location.href = 'connexion.html';
     return false;
   }
+
+  return true;
+}
 
   return true;
 }
