@@ -149,21 +149,13 @@ function clearSession() {
   } catch (e) {}
 }
 
-function getSession() {
-  return JSON.parse(localStorage.getItem('session'));
-}
-
 function requireAuth() {
   const session = getSession();
-
   if (!session) {
-    window.location.href = 'connexion.html';
+    // Depuis pages/ → connexion-admin.html est dans le même dossier
+    window.location.href = 'connexion-admin.html';
     return false;
   }
-
-  return true;
-}
-
   return true;
 }
 
@@ -285,6 +277,29 @@ const COMMISSION_RATE = 0.08;
 function calcCommission(montant) {
   if (typeof montant !== 'number' || montant < 0) return 0;
   return Math.round(montant * COMMISSION_RATE);
+}
+
+// ══════════════════════════════════════════
+// AUTHENTIFICATION — CREDENTIALS
+// En production → Firebase Auth uniquement
+// ══════════════════════════════════════════
+const _creds = {
+  _ae: btoa('admin@renolink.fr'),
+  _ap: btoa('renolink2026'),
+};
+
+/**
+ * Vérifie email + mot de passe pour un rôle donné
+ * Retourne l'URL de redirection ou null si échec
+ */
+function _va(email, password, role) {
+  if (role !== 'admin') return null;
+  const validEmail    = atob(_creds._ae);
+  const validPassword = atob(_creds._ap);
+  if (email === validEmail && password === validPassword) {
+    return 'dashboard-admin.html';
+  }
+  return null;
 }
 
 // ══════════════════════════════════════════
