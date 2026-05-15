@@ -3,12 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>RenoLink — Dashboard Admin</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="../css/variables.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/dashboard-admin.css">
+  <link rel="stylesheet" href="css/dashboard-admin.css">
+
+  <!-- Variables CSS locales si variables.css absent -->
+  <style>
+    :root {
+      --gold:#B8820A; --gold2:#D4A020;
+      --gold-light:rgba(184,130,10,0.08);
+      --dark:#0F0E0C; --charcoal:#1C1A16;
+      --bg:#F5F2ED; --white:#fff;
+      --border:#E4DDD0; --border2:rgba(26,22,18,0.1);
+      --text:#1A1714; --muted:#7A736A;
+      --success:#15803D; --error:#DC2626;
+      --radius:12px; --radius-sm:8px;
+      --shadow-md:0 8px 28px rgba(26,22,18,0.09);
+      --transition:all .2s cubic-bezier(.4,0,.2,1);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width:100%; height:auto; display:block; }
+    a   { text-decoration:none; color:inherit; }
+    button { font-family:inherit; cursor:pointer; }
+    input, select, textarea { font-family:inherit; }
+
+    /* PHOTOS STYLES */
+    .photos-upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: #fafafa;
+      position: relative;
+    }
+    .photos-upload-zone:hover {
+      border-color: var(--gold);
+      background: rgba(184,130,10,0.03);
+    }
+    .photos-upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .photos-grid-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .photo-thumb {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .photo-thumb:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .photo-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-remove {
+      position: absolute;
+      top: 4px; right: 4px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(220,38,38,0.85);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .photo-thumb:hover .photo-remove { opacity: 1; }
+    .photo-name {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 0.6rem;
+      padding: 3px 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
 </head>
 <body>
+
 <div class="admin-layout">
 
 <!-- ═══════════ SIDEBAR ═══════════ -->
@@ -17,26 +126,38 @@
     <div class="logo">Reno<span>Link</span></div>
     <div class="badge">⚙️ Admin MVP</div>
   </div>
+
   <nav class="sb-nav">
     <div class="sb-section">Projets</div>
-    <button class="nav-item active" onclick="showPage('projets',this)">
+    <button class="nav-item active" onclick="showPage('projets', this)">
       <span>📋</span> Projets clients
-      <span class="nav-badge red" id="nb-new">0</span>
+      <span class="nav-badge red" id="nb-new"></span>
     </button>
+
     <div class="sb-section">Réseau</div>
-    <button class="nav-item" onclick="showPage('artisans',this)">
+    <button class="nav-item" onclick="showPage('artisans', this)">
       <span>🔨</span> Artisans
-      <span class="nav-badge" id="nb-art">0</span>
+      <span class="nav-badge" id="nb-art"></span>
     </button>
+
     <div class="sb-section">Finance</div>
-    <button class="nav-item" onclick="showPage('commissions',this)">
+    <button class="nav-item" onclick="showPage('commissions', this)">
       <span>💶</span> Commissions 8%
     </button>
+
     <div class="sb-section">Compte</div>
-    <button class="nav-item" onclick="showPage('parametres',this)">
+    <button class="nav-item" onclick="showPage('parametres', this)">
       <span>⚙️</span> Paramètres
     </button>
+    <a class="nav-item" href="../index.html">
+      <span>🌐</span> Voir le site
+    </a>
+    <a class="nav-item" href="../pages/connexion.html"
+       style="color:rgba(220,38,38,0.6);">
+      <span>🚪</span> Déconnexion
+    </a>
   </nav>
+
   <div class="sb-bottom">
     <div class="sb-user">
       <div class="sb-avatar">RL</div>
@@ -51,360 +172,615 @@
 <!-- ═══════════ MAIN ═══════════ -->
 <div class="main">
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-left">
-    <h1 id="page-title">Projets clients</h1>
-    <p id="page-sub">Qualification et suivi des dossiers</p>
-  </div>
-  <div class="topbar-right" id="topbar-actions">
-    <button class="tbtn" onclick="exportCSV()">📥 Exporter CSV</button>
-    <button class="tbtn gold" onclick="openAddProject()">+ Nouveau projet</button>
-  </div>
-</div>
-
-<!-- ══════════ PAGE PROJETS ══════════ -->
-<div class="page active" id="page-projets">
-
-  <!-- KPIs -->
-  <div class="kpi-grid">
-    <div class="kpi">
-      <div class="kpi-top"><div class="kpi-label">Total projets</div><div>📋</div></div>
-      <div class="kpi-val" id="k-total">—</div>
-      <div class="kpi-sub">Depuis le lancement</div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1 id="page-title">Projets clients</h1>
+      <p id="page-sub">Qualification et suivi des dossiers</p>
     </div>
-    <div class="kpi">
-      <div class="kpi-top"><div class="kpi-label">À traiter</div><div>🔵</div></div>
-      <div class="kpi-val" id="k-new">—</div>
-      <div class="kpi-sub">Nouveaux dossiers</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top"><div class="kpi-label">Chantiers signés</div><div>🤝</div></div>
-      <div class="kpi-val" id="k-signe">—</div>
-      <div class="kpi-sub">Ce mois</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-top"><div class="kpi-label">Commissions dues</div><div>💶</div></div>
-      <div class="kpi-val gold" id="k-comm">—</div>
-      <div class="kpi-sub">8% chantiers signés</div>
+    <div class="topbar-right" id="topbar-actions">
+      <button class="tbtn" onclick="exportCSV()">📥 CSV</button>
+      <button class="tbtn gold" onclick="openAddProject()">+ Nouveau projet</button>
     </div>
   </div>
 
-  <!-- FILTRES -->
-  <div class="filters">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" placeholder="Rechercher projet, client, ville…" oninput="filterProjects(this.value)">
-    </div>
-    <button class="fbtn active" onclick="setFilter('tous',this)">Tous</button>
-    <button class="fbtn" onclick="setFilter('nouveau',this)">🔵 Nouveau</button>
-    <button class="fbtn" onclick="setFilter('valide',this)">✅ Validé</button>
-    <button class="fbtn" onclick="setFilter('en-cours',this)">🟡 En cours</button>
-    <button class="fbtn" onclick="setFilter('visite',this)">📍 Visite</button>
-    <button class="fbtn" onclick="setFilter('devis',this)">📄 Devis</button>
-    <button class="fbtn" onclick="setFilter('signe',this)">🤝 Signé</button>
-    <button class="fbtn" onclick="setFilter('perdu',this)">❌ Perdu</button>
-  </div>
-  <div style="font-size:.73rem;color:var(--muted);margin-bottom:10px;" id="count-label"></div>
+  <!-- ══════════ PAGE PROJETS ══════════ -->
+  <div class="page active" id="page-projets">
 
-  <!-- TABLE -->
-  <div class="table-wrap">
-    <div class="table-head">
-      <div>Réf.</div><div>Projet / Client</div><div>Statut</div><div>Budget</div><div>Date</div><div>Actions</div>
-    </div>
-    <div id="projects-body"></div>
-  </div>
-</div>
-
-<!-- ══════════ PAGE ARTISANS ══════════ -->
-<div class="page" id="page-artisans">
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Actifs</div><div>✅</div></div><div class="kpi-val" id="k-art-actif">—</div><div class="kpi-sub">Artisans vérifiés</div></div>
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">En attente</div><div>⏳</div></div><div class="kpi-val" id="k-art-att">—</div><div class="kpi-sub">À valider</div></div>
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Total réseau</div><div>🔨</div></div><div class="kpi-val" id="k-art-total">—</div><div class="kpi-sub">Inscrits</div></div>
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">RGE</div><div>🌱</div></div><div class="kpi-val gold" id="k-art-rge">—</div><div class="kpi-sub">Certifiés</div></div>
-  </div>
-  <div class="sec-head">
-    <div><div class="sec-title">Réseau artisans</div><div class="sec-sub">Gérez vos artisans partenaires</div></div>
-    <button class="tbtn gold" onclick="openAddArtisan()">+ Ajouter artisan</button>
-  </div>
-  <div class="artisan-grid" id="artisans-body"></div>
-</div>
-
-<!-- ══════════ PAGE COMMISSIONS ══════════ -->
-<div class="page" id="page-commissions">
-  <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
-    <span style="font-size:1.1rem;">⚖️</span>
-    <div>
-      <div style="font-size:.83rem;font-weight:700;color:#92400E;">Clause commission RenoLink — 8%</div>
-      <div style="font-size:.74rem;color:#92400E;margin-top:2px;">Chaque artisan inscrit s'engage à reverser 8% du montant HT de chaque chantier signé via la plateforme. Contactez le client pour confirmer la signature.</div>
-    </div>
-  </div>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">CA total signé</div><div>📊</div></div><div class="kpi-val" id="k-ca">—</div><div class="kpi-sub">Chantiers signés</div></div>
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Commissions dues</div><div>💶</div></div><div class="kpi-val gold" id="k-comm2">—</div><div class="kpi-sub">8% à encaisser</div></div>
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Nb signés</div><div>🤝</div></div><div class="kpi-val" id="k-nb-sign">—</div><div class="kpi-sub">Chantiers confirmés</div></div>
-    <div class="kpi"><div class="kpi-top"><div class="kpi-label">Taux</div><div>%</div></div><div class="kpi-val gold">8%</div><div class="kpi-sub">Taux fixe</div></div>
-  </div>
-  <div class="table-wrap" id="comm-table"></div>
-</div>
-
-<!-- ══════════ PAGE PARAMÈTRES ══════════ -->
-<div class="page" id="page-parametres">
-  <div style="max-width:500px;display:flex;flex-direction:column;gap:16px;">
-    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">👤 Mon compte</div>
-      <div class="form-group"><label class="form-label">Email admin</label><input type="email" class="form-input" value="admin@renolink.fr"></div>
-      <div class="form-group"><label class="form-label">Mot de passe</label><input type="password" class="form-input" placeholder="••••••••"></div>
-      <button class="tbtn gold" onclick="toast('✅ Sauvegardé','success')">Sauvegarder</button>
-    </div>
-    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">💶 Commission</div>
-      <div style="display:flex;align-items:center;gap:16px;">
-        <div style="font-family:'Fraunces',serif;font-size:2.8rem;font-weight:900;color:var(--gold);">8%</div>
-        <div style="font-size:.78rem;color:var(--muted);line-height:1.6;">Taux appliqué sur tous les chantiers signés via RenoLink. Accepté par les artisans à l'inscription.</div>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Total projets</div><div>📋</div></div>
+        <div class="kpi-val" id="k-total">—</div>
+        <div class="kpi-sub">Depuis le lancement</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">À traiter</div><div>🔵</div></div>
+        <div class="kpi-val" id="k-new">—</div>
+        <div class="kpi-sub">Nouveaux dossiers</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Chantiers signés</div><div>🤝</div></div>
+        <div class="kpi-val" id="k-signe">—</div>
+        <div class="kpi-sub">Ce mois</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Commissions dues</div><div>💶</div></div>
+        <div class="kpi-val gold" id="k-comm">—</div>
+        <div class="kpi-sub">8% chantiers signés</div>
       </div>
     </div>
-    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">🔔 Notifications email</div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Nouveau projet client</span><input type="checkbox" checked style="accent-color:var(--gold);"></label>
-        <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Artisan inscrit</span><input type="checkbox" checked style="accent-color:var(--gold);"></label>
-        <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Résumé hebdo</span><input type="checkbox" style="accent-color:var(--gold);"></label>
+
+    <!-- FILTRES -->
+    <div class="filters">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Rechercher projet, client, ville…"
+               oninput="filterProjects(this.value)" maxlength="100">
+      </div>
+      <button class="fbtn active" onclick="setFilter('tous',this)">Tous</button>
+      <button class="fbtn" onclick="setFilter('nouveau',this)">🔵 Nouveau</button>
+      <button class="fbtn" onclick="setFilter('valide',this)">✅ Validé</button>
+      <button class="fbtn" onclick="setFilter('en-cours',this)">🟡 En cours</button>
+      <button class="fbtn" onclick="setFilter('visite',this)">📍 Visite</button>
+      <button class="fbtn" onclick="setFilter('devis',this)">📄 Devis</button>
+      <button class="fbtn" onclick="setFilter('signe',this)">🤝 Signé</button>
+      <button class="fbtn" onclick="setFilter('perdu',this)">❌ Perdu</button>
+    </div>
+    <div class="count-label" id="count-label"></div>
+
+    <div class="table-wrap">
+      <div class="table-head">
+        <div>Réf.</div>
+        <div>Projet / Client</div>
+        <div>Statut</div>
+        <div>Budget</div>
+        <div>Date</div>
+        <div>Actions</div>
+      </div>
+      <div id="projects-body"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ PAGE ARTISANS ══════════ -->
+  <div class="page" id="page-artisans">
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Actifs</div><div>✅</div></div>
+        <div class="kpi-val success" id="k-art-actif">—</div>
+        <div class="kpi-sub">Artisans vérifiés</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">En attente</div><div>⏳</div></div>
+        <div class="kpi-val" id="k-art-att">—</div>
+        <div class="kpi-sub">À valider</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Total réseau</div><div>🔨</div></div>
+        <div class="kpi-val" id="k-art-total">—</div>
+        <div class="kpi-sub">Inscrits</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Certifiés RGE</div><div>🌱</div></div>
+        <div class="kpi-val gold" id="k-art-rge">—</div>
+        <div class="kpi-sub">Reconnu Garant Env.</div>
+      </div>
+    </div>
+
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">Réseau artisans partenaires</div>
+        <div class="sec-sub">Gérez et validez vos artisans</div>
+      </div>
+      <button class="tbtn gold" onclick="openAddArtisan()">+ Ajouter artisan</button>
+    </div>
+    <div class="artisan-grid" id="artisans-body"></div>
+  </div>
+
+  <!-- ══════════ PAGE COMMISSIONS ══════════ -->
+  <div class="page" id="page-commissions">
+    <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;
+                padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.1rem;">⚖️</span>
+      <div>
+        <div style="font-size:.83rem;font-weight:700;color:#92400E;">Clause commission RenoLink — 8%</div>
+        <div style="font-size:.74rem;color:#92400E;margin-top:2px;">
+          Chaque artisan inscrit s'engage à reverser 8% du montant HT de chaque chantier signé.
+          Utilisez le bouton "Relance" pour confirmer les signatures auprès des clients.
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">CA total signé</div><div>📊</div></div>
+        <div class="kpi-val" id="k-ca">—</div>
+        <div class="kpi-sub">Montants confirmés</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Commissions dues</div><div>💶</div></div>
+        <div class="kpi-val gold" id="k-comm2">—</div>
+        <div class="kpi-sub">8% à encaisser</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Chantiers signés</div><div>🤝</div></div>
+        <div class="kpi-val" id="k-nb-sign">—</div>
+        <div class="kpi-sub">Confirmés</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-top"><div class="kpi-label">Taux commission</div><div>%</div></div>
+        <div class="kpi-val gold">8%</div>
+        <div class="kpi-sub">Taux fixe RenoLink</div>
+      </div>
+    </div>
+
+    <div class="table-wrap" id="comm-table"></div>
+  </div>
+
+  <!-- ══════════ PAGE PARAMÈTRES ══════════ -->
+  <div class="page" id="page-parametres">
+    <div style="max-width:500px;display:flex;flex-direction:column;gap:16px;">
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">👤 Mon compte</div>
+        <div class="form-group">
+          <label class="form-label">Email admin</label>
+          <input type="email" class="form-input" value="admin@renolink.fr" maxlength="100">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nouveau mot de passe</label>
+          <input type="password" class="form-input" placeholder="Laisser vide pour conserver">
+        </div>
+        <button class="tbtn gold" onclick="toast('✅ Sauvegardé','success')">Sauvegarder</button>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">💶 Commission</div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="font-family:'Fraunces',serif;font-size:2.8rem;font-weight:900;color:var(--gold);">8%</div>
+          <div style="font-size:.78rem;color:var(--muted);line-height:1.6;">Taux appliqué sur tous les chantiers signés via RenoLink. Accepté par les artisans à l'inscription.</div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">🔔 Notifications email</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Nouveau projet client</span><input type="checkbox" checked style="accent-color:var(--gold);"></label>
+          <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Artisan inscrit</span><input type="checkbox" checked style="accent-color:var(--gold);"></label>
+          <label style="display:flex;align-items:center;justify-content:space-between;font-size:.82rem;"><span>Résumé hebdomadaire</span><input type="checkbox" style="accent-color:var(--gold);"></label>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">🛡️ Sécurité & Audit</div>
+        <button class="tbtn" onclick="exportAuditLog()" style="margin-bottom:8px;">📋 Exporter log d'audit</button>
+        <p style="font-size:.72rem;color:var(--muted);line-height:1.5;">Toutes les actions admin sont tracées en mémoire. En production, connecter à Firebase Firestore.</p>
       </div>
     </div>
   </div>
-</div>
 
 </div><!-- fin main -->
+</div><!-- fin admin-layout -->
 
 <!-- ═══════════ MODAL PROJET ═══════════ -->
 <div class="overlay" id="modal-projet">
-<div class="modal">
-  <div class="modal-head">
-    <div>
-      <div class="modal-title" id="m-title">—</div>
-      <div class="modal-ref" id="m-ref">—</div>
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="m-title">—</div>
+        <div class="modal-ref" id="m-ref">—</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div id="m-statut-badge"></div>
+        <button class="modal-close" onclick="closeModal('modal-projet')">✕</button>
+      </div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <div id="m-statut-badge"></div>
-      <button class="modal-close" onclick="closeModal('modal-projet')">✕</button>
-    </div>
-  </div>
-  <div class="modal-body">
 
-    <!-- Client -->
-    <div class="msection">
-      <div class="msection-title">👤 Client — coordonnées complètes</div>
-      <div class="mgrid">
-        <div><div class="mfield-label">Nom</div><div class="mfield-val" id="m-nom">—</div></div>
-        <div><div class="mfield-label">Préférence contact</div><div class="mfield-val" id="m-pref">—</div></div>
-        <div>
-          <div class="mfield-label">Téléphone</div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div class="mfield-val" id="m-tel">—</div>
-            <button class="tbtn" onclick="callClient()" style="padding:4px 10px;font-size:.68rem;">📞 Appeler</button>
-            <button class="tbtn" onclick="whatsappClient()" style="padding:4px 10px;font-size:.68rem;">💬 WA</button>
+    <div class="modal-body">
+
+      <!-- CLIENT -->
+      <div class="msection">
+        <div class="msection-title">👤 Client — coordonnées complètes</div>
+        <div class="mgrid">
+          <div>
+            <div class="mfield-label">Nom complet</div>
+            <div class="mfield-val" id="m-nom">—</div>
+          </div>
+          <div>
+            <div class="mfield-label">Préférence contact</div>
+            <div class="mfield-val" id="m-pref">—</div>
+          </div>
+          <div>
+            <div class="mfield-label">Téléphone</div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <div class="mfield-val" id="m-tel">—</div>
+              <button class="tbtn" onclick="callClient()" style="padding:4px 10px;font-size:.68rem;">📞 Appeler</button>
+              <button class="tbtn" onclick="sendWhatsAppModal()" style="padding:4px 10px;font-size:.68rem;">💬 WA</button>
+            </div>
+          </div>
+          <div>
+            <div class="mfield-label">Email</div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <div class="mfield-val" id="m-email">—</div>
+              <button class="tbtn" onclick="sendEmailModal()" style="padding:4px 10px;font-size:.68rem;">✉️ Email</button>
+            </div>
           </div>
         </div>
-        <div>
-          <div class="mfield-label">Email</div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div class="mfield-val" id="m-email">—</div>
-            <button class="tbtn" onclick="emailClient()" style="padding:4px 10px;font-size:.68rem;">✉️ Email</button>
+      </div>
+
+      <!-- PROJET -->
+      <div class="msection">
+        <div class="msection-title">🏗️ Détails du projet</div>
+        <div class="mgrid3">
+          <div><div class="mfield-label">Type</div><div class="mfield-val" id="m-type">—</div></div>
+          <div><div class="mfield-label">Ville</div><div class="mfield-val" id="m-ville">—</div></div>
+          <div><div class="mfield-label">Surface</div><div class="mfield-val" id="m-surface">—</div></div>
+          <div><div class="mfield-label">Budget estimé</div><div class="mfield-val gold" id="m-budget">—</div></div>
+          <div><div class="mfield-label">Délai souhaité</div><div class="mfield-val" id="m-delai">—</div></div>
+          <div><div class="mfield-label">Date réception</div><div class="mfield-val" id="m-date">—</div></div>
+        </div>
+        <div style="margin-top:12px;">
+          <div class="mfield-label" style="margin-bottom:5px;">Description</div>
+          <div id="m-desc" style="font-size:.8rem;color:var(--muted);line-height:1.65;"></div>
+        </div>
+        <div class="comm-box">
+          <div class="comm-label">💶 Commission RenoLink 8%</div>
+          <div class="comm-val" id="m-comm">—</div>
+        </div>
+      </div>
+
+      <!-- PHOTOS -->
+      <div class="msection">
+        <div class="msection-title">
+          📸 Photos du chantier
+          <span id="m-photos-count" style="font-weight:400;font-size:.7rem;text-transform:none;letter-spacing:0;color:var(--muted);margin-left:8px;"></span>
+        </div>
+        <div class="photos-grid-display" id="m-photos-grid"></div>
+        <div style="margin-top:12px;">
+          <label class="photos-upload-zone">
+            <input type="file" accept="image/jpeg,image/png,image/webp,image/gif"
+                   multiple onchange="handlePhotoUpload(this)">
+            <div style="font-size:.85rem;color:var(--muted);">📷 Cliquez ou glissez des photos ici</div>
+            <div style="font-size:.7rem;color:var(--muted);margin-top:4px;">JPG · PNG · WEBP — Max 10 photos · 10 Mo chacune</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- ARTISAN -->
+      <div class="msection">
+        <div class="msection-title">🔨 Proposer à un artisan</div>
+        <div id="m-artisan-assigned"></div>
+        <div style="font-size:.73rem;font-weight:600;color:var(--muted);margin-bottom:8px;">Choisir un artisan actif :</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="m-artisan-btns"></div>
+        <div style="margin-top:10px;font-size:.72rem;color:var(--muted);">
+          ⚠️ Après assignation, envoyez le PDF à l'artisan par email ou WhatsApp.
+          Les coordonnées client ne lui sont transmises qu'après son acceptation.
+        </div>
+      </div>
+
+      <!-- STATUT & SUIVI -->
+      <div class="msection">
+        <div class="msection-title">📊 Statut et suivi chantier</div>
+        <div class="mgrid">
+          <div>
+            <div class="mfield-label" style="margin-bottom:6px;">Changer le statut</div>
+            <select class="statut-select" id="m-statut-select" onchange="updateStatut()">
+              <option value="nouveau">🔵 Nouveau</option>
+              <option value="en-cours">🟡 En cours</option>
+              <option value="valide">✅ Validé</option>
+              <option value="visite">📍 Visite planifiée</option>
+              <option value="devis">📄 Devis envoyé</option>
+              <option value="signe">🤝 Chantier signé</option>
+              <option value="perdu">❌ Perdu</option>
+              <option value="rejete">🚫 Rejeté</option>
+            </select>
+            <div style="font-size:.68rem;color:var(--muted);margin-top:5px;">
+              Un email de notification sera proposé automatiquement
+            </div>
+          </div>
+          <div>
+            <div class="mfield-label" style="margin-bottom:6px;">Montant réel signé (€)</div>
+            <input type="number" class="form-input" id="m-montant-signe"
+                   placeholder="Ex: 10 500" min="0" max="9999999"
+                   onchange="updateMontantSigne()" style="max-width:200px;">
+            <div style="font-size:.68rem;color:var(--muted);margin-top:5px;">
+              Renseignez après confirmation client pour calcul exact
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Projet -->
-    <div class="msection">
-      <div class="msection-title">🏗️ Détails du projet</div>
-      <div class="mgrid3">
-        <div><div class="mfield-label">Type</div><div class="mfield-val" id="m-type">—</div></div>
-        <div><div class="mfield-label">Ville</div><div class="mfield-val" id="m-ville">—</div></div>
-        <div><div class="mfield-label">Surface</div><div class="mfield-val" id="m-surface">—</div></div>
-        <div><div class="mfield-label">Budget estimé</div><div class="mfield-val gold" id="m-budget">—</div></div>
-        <div><div class="mfield-label">Délai souhaité</div><div class="mfield-val" id="m-delai">—</div></div>
-        <div><div class="mfield-label">Date réception</div><div class="mfield-val" id="m-date">—</div></div>
+      <!-- TIMELINE -->
+      <div class="msection">
+        <div class="msection-title">📅 Historique des actions</div>
+        <div class="timeline" id="m-timeline"></div>
       </div>
-      <div style="margin-top:12px;"><div class="mfield-label" style="margin-bottom:5px;">Description</div><div id="m-desc" style="font-size:.8rem;color:var(--muted);line-height:1.65;"></div></div>
-      <div class="comm-box">
-        <div class="comm-label">💶 Commission RenoLink 8%</div>
-        <div class="comm-val" id="m-comm">—</div>
+
+      <!-- NOTES -->
+      <div class="msection">
+        <div class="msection-title">📝 Notes internes (non visibles client)</div>
+        <textarea class="modal-notes" id="m-notes"
+                  placeholder="Appels passés, observations, instructions artisan, points de vigilance…"
+                  maxlength="2000"></textarea>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">Max 2000 caractères</div>
       </div>
+
     </div>
 
-    <!-- Artisan assigné -->
-    <div class="msection">
-      <div class="msection-title">🔨 Proposer à un artisan</div>
-      <div id="m-artisan-assigned" style="margin-bottom:12px;font-size:.78rem;color:var(--muted);">Aucun artisan assigné</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="m-artisan-btns"></div>
-      <div style="margin-top:10px;font-size:.72rem;color:var(--muted);">⚠️ L'artisan reçoit le dossier PDF par email/WhatsApp. Il répond OUI/NON. Ses coordonnées sont transmises au client seulement après acceptation.</div>
+    <div class="modal-foot">
+      <button class="mfbtn" onclick="saveNotes()">💾 Notes</button>
+      <button class="mfbtn gold" onclick="exportPDFFromModal()">📄 PDF</button>
+      <button class="mfbtn dark" onclick="sendWhatsAppModal()">💬 WhatsApp</button>
+      <button class="mfbtn" onclick="sendEmailModal()">✉️ Email</button>
+      <button class="mfbtn danger" onclick="rejectFromModal()">🚫 Rejeter</button>
     </div>
-
-    <!-- Statut & suivi -->
-    <div class="msection">
-      <div class="msection-title">📊 Statut et suivi chantier</div>
-      <div class="mgrid">
-        <div>
-          <div class="mfield-label" style="margin-bottom:6px;">Changer le statut</div>
-          <select class="statut-select" id="m-statut-select" onchange="updateStatut()">
-            <option value="nouveau">🔵 Nouveau</option>
-            <option value="valide">✅ Validé</option>
-            <option value="en-cours">🟡 En cours</option>
-            <option value="visite">📍 Visite planifiée</option>
-            <option value="devis">📄 Devis envoyé</option>
-            <option value="signe">🤝 Chantier signé</option>
-            <option value="perdu">❌ Perdu</option>
-            <option value="rejete">🚫 Rejeté</option>
-          </select>
-        </div>
-        <div>
-          <div class="mfield-label" style="margin-bottom:6px;">Montant signé réel (€)</div>
-          <input type="number" class="form-input" id="m-montant-signe" placeholder="Ex: 10500" onchange="updateMontantSigne()" style="max-width:200px;">
-          <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">Renseignez lors de la signature pour calculer la commission exacte</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Timeline -->
-    <div class="msection">
-      <div class="msection-title">📅 Historique</div>
-      <div class="timeline" id="m-timeline"></div>
-    </div>
-
-    <!-- Notes -->
-    <div class="msection">
-      <div class="msection-title">📝 Notes internes</div>
-      <textarea class="modal-notes" id="m-notes" placeholder="Appels, observations, instructions…"></textarea>
-    </div>
-
   </div>
-  <div class="modal-foot">
-    <button class="mfbtn" onclick="saveNotes()">💾 Sauvegarder notes</button>
-    <button class="mfbtn gold" onclick="exportProjectPDF()">📄 Export PDF</button>
-    <button class="mfbtn dark" onclick="sendWhatsApp()">💬 Envoyer WhatsApp</button>
-    <button class="mfbtn" onclick="sendEmail()">✉️ Envoyer Email</button>
-    <button class="mfbtn danger" onclick="rejectProject()">🚫 Rejeter</button>
-  </div>
-</div>
 </div>
 
 <!-- ═══════════ MODAL AJOUTER PROJET ═══════════ -->
 <div class="overlay" id="modal-add-project">
-<div class="modal" style="max-width:620px;">
-  <div class="modal-head">
-    <div><div class="modal-title">+ Nouveau projet (manuel)</div><div class="modal-ref">Ajout direct admin</div></div>
-    <button class="modal-close" onclick="closeModal('modal-add-project')">✕</button>
-  </div>
-  <div class="modal-body">
-    <div class="msection">
-      <div class="msection-title">🏗️ Projet</div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Type de travaux <span class="req">*</span></label><input type="text" class="form-input" id="add-type" placeholder="Ex: Rénovation salle de bain"></div>
-        <div class="form-group"><label class="form-label">Budget estimé (€) <span class="req">*</span></label><input type="number" class="form-input" id="add-budget" placeholder="Ex: 9000" min="1500"></div>
+  <div class="modal modal-sm" style="max-width:620px;">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">+ Nouveau projet (manuel)</div>
+        <div class="modal-ref">Ajout direct par l'administrateur</div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Ville <span class="req">*</span></label><input type="text" class="form-input" id="add-ville" placeholder="Nancy"></div>
-        <div class="form-group"><label class="form-label">Code postal</label><input type="text" class="form-input" id="add-cp" placeholder="54000" maxlength="5"></div>
-      </div>
-      <div class="form-group"><label class="form-label">Surface</label><input type="text" class="form-input" id="add-surface" placeholder="Ex: 12 m²"></div>
-      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="add-desc" placeholder="Décrivez le projet…"></textarea></div>
-      <div class="form-group">
-        <label class="form-label">Délai souhaité</label>
-        <select class="form-select" id="add-delai">
-          <option>Dès que possible</option>
-          <option>Dans le mois</option>
-          <option>Dans 1 à 3 mois</option>
-          <option>Dans 3 à 6 mois</option>
-          <option>Non défini</option>
-        </select>
-      </div>
+      <button class="modal-close" onclick="closeModal('modal-add-project')">✕</button>
     </div>
-    <div class="msection">
-      <div class="msection-title">👤 Client</div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Nom complet <span class="req">*</span></label><input type="text" class="form-input" id="add-nom" placeholder="Prénom Nom"></div>
-        <div class="form-group"><label class="form-label">Téléphone <span class="req">*</span></label><input type="tel" class="form-input" id="add-tel" placeholder="06 XX XX XX XX"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="add-email" placeholder="email@exemple.fr"></div>
+    <div class="modal-body">
+      <div class="msection">
+        <div class="msection-title">🏗️ Projet</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Type de travaux <span class="req">*</span></label>
+            <input type="text" class="form-input" id="add-type"
+                   placeholder="Ex: Rénovation salle de bain" maxlength="150">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Budget estimé (€) <span class="req">*</span></label>
+            <input type="number" class="form-input" id="add-budget"
+                   placeholder="Min: 1 500" min="1500" max="9999999">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Ville <span class="req">*</span></label>
+            <input type="text" class="form-input" id="add-ville" placeholder="Nancy" maxlength="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Code postal</label>
+            <input type="text" class="form-input" id="add-cp" placeholder="54000" maxlength="5">
+          </div>
+        </div>
         <div class="form-group">
-          <label class="form-label">Préférence contact</label>
-          <select class="form-select" id="add-pref">
-            <option>Téléphone</option><option>SMS</option><option>Email</option>
+          <label class="form-label">Surface <span class="form-label opt">(optionnel)</span></label>
+          <input type="text" class="form-input" id="add-surface" placeholder="Ex: 12 m²" maxlength="30">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="add-desc"
+                    placeholder="Décrivez le projet…" maxlength="1000"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Délai souhaité</label>
+          <select class="form-select" id="add-delai">
+            <option>Dès que possible</option>
+            <option>Dans le mois</option>
+            <option>Dans 1 à 3 mois</option>
+            <option>Dans 3 à 6 mois</option>
+            <option>Non défini</option>
           </select>
         </div>
       </div>
+      <div class="msection">
+        <div class="msection-title">👤 Client</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nom complet <span class="req">*</span></label>
+            <input type="text" class="form-input" id="add-nom"
+                   placeholder="Prénom Nom" maxlength="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Téléphone <span class="req">*</span></label>
+            <input type="tel" class="form-input" id="add-tel"
+                   placeholder="06 XX XX XX XX" maxlength="20">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email <span class="form-label opt">(optionnel)</span></label>
+            <input type="email" class="form-input" id="add-email"
+                   placeholder="email@exemple.fr" maxlength="150">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Préférence contact</label>
+            <select class="form-select" id="add-pref">
+              <option>Téléphone</option>
+              <option>SMS</option>
+              <option>Email</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div style="background:#FEF3E2;border:1px solid rgba(184,130,10,.3);border-radius:8px;
+                  padding:12px 16px;font-size:.78rem;color:#92400E;">
+        💶 Commission 8% applicable dès signature du chantier via RenoLink.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="mfbtn" onclick="closeModal('modal-add-project')">Annuler</button>
+      <button class="mfbtn success" onclick="submitAddProject()">✅ Créer le projet</button>
     </div>
   </div>
-  <div class="modal-foot">
-    <button class="mfbtn" onclick="closeModal('modal-add-project')">Annuler</button>
-    <button class="mfbtn success" onclick="submitAddProject()">✅ Créer le projet</button>
-  </div>
-</div>
 </div>
 
 <!-- ═══════════ MODAL AJOUTER ARTISAN ═══════════ -->
 <div class="overlay" id="modal-add-artisan">
-<div class="modal" style="max-width:640px;">
-  <div class="modal-head">
-    <div><div class="modal-title">+ Nouvel artisan</div><div class="modal-ref">Inscription manuelle admin</div></div>
-    <button class="modal-close" onclick="closeModal('modal-add-artisan')">✕</button>
-  </div>
-  <div class="modal-body">
-    <div class="msection">
-      <div class="msection-title">🏢 Entreprise</div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Raison sociale <span class="req">*</span></label><input type="text" class="form-input" id="art-rs" placeholder="DUPONT RÉNOVATION"></div>
-        <div class="form-group"><label class="form-label">SIRET <span class="req">*</span></label><input type="text" class="form-input" id="art-siret" placeholder="14 chiffres"></div>
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">+ Nouvel artisan</div>
+        <div class="modal-ref">Inscription manuelle — admin</div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Téléphone <span class="req">*</span></label><input type="tel" class="form-input" id="art-tel" placeholder="06 XX XX XX XX"></div>
-        <div class="form-group"><label class="form-label">Email <span class="req">*</span></label><input type="email" class="form-input" id="art-email" placeholder="contact@artisan.fr"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Métier principal <span class="req">*</span></label><input type="text" class="form-input" id="art-metier" placeholder="Ex: Rénovation intérieure"></div>
-        <div class="form-group"><label class="form-label">Ville <span class="req">*</span></label><input type="text" class="form-input" id="art-ville" placeholder="Nancy"></div>
-      </div>
-      <div class="form-group"><label class="form-label">Zone d'intervention</label><input type="text" class="form-input" id="art-zone" placeholder="Ex: Nancy, Meurthe-et-Moselle, Grand Est…"></div>
+      <button class="modal-close" onclick="closeModal('modal-add-artisan')">✕</button>
     </div>
+    <div class="modal-body">
+      <div class="msection">
+        <div class="msection-title">🏢 Entreprise</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Raison sociale <span class="req">*</span></label>
+            <input type="text" class="form-input" id="art-rs"
+                   placeholder="DUPONT RÉNOVATION SARL" maxlength="150">
+          </div>
+          <div class="form-group">
+            <label class="form-label">SIRET</label>
+            <input type="text" class="form-input" id="art-siret"
+                   placeholder="14 chiffres" maxlength="17">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Téléphone <span class="req">*</span></label>
+            <input type="tel" class="form-input" id="art-tel"
+                   placeholder="06 XX XX XX XX" maxlength="20">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="art-email"
+                   placeholder="contact@artisan.fr" maxlength="150">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Métier principal <span class="req">*</span></label>
+            <input type="text" class="form-input" id="art-metier"
+                   placeholder="Ex: Rénovation intérieure" maxlength="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ville <span class="req">*</span></label>
+            <input type="text" class="form-input" id="art-ville"
+                   placeholder="Nancy" maxlength="100">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zone d'intervention</label>
+          <input type="text" class="form-input" id="art-zone"
+                 placeholder="Nancy, Meurthe-et-Moselle, Grand Est…" maxlength="200">
+        </div>
+      </div>
 
-    <div class="msection">
-      <div class="msection-title">🏆 Certifications & Assurances — l'artisan déclare</div>
-      <div class="check-cols">
-        <label class="check-group"><input type="checkbox" id="art-kbis"><label for="art-kbis">KBIS valide <span class="ck-sub">Document fourni à l'inscription</span></label></label>
-        <label class="check-group"><input type="checkbox" id="art-decennale"><label for="art-decennale">Assurance décennale <span class="ck-sub">Oui / déclare en avoir une</span></label></label>
-        <label class="check-group"><input type="checkbox" id="art-rcpro"><label for="art-rcpro">RC Professionnelle <span class="ck-sub">Oui / déclare en avoir une</span></label></label>
-        <label class="check-group"><input type="checkbox" id="art-rge"><label for="art-rge">Certification RGE <span class="ck-sub">Reconnu Garant Environnement</span></label></label>
-        <label class="check-group"><input type="checkbox" id="art-qualibat"><label for="art-qualibat">Qualibat / Qualifelec <span class="ck-sub">Qualification professionnelle</span></label></label>
-        <label class="check-group"><input type="checkbox" id="art-qualipac"><label for="art-qualipac">QualiPAC / CEE <span class="ck-sub">Pompe à chaleur, isolation</span></label></label>
+      <!-- CERTIFICATIONS DÉCLARATIVES -->
+      <div class="msection">
+        <div class="msection-title">🏆 Certifications & Assurances — déclaratif artisan</div>
+        <div class="check-cols">
+          <label class="check-group">
+            <input type="checkbox" id="art-kbis">
+            <label for="art-kbis">
+              KBIS valide fourni
+              <span class="ck-sub">Document transmis à l'inscription</span>
+            </label>
+          </label>
+          <label class="check-group">
+            <input type="checkbox" id="art-decennale">
+            <label for="art-decennale">
+              Assurance décennale
+              <span class="ck-sub">L'artisan déclare en posséder une valide</span>
+            </label>
+          </label>
+          <label class="check-group">
+            <input type="checkbox" id="art-rcpro">
+            <label for="art-rcpro">
+              RC Professionnelle
+              <span class="ck-sub">L'artisan déclare en posséder une valide</span>
+            </label>
+          </label>
+          <label class="check-group">
+            <input type="checkbox" id="art-rge">
+            <label for="art-rge">
+              Certification RGE
+              <span class="ck-sub">Reconnu Garant de l'Environnement</span>
+            </label>
+          </label>
+          <label class="check-group">
+            <input type="checkbox" id="art-qualibat">
+            <label for="art-qualibat">
+              Qualibat / Qualifelec
+              <span class="ck-sub">Qualification professionnelle</span>
+            </label>
+          </label>
+          <label class="check-group">
+            <input type="checkbox" id="art-qualipac">
+            <label for="art-qualipac">
+              QualiPAC / CEE
+              <span class="ck-sub">PAC, isolation, énergie</span>
+            </label>
+          </label>
+        </div>
+        <div class="alert-declaratif">
+          ⚠️ Ces informations sont déclaratives. RenoLink peut demander les justificatifs à tout moment.
+          L'artisan s'engage contractuellement à leur exactitude lors de l'inscription.
+        </div>
       </div>
-      <div style="margin-top:12px;background:#FEF9F0;border:1px solid rgba(184,130,10,.2);border-radius:8px;padding:10px 14px;font-size:.72rem;color:#92400E;line-height:1.5;">
-        ⚠️ Ces informations sont déclaratives. RenoLink se réserve le droit de demander les documents justificatifs à tout moment. L'artisan s'engage à les fournir sur demande.
-      </div>
-    </div>
 
-    <div class="msection">
-      <div class="msection-title">📝 Notes</div>
-      <textarea class="form-textarea" id="art-notes" placeholder="Informations complémentaires, source du contact…"></textarea>
+      <div class="msection">
+        <div class="msection-title">📝 Notes internes</div>
+        <textarea class="form-textarea" id="art-notes"
+                  placeholder="Source du contact, informations complémentaires…"
+                  maxlength="500"></textarea>
+      </div>
     </div>
-  </div>
-  <div class="modal-foot">
-    <button class="mfbtn" onclick="closeModal('modal-add-artisan')">Annuler</button>
-    <button class="mfbtn success" onclick="submitAddArtisan()">✅ Ajouter l'artisan</button>
+    <div class="modal-foot">
+      <button class="mfbtn" onclick="closeModal('modal-add-artisan')">Annuler</button>
+      <button class="mfbtn success" onclick="submitAddArtisan()">✅ Ajouter l'artisan</button>
+    </div>
   </div>
 </div>
+
+<!-- ═══════════ MODAL PREVIEW EMAIL ═══════════ -->
+<div class="overlay" id="email-preview-modal">
+  <div class="modal modal-sm" style="max-width:560px;">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">✉️ Envoyer un email</div>
+        <div class="modal-ref">Vérifiez avant envoi</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('email-preview-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="msection">
+        <div class="msection-title">Destinataire</div>
+        <div class="mfield-val" id="ep-to" style="color:var(--gold);"></div>
+      </div>
+      <div class="msection">
+        <div class="msection-title">Sujet</div>
+        <div class="mfield-val" id="ep-sujet"></div>
+      </div>
+      <div class="msection">
+        <div class="msection-title">Corps du message</div>
+        <div class="email-preview" id="ep-corps"></div>
+      </div>
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px 14px;
+                  font-size:.72rem;color:#1E40AF;margin-top:4px;">
+        💡 En MVP : ouvre votre client email natif (Outlook, Gmail…) avec le message pré-rempli.
+        En production : envoi automatique via Brevo API.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="mfbtn" onclick="closeModal('email-preview-modal')">Annuler</button>
+      <button class="mfbtn success" id="ep-send-btn">✉️ Ouvrir dans mon email</button>
+    </div>
+  </div>
 </div>
 
 <!-- TOAST -->
 <div id="toast"></div>
 
-<!-- JS -->
-<script src="../js/security.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/dashboard-admin.js"></script>
-<script src="../js/data.js"></script>
+<!-- ═══════════ SCRIPTS — ordre important ═══════════ -->
+<!-- 1. Sécurité en premier -->
+<script src="js/security.js"></script>
+<!-- 2. Données -->
+<script src="js/data.js"></script>
+<!-- 3. Dashboard principal -->
+<script src="js/dashboard-admin.js"></script>
+
 </body>
 </html>
