@@ -151,10 +151,12 @@ function clearSession() {
 
 function requireAuth() {
   const session = getSession();
+
   if (!session) {
-    window.location.href = '/pages/connexion.html';
+    window.location.href = 'connexion.html';
     return false;
   }
+
   return true;
 }
 
