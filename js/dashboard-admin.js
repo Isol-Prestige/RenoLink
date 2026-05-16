@@ -196,6 +196,7 @@ function openProject(id) {
 
   // Timeline
   renderTimeline(p);
+  updateBtnFacturer(p.statut);
 
   openModal('modal-projet');
 }
@@ -409,9 +410,10 @@ function updateStatut() {
   renderTimeline(proj);
   renderProjects();
   renderKPIs();
+  updateBtnFacturer(newStatut);
 
-  // Proposer envoi email si template disponible
-  if (EmailTemplates[newStatut]) {
+  // Proposer email si template disponible
+  if (typeof EmailTemplates !== 'undefined' && EmailTemplates[newStatut]) {
     const tpl = EmailTemplates[newStatut](proj);
     proposerEmail(proj.client.email, tpl.sujet, tpl.corps, newStatut);
   }
@@ -633,22 +635,30 @@ function renderArtisans() {
       ? `<span class="statut s-signe">✅ Actif</span>`
       : `<span class="statut s-cours">⏳ Attente</span>`;
 
+    const nbProjets = projects.filter(p => p.artisanAssigne === a.rs).length;
+    const nbSignes  = projects.filter(p => p.artisanAssigne === a.rs && p.statut === 'signe').length;
     return `
-    <div class="artisan-row">
+    <div class="artisan-row" onclick="openArtisan('${escAttr(a.id)}')" style="cursor:pointer;">
       <div class="art-av">🔨</div>
       <div class="art-info">
         <h4>${escHtml(a.rs)}</h4>
         <p>📍 ${escHtml(a.ville)} · ${escHtml(a.metier)}</p>
         <p style="font-size:.68rem;color:var(--muted);margin-top:2px;">Zone : ${escHtml(a.zone || 'N/R')}</p>
+        <p style="font-size:.68rem;margin-top:2px;">
+          <span style="color:var(--gold);font-weight:600;">${nbProjets} dossier(s)</span>
+          ${nbSignes > 0 ? '<span style="color:var(--success);font-weight:600;margin-left:6px;">· '+nbSignes+' signé(s)</span>' : ''}
+        </p>
       </div>
       <div class="art-tags">${tags || '<span style="font-size:.7rem;color:var(--muted);">Aucune certification déclarée</span>'}</div>
       ${badge}
-      <div class="actions" style="margin-left:12px;">
+      <div class="actions" style="margin-left:12px;" onclick="event.stopPropagation()">
+        <button class="abtn" title="Ouvrir fiche" onclick="openArtisan('${escAttr(a.id)}')">👁️</button>
         <button class="abtn" title="Appeler" onclick="window.location.href='tel:${escAttr(a.tel)}'">📞</button>
-        <button class="abtn" title="Email" onclick="window.location.href='mailto:${escAttr(a.email)}'">✉️</button>
         <button class="abtn" title="WhatsApp" onclick="waArtisan('${escAttr(a.id)}')">💬</button>
         ${a.statut === 'attente'
-          ? `<button class="abtn" title="Valider artisan" onclick="validateArtisan('${escAttr(a.id)}')">✅</button>`
+          ? `<button class="abtn" title="Valider" onclick="validateArtisan('${escAttr(a.id)}')">✅</button>`
+          : a.statut === 'suspendu'
+          ? `<button class="abtn" title="Réactiver" onclick="event.stopPropagation();openArtisan('${escAttr(a.id)}')">🔄</button>`
           : `<button class="abtn danger" title="Suspendre" onclick="suspendArtisan('${escAttr(a.id)}')">⏸️</button>`}
       </div>
     </div>`;
@@ -1037,3 +1047,178 @@ document.addEventListener('DOMContentLoaded', () => {
   const firstNav = document.querySelector('.nav-item');
   if (firstNav) firstNav.classList.add('active');
 });
+
+// ══════════════════════════════════════════
+// ARTISAN — CONSULTER / MODIFIER / SUPPRIMER
+// ══════════════════════════════════════════
+function openArtisan(id) {
+  const a = artisans.find(x => x.id === id);
+  if (!a) return;
+  AppState.activeArtisan = a;
+  const get = (elId) => { const el = document.getElementById(elId); return el ? el : { value:'', checked:false, innerHTML:'', textContent:'' }; };
+
+  get('ma-id').value      = a.id;
+  get('ma-rs').value      = a.rs || '';
+  get('ma-siret').value   = a.siret || '';
+  get('ma-metier').value  = a.metier || '';
+  get('ma-ville').value   = a.ville || '';
+  get('ma-tel').value     = formatTel(a.tel) || '';
+  get('ma-email').value   = a.email || '';
+  get('ma-zone').value    = a.zone || '';
+  get('ma-notes').value   = a.notes || '';
+
+  get('ma-kbis').checked      = !!a.kbis;
+  get('ma-decennale').checked = !!a.decennale;
+  get('ma-rcpro').checked     = !!a.rcpro;
+  get('ma-rge').checked       = !!a.rge;
+  get('ma-qualibat').checked  = !!a.qualibat;
+  get('ma-qualipac').checked  = !!a.qualipac;
+  get('ma-statut').value      = a.statut || 'attente';
+
+  get('ma-title').textContent = a.rs;
+  get('ma-ref').textContent   = a.id + ' · ' + a.metier;
+
+  const badges = { actif:'<span class="statut s-signe">✅ Actif</span>', attente:'<span class="statut s-cours">⏳ En attente</span>', suspendu:'<span class="statut s-rejete">⏸️ Suspendu</span>' };
+  get('ma-badge').innerHTML = badges[a.statut] || '';
+
+  renderArtisanProjets(a);
+
+  const totalComm = projects.filter(p => p.artisanAssigne === a.rs && p.statut === 'signe').reduce((s,p) => s + Math.round((p.montantSigne||p.budget)*0.08), 0);
+  setEl('ma-comm-total', totalComm > 0 ? totalComm.toLocaleString('fr-FR') + ' € de commission due' : 'Aucune commission à ce stade');
+
+  openModal('modal-artisan');
+}
+
+function renderArtisanProjets(a) {
+  const el = document.getElementById('ma-projets');
+  if (!el) return;
+  const lies = projects.filter(p => p.artisanAssigne === a.rs);
+  if (!lies.length) { el.innerHTML = '<p style="font-size:.76rem;color:var(--muted);">Aucun projet assigné à cet artisan.</p>'; return; }
+  el.innerHTML = lies.map(p => {
+    const st   = statutCfg[p.statut] || { text:p.statut, cls:'' };
+    const comm = p.statut === 'signe' ? '<span style="font-size:.72rem;font-weight:700;color:var(--gold);">+' + Math.round((p.montantSigne||p.budget)*0.08).toLocaleString('fr-FR') + ' \u20ac</span>' : '';
+    return '<div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #F5F2ED;cursor:pointer;" onclick="closeModal(\'modal-artisan\');setTimeout(function(){openProject(\'' + escAttr(p.id) + '\')},200)">'
+      + '<div class="dref" style="flex-shrink:0;">' + escHtml(p.id) + '</div>'
+      + '<div style="flex:1;"><div style="font-size:.82rem;font-weight:600;">' + escHtml(p.type) + '</div>'
+      + '<div style="font-size:.7rem;color:var(--muted);">' + escHtml(p.ville) + ' · ' + p.budget.toLocaleString('fr-FR') + ' \u20ac</div></div>'
+      + '<span class="statut ' + st.cls + '">' + st.text + '</span>' + comm + '</div>';
+  }).join('');
+}
+
+function saveArtisan() {
+  const id = document.getElementById('ma-id') ? document.getElementById('ma-id').value : '';
+  const a  = artisans.find(x => x.id === id);
+  if (!a) return;
+  const rs     = sanitize(document.getElementById('ma-rs').value.trim());
+  const tel    = sanitize(document.getElementById('ma-tel').value.trim().replace(/\s/g,''));
+  const email  = sanitize(document.getElementById('ma-email').value.trim());
+  const metier = sanitize(document.getElementById('ma-metier').value.trim());
+  const ville  = sanitize(document.getElementById('ma-ville').value.trim());
+  if (!rs||!tel||!metier||!ville) { toast('⚠️ Raison sociale, téléphone, métier et ville sont obligatoires','error'); return; }
+  if (email && !isValidEmail(email)) { toast('⚠️ Email invalide','error'); return; }
+  a.rs=rs; a.siret=sanitize(document.getElementById('ma-siret').value.trim());
+  a.metier=metier; a.ville=ville; a.tel=tel; a.email=email;
+  a.zone=sanitize(document.getElementById('ma-zone').value.trim());
+  a.notes=sanitize(document.getElementById('ma-notes').value);
+  a.kbis=document.getElementById('ma-kbis').checked;
+  a.decennale=document.getElementById('ma-decennale').checked;
+  a.rcpro=document.getElementById('ma-rcpro').checked;
+  a.rge=document.getElementById('ma-rge').checked;
+  a.qualibat=document.getElementById('ma-qualibat').checked;
+  a.qualipac=document.getElementById('ma-qualipac').checked;
+  a.statut=document.getElementById('ma-statut').value;
+  AppState.activeArtisan = a;
+  const badges = { actif:'<span class="statut s-signe">✅ Actif</span>', attente:'<span class="statut s-cours">⏳ En attente</span>', suspendu:'<span class="statut s-rejete">⏸️ Suspendu</span>' };
+  document.getElementById('ma-badge').innerHTML   = badges[a.statut] || '';
+  document.getElementById('ma-title').textContent = a.rs;
+  renderArtisans(); renderKPIs();
+  toast('✅ Fiche artisan mise à jour', 'success');
+}
+
+function deleteArtisan() {
+  const id = document.getElementById('ma-id') ? document.getElementById('ma-id').value : '';
+  const a  = artisans.find(x => x.id === id);
+  if (!a || !confirm('Supprimer définitivement ' + a.rs + ' ?')) return;
+  artisans.splice(artisans.findIndex(x => x.id === id), 1);
+  closeModal('modal-artisan');
+  AppState.activeArtisan = null;
+  renderArtisans(); renderKPIs();
+  toast('🗑️ Artisan supprimé', 'error');
+}
+
+function reactiverArtisan() {
+  const id = document.getElementById('ma-id') ? document.getElementById('ma-id').value : '';
+  const a  = artisans.find(x => x.id === id);
+  if (!a) return;
+  a.statut = 'actif';
+  document.getElementById('ma-statut').value = 'actif';
+  document.getElementById('ma-badge').innerHTML = '<span class="statut s-signe">✅ Actif</span>';
+  renderArtisans(); renderKPIs();
+  toast('✅ ' + a.rs + ' réactivé', 'success');
+}
+
+// ══════════════════════════════════════════
+// STATUT — FONCTIONS SUPPLÉMENTAIRES
+// ══════════════════════════════════════════
+
+// Boutons rapides statut
+function setStatutRapide(newStatut) {
+  const sel = document.getElementById('m-statut-select');
+  if (sel) sel.value = newStatut;
+  updateStatut();
+}
+
+// Réinitialiser statut → nouveau
+function resetStatut() {
+  if (!confirm('Remettre ce dossier au statut "Nouveau" ?')) return;
+  const sel = document.getElementById('m-statut-select');
+  if (sel) sel.value = 'nouveau';
+  updateStatut();
+}
+
+// Effacer montant signé
+function clearMontantSigne() {
+  const p = AppState.activeProject;
+  if (!p) return;
+  const proj = projects.find(x => x.id === p.id);
+  if (!proj) return;
+  const input = document.getElementById('m-montant-signe');
+  if (input) input.value = '';
+  proj.montantSigne = 0;
+  AppState.activeProject = proj;
+  setEl('m-comm', Math.round(proj.budget * 0.08).toLocaleString('fr-FR') + ' €');
+  renderKPIs();
+  toast('Montant effacé', 'info');
+}
+
+// Afficher/masquer le bouton Facturer selon statut
+function updateBtnFacturer(statut) {
+  const btn = document.getElementById('btn-facturer');
+  if (btn) btn.style.display = statut === 'signe' ? 'flex' : 'none';
+}
+
+// Ouvrir modal messages depuis le modal projet
+function ouvrirMsgModal() {
+  const p = AppState.activeProject;
+  if (!p) return;
+  closeModal('modal-projet');
+  setTimeout(() => {
+    if (typeof ouvrirModalMessages === 'function') ouvrirModalMessages(p.id);
+    else toast('Module messages non chargé', 'error');
+  }, 200);
+}
+
+// Ouvrir modal facture depuis le modal projet
+function ouvrirFactureModal() {
+  const p = AppState.activeProject;
+  if (!p) return;
+  if (p.statut !== 'signe') {
+    toast('⚠️ Facturation disponible uniquement pour les chantiers signés', 'error');
+    return;
+  }
+  closeModal('modal-projet');
+  setTimeout(() => {
+    if (typeof ouvrirModalFacture === 'function') ouvrirModalFacture(p.id);
+    else toast('Module facturation non chargé', 'error');
+  }, 200);
+}
