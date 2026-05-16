@@ -491,32 +491,49 @@
       <!-- STATUT & SUIVI -->
       <div class="msection">
         <div class="msection-title">📊 Statut et suivi chantier</div>
-        <div class="mgrid">
-          <div>
-            <div class="mfield-label" style="margin-bottom:6px;">Changer le statut</div>
-            <select class="statut-select" id="m-statut-select" onchange="updateStatut()">
-              <option value="nouveau">🔵 Nouveau</option>
-              <option value="en-cours">🟡 En cours</option>
-              <option value="valide">✅ Validé</option>
-              <option value="visite">📍 Visite planifiée</option>
-              <option value="devis">📄 Devis envoyé</option>
-              <option value="signe">🤝 Chantier signé</option>
-              <option value="perdu">❌ Perdu</option>
-              <option value="rejete">🚫 Rejeté</option>
-            </select>
-            <div style="font-size:.68rem;color:var(--muted);margin-top:5px;">
-              Un email de notification sera proposé automatiquement
-            </div>
-          </div>
-          <div>
+
+        <!-- Sélecteur statut + actions rapides -->
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+          <select class="statut-select" id="m-statut-select" onchange="updateStatut()" style="flex:1;min-width:200px;">
+            <option value="nouveau">🔵 Nouveau</option>
+            <option value="en-cours">🟡 En cours</option>
+            <option value="valide">✅ Validé</option>
+            <option value="visite">📍 Visite planifiée</option>
+            <option value="devis">📄 Devis envoyé</option>
+            <option value="signe">🤝 Chantier signé</option>
+            <option value="perdu">❌ Perdu</option>
+            <option value="rejete">🚫 Rejeté</option>
+          </select>
+          <button class="mfbtn" onclick="resetStatut()" title="Remettre à Nouveau"
+            style="padding:8px 12px;font-size:.72rem;color:var(--muted);">
+            ↺ Réinitialiser
+          </button>
+        </div>
+
+        <!-- Boutons statut rapides -->
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+          <button class="mfbtn" onclick="setStatutRapide('valide')"    style="font-size:.72rem;padding:6px 12px;">✅ Valider</button>
+          <button class="mfbtn" onclick="setStatutRapide('visite')"    style="font-size:.72rem;padding:6px 12px;">📍 Visite</button>
+          <button class="mfbtn" onclick="setStatutRapide('devis')"     style="font-size:.72rem;padding:6px 12px;">📄 Devis</button>
+          <button class="mfbtn success" onclick="setStatutRapide('signe')" style="font-size:.72rem;padding:6px 12px;">🤝 Signé</button>
+          <button class="mfbtn danger" onclick="setStatutRapide('perdu')"  style="font-size:.72rem;padding:6px 12px;">❌ Perdu</button>
+        </div>
+
+        <!-- Montant signé -->
+        <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;">
+          <div style="flex:1;">
             <div class="mfield-label" style="margin-bottom:6px;">Montant réel signé (€)</div>
             <input type="number" class="form-input" id="m-montant-signe"
                    placeholder="Ex: 10 500" min="0" max="9999999"
-                   onchange="updateMontantSigne()" style="max-width:200px;">
-            <div style="font-size:.68rem;color:var(--muted);margin-top:5px;">
-              Renseignez après confirmation client pour calcul exact
+                   onchange="updateMontantSigne()">
+            <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">
+              À renseigner après confirmation pour calcul exact de commission
             </div>
           </div>
+          <button class="mfbtn" onclick="clearMontantSigne()"
+            style="padding:8px 12px;font-size:.72rem;color:var(--muted);margin-bottom:22px;">
+            ✕ Effacer
+          </button>
         </div>
       </div>
 
@@ -540,8 +557,9 @@
     <div class="modal-foot">
       <button class="mfbtn" onclick="saveNotes()">💾 Notes</button>
       <button class="mfbtn gold" onclick="exportPDFFromModal()">📄 PDF</button>
-      <button class="mfbtn dark" onclick="sendWhatsAppModal()">💬 WhatsApp</button>
+      <button class="mfbtn dark" onclick="ouvrirMsgModal()">💬 Messages</button>
       <button class="mfbtn" onclick="sendEmailModal()">✉️ Email</button>
+      <button class="mfbtn success" onclick="ouvrirFactureModal()" id="btn-facturer" style="display:none;">🧾 Facturer</button>
       <button class="mfbtn danger" onclick="rejectFromModal()">🚫 Rejeter</button>
     </div>
   </div>
@@ -1035,6 +1053,8 @@
 <script src="../js/data.js"></script>
 <!-- 3. Dashboard principal -->
 <script src="../js/dashboard-admin.js"></script>
+<!-- 4. Messages + Facturation -->
+<script src="../js/messages.js"></script>
 
 </body>
 </html>
