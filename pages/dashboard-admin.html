@@ -773,6 +773,135 @@
 
 <!-- TOAST -->
 <div id="toast"></div>
+<!-- ═══════════ MODAL MESSAGES MANUELS ═══════════ -->
+<div class="overlay" id="modal-messages">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">💬 Messages — copier/envoyer manuellement</div>
+        <div class="modal-ref" id="msg-projet-ref">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-messages')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="msection">
+        <div class="msection-title">Choisissez le message à envoyer</div>
+        <div id="msg-list"></div>
+      </div>
+      <div class="msection">
+        <div class="msection-title">Aperçu — modifiable avant envoi</div>
+        <textarea id="msg-preview" class="modal-notes" style="min-height:180px;font-family:monospace;font-size:.78rem;line-height:1.6;"
+                  placeholder="Sélectionnez un message ci-dessus…"></textarea>
+      </div>
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px 14px;font-size:.72rem;color:#1E40AF;margin-top:4px;">
+        💡 Vous pouvez modifier le texte avant de l'envoyer. Aucun envoi automatique — vous restez maître de chaque communication.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="mfbtn" id="msg-btn-copy" onclick="copyMessage()">📋 Copier</button>
+      <button class="mfbtn dark" id="msg-btn-wa">💬 Ouvrir WhatsApp</button>
+      <button class="mfbtn" id="msg-btn-sms">📱 SMS</button>
+      <button class="mfbtn" id="msg-btn-email">✉️ Email</button>
+      <button class="mfbtn" onclick="closeModal('modal-messages')" style="margin-left:auto;">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL FACTURE ═══════════ -->
+<div class="overlay" id="modal-facture">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">📄 Générer une facture de commission</div>
+        <div class="modal-ref">RenoLink — 8% sur chantier signé</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-facture')">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- STATUT JURIDIQUE -->
+      <div class="msection">
+        <div class="msection-title">⚖️ Votre statut juridique</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <select class="statut-select" id="fact-statut" onchange="updateFactureStatut()" style="flex:1;max-width:280px;">
+            <option value="ae">Auto-entrepreneur / Micro-entreprise</option>
+            <option value="societe">Société (SASU, SARL, SAS…)</option>
+          </select>
+          <div style="font-size:.72rem;color:var(--muted);">Ce choix modifie le template de facture et la gestion TVA.</div>
+        </div>
+
+        <!-- BLOC AE -->
+        <div id="fact-bloc-ae" style="margin-top:16px;">
+          <div style="background:#F0FDF4;border:1px solid #86EFAC;border-radius:8px;padding:10px 14px;font-size:.75rem;color:#065F46;margin-bottom:12px;">
+            ✅ Auto-entrepreneur : TVA non applicable — art. 293B CGI. Facturation HT uniquement.
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Votre nom complet</label><input type="text" class="form-input" id="param-ae-nom" value="Prénom NOM" maxlength="100"></div>
+            <div class="form-group"><label class="form-label">SIRET</label><input type="text" class="form-input" id="param-ae-siret" placeholder="000 000 000 00000" maxlength="20"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Adresse</label><input type="text" class="form-input" id="param-ae-adresse" placeholder="12 rue des Jardins" maxlength="200"></div>
+            <div class="form-group"><label class="form-label">Ville</label><input type="text" class="form-input" id="param-ae-ville" placeholder="Nancy" maxlength="100"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="param-ae-email" placeholder="contact@renolink.fr" maxlength="150"></div>
+            <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="param-ae-tel" placeholder="06 XX XX XX XX" maxlength="20"></div>
+          </div>
+        </div>
+
+        <!-- BLOC SOCIÉTÉ -->
+        <div id="fact-bloc-soc" style="display:none;margin-top:16px;">
+          <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px 14px;font-size:.75rem;color:#1E40AF;margin-bottom:12px;">
+            ℹ️ Société : TVA 20% applicable sauf franchise en base (CA &lt; 36 800 €). Vérifiez votre situation.
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Dénomination</label><input type="text" class="form-input" id="param-soc-denom" placeholder="RENOLINK" maxlength="150"></div>
+            <div class="form-group"><label class="form-label">Forme juridique</label><input type="text" class="form-input" id="param-soc-forme" placeholder="SASU" maxlength="20"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Capital (€)</label><input type="text" class="form-input" id="param-soc-capital" placeholder="1 000" maxlength="20"></div>
+            <div class="form-group"><label class="form-label">SIRET</label><input type="text" class="form-input" id="param-soc-siret" placeholder="000 000 000 00000" maxlength="20"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">RCS</label><input type="text" class="form-input" id="param-soc-rcs" placeholder="Nancy" maxlength="100"></div>
+            <div class="form-group"><label class="form-label">Adresse</label><input type="text" class="form-input" id="param-soc-adresse" placeholder="12 rue..." maxlength="200"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="param-soc-email" placeholder="contact@renolink.fr" maxlength="150"></div>
+        </div>
+      </div>
+
+      <!-- DÉTAILS FACTURE -->
+      <div class="msection">
+        <div class="msection-title">📋 Détails de la facture</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">N° facture</label><input type="text" class="form-input" id="fact-numero" readonly style="background:#f5f5f5;"></div>
+          <div class="form-group"><label class="form-label">Date d'émission</label><input type="date" class="form-input" id="fact-date"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Référence dossier</label><input type="text" class="form-input" id="fact-projet-ref" readonly style="background:#f5f5f5;"></div>
+          <div class="form-group"><label class="form-label">Échéance souhaitée</label><input type="date" class="form-input" id="fact-echeance"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Désignation</label><input type="text" class="form-input" id="fact-projet-desc" maxlength="200"></div>
+        <div class="form-group"><label class="form-label">Artisan destinataire</label><input type="text" class="form-input" id="fact-artisan" maxlength="150"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Montant chantier HT (€)</label><input type="number" class="form-input" id="fact-montant-ht" readonly style="background:#f5f5f5;"></div>
+          <div class="form-group"><label class="form-label">Commission HT 8% (€)</label><input type="number" class="form-input" id="fact-comm-ht" onchange="updateCommTTC()"></div>
+        </div>
+        <div class="comm-box">
+          <div class="comm-label">Total à facturer (TTC)</div>
+          <div class="comm-val" id="fact-comm-ttc">—</div>
+        </div>
+        <input type="hidden" id="fact-tva-montant" value="0">
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="mfbtn" onclick="closeModal('modal-facture')">Annuler</button>
+      <button class="mfbtn gold" onclick="genererFacturePDF()">📄 Générer & Imprimer</button>
+    </div>
+  </div>
+</div>
+  
 
 <!-- ═══════════ SCRIPTS — ordre important ═══════════ -->
 <!-- 1. Sécurité en premier -->
