@@ -454,16 +454,23 @@ function appliquerStatut(proj, newStatut) {
   const bigBadge = document.getElementById('m-statut-badge-big');
   if (bigBadge) bigBadge.innerHTML = `<span class="statut ${st.cls}" style="font-size:.8rem;padding:5px 14px;">${st.text}</span>`;
 
-  // Mettre à jour l'input caché
+ // Statut — initialiser le picker et les badges
   const hiddenSel = document.getElementById('m-statut-select');
-  if (hiddenSel) hiddenSel.value = newStatut;
+  if (hiddenSel) hiddenSel.value = p.statut;
+  refreshStatutPicker(p.statut);
 
-  // Mettre en évidence le badge actif dans le picker
-  refreshStatutPicker(newStatut);
+  // Grand badge statut
+  const st0 = statutCfg[p.statut] || { text: p.statut, cls: '' };
+  const bigBadge = document.getElementById('m-statut-badge-big');
+  if (bigBadge) bigBadge.innerHTML = `<span class="statut ${st0.cls}" style="font-size:.8rem;padding:5px 14px;">${st0.text}</span>`;
 
-  // Afficher section montant seulement si signé
+  // Section montant signé
   const montantSection = document.getElementById('montant-signe-section');
-  if (montantSection) montantSection.style.display = newStatut === 'signe' ? 'block' : 'none';
+  if (montantSection) montantSection.style.display = p.statut === 'signe' ? 'block' : 'none';
+
+  // Montant signé
+  const montantInput = document.getElementById('m-montant-signe');
+  if (montantInput) montantInput.value = p.montantSigne || '';'''
 
   // Bouton Facturer
   updateBtnFacturer(newStatut);
