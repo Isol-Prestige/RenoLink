@@ -114,6 +114,41 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    /* STATUT PICKER */
+    .statut-picker-btn {
+      padding: 7px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--muted);
+    }
+    .statut-picker-btn:hover {
+      border-color: var(--gold);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+    .statut-picker-btn.active {
+      border-color: var(--gold);
+      background: rgba(184,130,10,0.1);
+      color: var(--dark);
+      box-shadow: 0 2px 10px rgba(184,130,10,0.2);
+    }
+    .statut-picker-btn[data-val="signe"].active {
+      border-color: var(--success);
+      background: rgba(21,128,61,0.08);
+      box-shadow: 0 2px 10px rgba(21,128,61,0.15);
+    }
+    .statut-picker-btn[data-val="perdu"].active,
+    .statut-picker-btn[data-val="rejete"].active {
+      border-color: var(--error);
+      background: rgba(220,38,38,0.06);
+      box-shadow: 0 2px 10px rgba(220,38,38,0.12);
+    }
   </style>
 </head>
 <body>
@@ -488,54 +523,60 @@
         </div>
       </div>
 
-      <!-- STATUT & SUIVI -->
+   <!-- STATUT & SUIVI -->
       <div class="msection">
         <div class="msection-title">📊 Statut et suivi chantier</div>
 
-        <!-- Sélecteur statut + actions rapides -->
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-          <select class="statut-select" id="m-statut-select" onchange="updateStatut()" style="flex:1;min-width:200px;">
-            <option value="nouveau">🔵 Nouveau</option>
-            <option value="en-cours">🟡 En cours</option>
-            <option value="valide">✅ Validé</option>
-            <option value="visite">📍 Visite planifiée</option>
-            <option value="devis">📄 Devis envoyé</option>
-            <option value="signe">🤝 Chantier signé</option>
-            <option value="perdu">❌ Perdu</option>
-            <option value="rejete">🚫 Rejeté</option>
-          </select>
-          <button class="mfbtn" onclick="resetStatut()" title="Remettre à Nouveau"
-            style="padding:8px 12px;font-size:.72rem;color:var(--muted);">
-            ↺ Réinitialiser
+        <!-- Statut actuel affiché -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <div style="font-size:.72rem;font-weight:600;color:var(--muted);">Statut actuel :</div>
+          <div id="m-statut-badge-big"></div>
+          <button onclick="resetStatut()"
+            style="padding:5px 11px;border:1.5px solid var(--border);background:#fff;border-radius:7px;
+                   font-size:.7rem;color:var(--muted);cursor:pointer;transition:all .2s;font-family:\'DM Sans\',sans-serif;"
+            onmouseover="this.style.borderColor=\'var(--error)\';this.style.color=\'var(--error)\'"
+            onmouseout="this.style.borderColor=\'var(--border)\';this.style.color=\'var(--muted)\'">
+            ✕ Supprimer statut
           </button>
         </div>
 
-        <!-- Boutons statut rapides -->
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
-          <button class="mfbtn" onclick="setStatutRapide('valide')"    style="font-size:.72rem;padding:6px 12px;">✅ Valider</button>
-          <button class="mfbtn" onclick="setStatutRapide('visite')"    style="font-size:.72rem;padding:6px 12px;">📍 Visite</button>
-          <button class="mfbtn" onclick="setStatutRapide('devis')"     style="font-size:.72rem;padding:6px 12px;">📄 Devis</button>
-          <button class="mfbtn success" onclick="setStatutRapide('signe')" style="font-size:.72rem;padding:6px 12px;">🤝 Signé</button>
-          <button class="mfbtn danger" onclick="setStatutRapide('perdu')"  style="font-size:.72rem;padding:6px 12px;">❌ Perdu</button>
+        <!-- Badges cliquables — clic = appliquer, clic sur actif = désélectionner -->
+        <div style="font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:8px;">
+          Cliquez pour changer · Re-cliquez sur le statut actif pour l'effacer
+        </div>
+        <div id="statut-badges-picker" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          <button class="statut-picker-btn" data-val="nouveau"  onclick="clickStatut('nouveau')">🔵 Nouveau</button>
+          <button class="statut-picker-btn" data-val="en-cours" onclick="clickStatut('en-cours')">🟡 En cours</button>
+          <button class="statut-picker-btn" data-val="valide"   onclick="clickStatut('valide')">✅ Validé</button>
+          <button class="statut-picker-btn" data-val="visite"   onclick="clickStatut('visite')">📍 Visite</button>
+          <button class="statut-picker-btn" data-val="devis"    onclick="clickStatut('devis')">📄 Devis</button>
+          <button class="statut-picker-btn" data-val="signe"    onclick="clickStatut('signe')">🤝 Signé</button>
+          <button class="statut-picker-btn" data-val="perdu"    onclick="clickStatut('perdu')">❌ Perdu</button>
+          <button class="statut-picker-btn" data-val="rejete"   onclick="clickStatut('rejete')">🚫 Rejeté</button>
         </div>
 
-        <!-- Montant signé -->
-        <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;">
-          <div style="flex:1;">
-            <div class="mfield-label" style="margin-bottom:6px;">Montant réel signé (€)</div>
+        <!-- Montant signé — visible uniquement si signé -->
+        <div id="montant-signe-section" style="display:none;background:#FEF3E2;border:1px solid rgba(184,130,10,.25);border-radius:9px;padding:14px;margin-bottom:8px;">
+          <div class="mfield-label" style="margin-bottom:8px;">💶 Montant réel du chantier signé (€)</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <input type="number" class="form-input" id="m-montant-signe"
                    placeholder="Ex: 10 500" min="0" max="9999999"
-                   onchange="updateMontantSigne()">
-            <div style="font-size:.68rem;color:var(--muted);margin-top:4px;">
-              À renseigner après confirmation pour calcul exact de commission
-            </div>
+                   onchange="updateMontantSigne()"
+                   style="max-width:200px;background:#fff;">
+            <button onclick="clearMontantSigne()"
+              style="padding:8px 12px;border:1.5px solid var(--border);background:#fff;border-radius:7px;
+                     font-size:.72rem;color:var(--muted);cursor:pointer;font-family:\'DM Sans\',sans-serif;">
+              ✕ Effacer
+            </button>
           </div>
-          <button class="mfbtn" onclick="clearMontantSigne()"
-            style="padding:8px 12px;font-size:.72rem;color:var(--muted);margin-bottom:22px;">
-            ✕ Effacer
-          </button>
+          <div style="font-size:.68rem;color:#92400E;margin-top:6px;">
+            Renseignez le montant HT confirmé pour calculer la commission exacte et générer la facture.
+          </div>
         </div>
-      </div>
+
+        <!-- Champ caché pour garder la valeur sélectionnée -->
+        <input type="hidden" id="m-statut-select" value="nouveau">
+      </div>'''
 
       <!-- TIMELINE -->
       <div class="msection">
