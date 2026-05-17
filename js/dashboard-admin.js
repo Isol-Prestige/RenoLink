@@ -388,7 +388,7 @@ function openLightbox(index) {
 // STATUT — CHANGEMENT + EMAIL AUTO
 // ══════════════════════════════════════════
 function updateStatut() {
-  const p = AppState.activeProject;
+ const p = AppState.activeProject;
   if (!p) return;
   const newStatut = document.getElementById('m-statut-select').value;
   const proj = projects.find(x => x.id === p.id);
@@ -403,7 +403,7 @@ function updateStatut() {
     `<span class="statut ${st.cls}">${st.text}</span>`;
 
   proj.historique.push({
-    a: 'Statut → ' + st.text.replace(/^[^\s]+ /, ''),
+    a: 'Statut → ' + st.text.replace(/^[^\\s]+ /, ''),
     d: nowStr(),
     user: 'Admin'
   });
@@ -419,22 +419,105 @@ function updateStatut() {
   }
 
   toast('Statut mis à jour : ' + st.text, 'success');
-}
+}'''
 
-function updateMontantSigne() {
+new_updateStatut = '''// ── Clic sur un badge statut (toggle + désélection) ──
+function clickStatut(val) {
   const p = AppState.activeProject;
   if (!p) return;
   const proj = projects.find(x => x.id === p.id);
   if (!proj) return;
-  const val = parseInt(document.getElementById('m-montant-signe').value) || 0;
-  proj.montantSigne = val;
-  AppState.activeProject = proj;
-  const comm = Math.round(val * 0.08);
-  setEl('m-comm', comm.toLocaleString('fr-FR') + ' €');
-  renderKPIs();
-  toast(`Commission calculée : ${comm.toLocaleString('fr-FR')} €`, 'success');
+
+  // Si on clique sur le statut déjà actif → on le désélectionne (retour à nouveau)
+  if (proj.statut === val) {
+    appliquerStatut(proj, 'nouveau');
+    toast('Statut réinitialisé', 'info');
+  } else {
+    appliquerStatut(proj, val);
+    const st = statutCfg[val] || { text: val, cls: '' };
+    toast('Statut : ' + st.text, 'success');
+  }
 }
 
+// ── Applique le statut et rafraîchit tout ──
+function appliquerStatut(proj, newStatut) {
+  proj.statut = newStatut;
+  AppState.activeProject = proj;
+
+  const st = statutCfg[newStatut] || { text: newStatut, cls: '' };
+
+  // Mettre à jour header badge
+  const headerBadge = document.getElementById('m-statut-badge');
+  if (headerBadge) headerBadge.innerHTML = `<span class="statut ${st.cls}">${st.text}</span>`;
+
+  // Mettre à jour grand badge dans la section
+  const bigBadge = document.getElementById('m-statut-badge-big');
+  if (bigBadge) bigBadge.innerHTML = `<span class="statut ${st.cls}" style="font-size:.8rem;padding:5px 14px;">${st.text}</span>`;
+
+  // Mettre à jour l'input caché
+  const hiddenSel = document.getElementById('m-statut-select');
+  if (hiddenSel) hiddenSel.value = newStatut;
+
+  // Mettre en évidence le badge actif dans le picker
+  refreshStatutPicker(newStatut);
+
+  // Afficher section montant seulement si signé
+  const montantSection = document.getElementById('montant-signe-section');
+  if (montantSection) montantSection.style.display = newStatut === 'signe' ? 'block' : 'none';
+
+  // Bouton Facturer
+  updateBtnFacturer(newStatut);
+
+  // Historique
+  proj.historique.push({
+    a: 'Statut → ' + st.text.replace(/^[^\\s]+ /, ''),
+    d: nowStr(), user: 'Admin'
+  });
+  renderTimeline(proj);
+  renderProjects();
+  renderKPIs();
+
+  // Email si template
+  if (typeof EmailTemplates !== 'undefined' && EmailTemplates[newStatut]) {
+    const tpl = EmailTemplates[newStatut](proj);
+    proposerEmail(proj.client.email, tpl.sujet, tpl.corps, newStatut);
+  }
+}
+
+// ── Met en évidence visuellement le badge actif ──
+function refreshStatutPicker(statut) {
+  document.querySelectorAll('.statut-picker-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.val === statut);
+  });
+}
+
+// ── Réinitialiser → Nouveau ──
+function resetStatut() {
+  const p = AppState.activeProject;
+  if (!p) return;
+  const proj = projects.find(x => x.id === p.id);
+  if (!proj) return;
+  if (!confirm('Supprimer le statut actuel et remettre ce dossier à "Nouveau" ?')) return;
+  appliquerStatut(proj, 'nouveau');
+  toast('Statut supprimé — dossier remis à Nouveau', 'info');
+}
+
+// ── Compatibilité avec ancien code ──
+function updateStatut() {
+  const sel = document.getElementById('m-statut-select');
+  if (sel) clickStatut(sel.value);
+}
+
+function setStatutRapide(val) {
+  clickStatut(val);
+}'''
+
+if old_updateStatut in content:
+    content = content.replace(old_updateStatut, new_updateStatut)
+    print("updateStatut remplacé OK")
+else:
+    print("PATTERN updateStatut NOT FOUND — ajout à la fin")
+    content += '\n\n' + new_updateStatut
 // ══════════════════════════════════════════
 // TIMELINE
 // ══════════════════════════════════════════
